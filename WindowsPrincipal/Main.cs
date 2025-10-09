@@ -46,10 +46,15 @@ namespace WindowsPrincipal
         private void initializeSimulationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SimulationForm SimForm = new SimulationForm();
-            SimForm.GetFlightPlanList(FlightsList);
-            SimForm.GetCicles(cicles);
-            SimForm.GetSecurityDistance(securityDistance);
+            SimForm.GetFlightPlanListSimulation(FlightsList);
+            SimForm.GetCiclesSimulation(cicles);
+            SimForm.GetSecurityDistanceSimulation(securityDistance);
             SimForm.ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

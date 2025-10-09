@@ -16,6 +16,7 @@ namespace WindowsPrincipal
     {
         // Variables per a guardar que venen del principal
         FlightPlanList FlightsList = new FlightPlanList();
+        int OriginalCicles;
         int cicles;
         double securityDistance;
         public SimulationForm()
@@ -24,15 +25,16 @@ namespace WindowsPrincipal
         }
 
         // Recuperem les dades del Main
-        public void GetFlightPlanList(FlightPlanList list)
+        public void GetFlightPlanListSimulation(FlightPlanList list)
         {
             FlightsList = list;
         }
-        public void GetCicles(int c)
+        public void GetCiclesSimulation(int c)
         {
-            cicles = c;
+            OriginalCicles = c;
+            cicles = OriginalCicles;
         }
-        public void GetSecurityDistance(double d)
+        public void GetSecurityDistanceSimulation(double d)
         {
             securityDistance = d;
         }
@@ -44,11 +46,31 @@ namespace WindowsPrincipal
                 PictureBox plane = new PictureBox();
                 string path = Path.Combine(Application.StartupPath, "avion.jpg");
                 Bitmap image = new Bitmap(path);
+                plane.Tag = FlightsList.GetFlightPlan(i).GetId();
                 plane.Image = (Image)image;
                 plane.SizeMode = PictureBoxSizeMode.StretchImage;
                 plane.Location = new Point(Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetX()), Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetY()));
                 SimulationPanel.Controls.Add(plane);
+                plane.Click += new System.EventHandler(SeePlaneData);
             }
+        }
+
+        private void SeePlaneData(object sender, EventArgs e)
+        {
+            PictureBox plane = (PictureBox)sender;
+            FlightPlan selectedFlightPlan = null;
+
+            for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
+            {
+                if (FlightsList.GetFlightPlan(i).GetId() == Convert.ToString(plane.Tag))
+                {
+                    selectedFlightPlan = FlightsList.GetFlightPlan(i);
+                    break;
+                }
+            }
+            SeePlaneDataOnClickForm SeePlaneDataForm = new SeePlaneDataOnClickForm();
+            SeePlaneDataForm.GetFlightPlan(selectedFlightPlan);
+            SeePlaneDataForm.ShowDialog();
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
@@ -72,10 +94,11 @@ namespace WindowsPrincipal
                 MessageBox.Show("No more cycles left!");
             }
         }
+
         // Reinicia totes les posicions actuals dels avions a les seves posicions inicials
-        // Pero el nombre de cicles s'ha quedat baixat!!!! S'ha de reiniciar?
         private void RestartButton_Click(object sender, EventArgs e)
         {
+            cicles = OriginalCicles;
             FlightsList.RestartAll();
             for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
             {

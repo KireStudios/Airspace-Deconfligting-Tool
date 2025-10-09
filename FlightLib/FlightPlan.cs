@@ -80,10 +80,26 @@ namespace FlightLib
             return false;
         }
 
+        //Getters
+        public string GetId()
+        {
+            return id;
+        }
         public Position GetPosition()
         {
             return currentPosition;
         }
+
+        public double GetSpeed()
+        {
+            return velocidad;
+        }
+
+        public Position GetFinalPosition()
+        {
+            return finalPosition;
+        }
+
 
         public void Restart()
         {

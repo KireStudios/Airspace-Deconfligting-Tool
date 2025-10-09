@@ -24,11 +24,18 @@ namespace WindowsPrincipal
         //Agafar els valors dels TextBox i guardar-los a les variables
         private void AddButton_Click(object sender, EventArgs e)
         {
-            cicles = Convert.ToInt32(CicleTextBox.Text);
-            securityDistance = Convert.ToDouble(SecurityTextBox.Text);
-            CicleTextBox.Text = null;
-            SecurityTextBox.Text = null;
-            MessageBox.Show("Cicle and security distance added correctly!!");
+            try
+            {
+                cicles = Convert.ToInt32(CicleTextBox.Text);
+                securityDistance = Convert.ToDouble(SecurityTextBox.Text);
+                CicleTextBox.Text = null;
+                SecurityTextBox.Text = null;
+                MessageBox.Show("Cicle and security distance added correctly!!");
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Format error! Check what you wrote.");
+            }
         }
 
         private void ReturnButton_Click(object sender, EventArgs e)
