@@ -46,13 +46,19 @@ namespace FlightLib
                 }
             }
         }
-
+        // Reinicia totes les posicions actuals dels avions a les seves posicions inicials
         public void RestartAll()
         {
             for (int i = 0; i < numeroFlightPlans; i++)
             {
-                
+                vector[i].Restart();
             }
+        }
+
+        // Per portar la contabilitat del numero de FlightPlans
+        public int GetNumeroFlightPlans()
+        {
+            return numeroFlightPlans;
         }
     }
 }

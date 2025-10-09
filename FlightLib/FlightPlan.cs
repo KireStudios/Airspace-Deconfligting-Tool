@@ -80,6 +80,11 @@ namespace FlightLib
             return false;
         }
 
+        public Position GetPosition()
+        {
+            return currentPosition;
+        }
+
         public void Restart()
         {
             currentPosition = initialPosition;

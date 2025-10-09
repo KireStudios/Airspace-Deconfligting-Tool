@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightLib", "FlightLib\Flig
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulatorConsole", "SimulatorConsole\SimulatorConsole.csproj", "{3A87A27D-F5E9-4F8E-B229-683005A87FF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsPrincipal", "WindowsPrincipal\WindowsPrincipal.csproj", "{72090C99-297D-44E3-A810-834374A6A575}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3A87A27D-F5E9-4F8E-B229-683005A87FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A87A27D-F5E9-4F8E-B229-683005A87FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A87A27D-F5E9-4F8E-B229-683005A87FF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72090C99-297D-44E3-A810-834374A6A575}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72090C99-297D-44E3-A810-834374A6A575}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72090C99-297D-44E3-A810-834374A6A575}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72090C99-297D-44E3-A810-834374A6A575}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
