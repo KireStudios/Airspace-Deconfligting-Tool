@@ -16,6 +16,7 @@ namespace WindowsPrincipal
         //Variables per a guardar els valors dels TextBox
         int cicles;
         double securityDistance;
+        Random generator = new Random();
         public CicleSecurityForm()
         {
             InitializeComponent();
@@ -56,6 +57,13 @@ namespace WindowsPrincipal
         private void CicleSecurityForm_Load(object sender, EventArgs e)
         {
 
+        }
+        private void fillAuto_Click(object sender, EventArgs e)
+        {
+            cicles = generator.Next(10, 100);
+            securityDistance = generator.Next(5, 30);
+            CicleTextBox.Text = Convert.ToString(cicles);
+            SecurityTextBox.Text = Convert.ToString(securityDistance);
         }
     }
 }
