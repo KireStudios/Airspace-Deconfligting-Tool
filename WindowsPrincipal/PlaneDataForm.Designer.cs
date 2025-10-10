@@ -39,6 +39,7 @@
             this.CloseButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.FinalPositionTextBox = new System.Windows.Forms.TextBox();
+            this.DeveloperTestFlightsButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -137,11 +138,22 @@
             this.FinalPositionTextBox.Size = new System.Drawing.Size(223, 22);
             this.FinalPositionTextBox.TabIndex = 10;
             // 
+            // DeveloperTestFlightsButton
+            // 
+            this.DeveloperTestFlightsButton.Location = new System.Drawing.Point(552, 366);
+            this.DeveloperTestFlightsButton.Name = "DeveloperTestFlightsButton";
+            this.DeveloperTestFlightsButton.Size = new System.Drawing.Size(123, 49);
+            this.DeveloperTestFlightsButton.TabIndex = 11;
+            this.DeveloperTestFlightsButton.Text = "Developer Test Flights";
+            this.DeveloperTestFlightsButton.UseVisualStyleBackColor = true;
+            this.DeveloperTestFlightsButton.Click += new System.EventHandler(this.DeveloperTestFlightsButton_Click);
+            // 
             // PlaneDataForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 549);
+            this.Controls.Add(this.DeveloperTestFlightsButton);
             this.Controls.Add(this.FinalPositionTextBox);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.CloseButton);
@@ -174,5 +186,6 @@
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox FinalPositionTextBox;
+        private System.Windows.Forms.Button DeveloperTestFlightsButton;
     }
 }
