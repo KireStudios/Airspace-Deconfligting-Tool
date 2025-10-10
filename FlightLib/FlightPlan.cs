@@ -37,11 +37,24 @@ namespace FlightLib
         public void Moure(double tiempo)
         // Mueve el vuelo a la posición correspondiente a viajar durante el tiempo que se recibe como parámetro
         {
+            // Si ya está al final, no hacer nada
+            if (EstaAlFinal())
+            {
+                return;
+            }
+
             //Calculamos la distancia recorrida en el tiempo dado
             double distancia = tiempo * this.velocidad / 60;
 
             //Calculamos las razones trigonométricas
             double hipotenusa = Math.Sqrt((finalPosition.GetX() - currentPosition.GetX()) * (finalPosition.GetX() - currentPosition.GetX()) + (finalPosition.GetY() - currentPosition.GetY()) * (finalPosition.GetY() - currentPosition.GetY()));
+            
+            // Si la hipotenusa es 0, ya estamos en el destino
+            if (hipotenusa == 0)
+            {
+                return;
+            }
+            
             double coseno = (finalPosition.GetX() - currentPosition.GetX()) / hipotenusa;
             double seno = (finalPosition.GetY() - currentPosition.GetY()) / hipotenusa;
 
@@ -93,6 +106,11 @@ namespace FlightLib
         public double GetSpeed()
         {
             return velocidad;
+        }
+
+        public Position GetInitialPosition()
+        {
+            return initialPosition;
         }
 
         public Position GetFinalPosition()

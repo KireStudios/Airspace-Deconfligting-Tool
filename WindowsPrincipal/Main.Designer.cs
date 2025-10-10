@@ -91,9 +91,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(848, 389);
+            this.button1.Location = new System.Drawing.Point(1007, 510);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(129, 35);
+            this.button1.Size = new System.Drawing.Size(222, 77);
             this.button1.TabIndex = 2;
             this.button1.Text = "Close this ADT";
             this.button1.UseVisualStyleBackColor = true;
