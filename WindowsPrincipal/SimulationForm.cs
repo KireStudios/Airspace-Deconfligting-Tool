@@ -15,11 +15,14 @@ namespace WindowsPrincipal
     public partial class SimulationForm : Form
     {
         // Variables per a guardar que venen del principal
-        FlightPlanList FlightsList = new FlightPlanList();
-        int OriginalCicles;
-        int cicles;
-        double securityDistance;
+        private FlightPlanList FlightsList = new FlightPlanList();
+        private int OriginalCicles;
+        private int cicles;
+        private double securityDistance;
         private System.Windows.Forms.Timer autoTimer;
+        
+        // Fase 10: Conjunto para rastrear conflictos ya notificados
+        private HashSet<string> conflictosNotificados = new HashSet<string>();
         
         public SimulationForm()
         {
@@ -33,6 +36,9 @@ namespace WindowsPrincipal
             autoTimer = new System.Windows.Forms.Timer();
             autoTimer.Interval = 1000;
             autoTimer.Tick += AutoTimer_Tick;
+            
+            // Suscribirse al evento Shown para verificar conflictos después de que la ventana sea visible
+            this.Shown += SimulationForm_Shown;
         }
 
         // Recuperem les dades del Main
@@ -40,11 +46,13 @@ namespace WindowsPrincipal
         {
             FlightsList = list;
         }
+        
         public void GetCiclesSimulation(int c)
         {
             OriginalCicles = c;
             cicles = OriginalCicles;
         }
+        
         public void GetSecurityDistanceSimulation(double d)
         {
             securityDistance = d;
@@ -78,8 +86,14 @@ namespace WindowsPrincipal
                     Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetY()) - 5
                 );
                 SimulationPanel.Controls.Add(plane);
-                plane.Click += new System.EventHandler(SeePlaneData);
+                plane.Click += SeePlaneData;
             }
+        }
+
+        private void SimulationForm_Shown(object sender, EventArgs e)
+        {
+            // Verificar conflictos después de que la ventana sea completamente visible
+            VerificarYNotificarConflictos();
         }
 
         // Fase 6 y 7: Dibujar trayectorias y elipses de seguridad
@@ -102,8 +116,10 @@ namespace WindowsPrincipal
                     Convert.ToInt32(plan.GetFinalPosition().GetY())
                 );
                 
-                Pen trajectoryPen = new Pen(Color.Blue, 2);
-                g.DrawLine(trajectoryPen, initialPoint, finalPoint);
+                using (Pen trajectoryPen = new Pen(Color.Blue, 2))
+                {
+                    g.DrawLine(trajectoryPen, initialPoint, finalPoint);
+                }
                 
                 // Fase 7: Dibujar elipse de distancia de seguridad alrededor de la posición actual
                 Point currentPoint = new Point(
@@ -120,12 +136,11 @@ namespace WindowsPrincipal
                     diameter
                 );
                 
-                Pen securityPen = new Pen(Color.Red, 1);
-                securityPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                g.DrawEllipse(securityPen, ellipseRect);
-                
-                trajectoryPen.Dispose();
-                securityPen.Dispose();
+                using (Pen securityPen = new Pen(Color.Red, 1))
+                {
+                    securityPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                    g.DrawEllipse(securityPen, ellipseRect);
+                }
             }
         }
 
@@ -142,9 +157,13 @@ namespace WindowsPrincipal
                     break;
                 }
             }
-            SeePlaneDataOnClickForm SeePlaneDataForm = new SeePlaneDataOnClickForm();
-            SeePlaneDataForm.GetFlightPlan(selectedFlightPlan);
-            SeePlaneDataForm.ShowDialog();
+            
+            if (selectedFlightPlan != null)
+            {
+                SeePlaneDataOnClickForm SeePlaneDataForm = new SeePlaneDataOnClickForm();
+                SeePlaneDataForm.GetFlightPlan(selectedFlightPlan);
+                SeePlaneDataForm.ShowDialog();
+            }
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
@@ -152,7 +171,7 @@ namespace WindowsPrincipal
             Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void MoveButton_Click(object sender, EventArgs e)
         {
             if (cicles > 0)
             {
@@ -165,9 +184,10 @@ namespace WindowsPrincipal
                     );
                 }
                 cicles--;
-                
-                // Refrescar el panel para redibujar las elipses de seguridad en las nuevas posiciones
                 SimulationPanel.Invalidate();
+                
+                // Verificar conflictos después del movimiento manual
+                VerificarYNotificarConflictos();
             }
             else
             {
@@ -175,11 +195,14 @@ namespace WindowsPrincipal
             }
         }
 
-        // Reinicia totes les posicions actuals dels avions a les seves posicions inicials
         private void RestartButton_Click(object sender, EventArgs e)
         {
             cicles = OriginalCicles;
             FlightsList.RestartAll();
+            
+            // Limpiar conflictos notificados al reiniciar
+            conflictosNotificados.Clear();
+            
             for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
             {
                 SimulationPanel.Controls[i].Location = new Point(
@@ -187,11 +210,12 @@ namespace WindowsPrincipal
                     Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetY()) - 5
                 );
             }
-            
             SimulationPanel.Invalidate();
+            
+            // Verificar conflictos después de reiniciar
+            VerificarYNotificarConflictos();
         }
 
-        // Fase 8: Simulación automática
         private void AutoSimulateButton_Click(object sender, EventArgs e)
         {
             autoTimer.Start();
@@ -217,14 +241,8 @@ namespace WindowsPrincipal
                 cicles--;
                 SimulationPanel.Invalidate();
                 
-                // Fase 10: Verificar conflictos durante la simulación solo si ambos aviones no han llegado
-                if (!FlightsList.GetFlightPlan(0).EstaAlFinal() && !FlightsList.GetFlightPlan(1).EstaAlFinal())
-                {
-                    if (FlightsList.GetFlightPlan(0).Conflicte(FlightsList.GetFlightPlan(1), securityDistance))
-                    {
-                        MessageBox.Show("¡ALERTA! Los vuelos están en conflicto (distancia menor a " + securityDistance + ")");
-                    }
-                }
+                // Fase 10: Verificar y notificar conflictos durante la simulación automática
+                VerificarYNotificarConflictos();
             }
             else
             {
@@ -233,48 +251,160 @@ namespace WindowsPrincipal
             }
         }
 
-        // Fase 9: Mostrar datos de los vuelos
+        /// <summary>
+        /// Fase 10: Verifica conflictos y muestra notificación solo una vez por cada conflicto
+        /// </summary>
+        private void VerificarYNotificarConflictos()
+        {
+            int numAviones = FlightsList.GetNumeroFlightPlans();
+            HashSet<string> conflictosActuales = new HashSet<string>();
+            
+            // Verificar todos los pares de aviones
+            for (int i = 0; i < numAviones; i++)
+            {
+                if (FlightsList.GetFlightPlan(i).EstaAlFinal())
+                    continue;
+                
+                for (int j = i + 1; j < numAviones; j++)
+                {
+                    if (FlightsList.GetFlightPlan(j).EstaAlFinal())
+                        continue;
+                    
+                    double distancia = FlightsList.GetFlightPlan(i).GetPosition().Distancia(FlightsList.GetFlightPlan(j).GetPosition());
+                    double distanciaMinima = securityDistance * 2;
+                    
+                    if (distancia < distanciaMinima)
+                    {
+                        // Crear clave única para este par (ordenada alfabéticamente para evitar duplicados)
+                        string id1 = FlightsList.GetFlightPlan(i).GetId();
+                        string id2 = FlightsList.GetFlightPlan(j).GetId();
+                        string claveConflicto = string.Compare(id1, id2) < 0 ? id1 + "-" + id2 : id2 + "-" + id1;
+                        
+                        conflictosActuales.Add(claveConflicto);
+                        
+                        // Solo notificar si es un conflicto nuevo
+                        if (!conflictosNotificados.Contains(claveConflicto))
+                        {
+                            conflictosNotificados.Add(claveConflicto);
+                            
+                            // Mostrar notificación
+                            MessageBox.Show(
+                                "⚠️ NUEVO CONFLICTO DETECTADO\n\n" +
+                                "Aviones: " + id1 + " y " + id2 + "\n" +
+                                "Distancia actual: " + distancia.ToString("F2") + "\n" +
+                                "Distancia de seguridad: " + distanciaMinima.ToString("F2") + "\n\n" +
+                                "Los círculos de seguridad se están solapando.",
+                                "Alerta de Conflicto",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning
+                            );
+                        }
+                    }
+                }
+            }
+            
+            // Limpiar conflictos que ya no están activos (los aviones se alejaron)
+            conflictosNotificados.RemoveWhere(c => !conflictosActuales.Contains(c));
+        }
+
         private void ShowDataButton_Click(object sender, EventArgs e)
         {
-            FlightPlan plan0 = FlightsList.GetFlightPlan(0);
-            FlightPlan plan1 = FlightsList.GetFlightPlan(1);
+            int numAviones = FlightsList.GetNumeroFlightPlans();
+            
+            if (numAviones == 0)
+            {
+                MessageBox.Show("No hay vuelos", "Sin Datos");
+                return;
+            }
             
             string info = "DATOS DE LOS VUELOS:\n\n";
-            info += "Vuelo 1:\n";
-            info += "ID: " + plan0.GetId() + "\n";
-            info += "Velocidad: " + plan0.GetSpeed() + "\n";
-            info += "Posición actual: (" + plan0.GetPosition().GetX().ToString("F2") + ", " + plan0.GetPosition().GetY().ToString("F2") + ")\n";
-            info += "Posición inicial: (" + plan0.GetInitialPosition().GetX().ToString("F2") + ", " + plan0.GetInitialPosition().GetY().ToString("F2") + ")\n";
-            info += "Posición final: (" + plan0.GetFinalPosition().GetX().ToString("F2") + ", " + plan0.GetFinalPosition().GetY().ToString("F2") + ")\n\n";
             
-            info += "Vuelo 2:\n";
-            info += "ID: " + plan1.GetId() + "\n";
-            info += "Velocidad: " + plan1.GetSpeed() + "\n";
-            info += "Posición actual: (" + plan1.GetPosition().GetX().ToString("F2") + ", " + plan1.GetPosition().GetY().ToString("F2") + ")\n";
-            info += "Posición inicial: (" + plan1.GetInitialPosition().GetX().ToString("F2") + ", " + plan1.GetInitialPosition().GetY().ToString("F2") + ")\n";
-            info += "Posición final: (" + plan1.GetFinalPosition().GetX().ToString("F2") + ", " + plan1.GetFinalPosition().GetY().ToString("F2") + ")\n\n";
+            for (int i = 0; i < numAviones; i++)
+            {
+                FlightPlan plan = FlightsList.GetFlightPlan(i);
+                info += "Vuelo " + (i + 1) + ":\n";
+                info += "ID: " + plan.GetId() + "\n";
+                info += "Velocidad: " + plan.GetSpeed() + "\n";
+                info += "Posición actual: (" + plan.GetPosition().GetX().ToString("F2") + ", " + plan.GetPosition().GetY().ToString("F2") + ")\n";
+                info += "Posición inicial: (" + plan.GetInitialPosition().GetX().ToString("F2") + ", " + plan.GetInitialPosition().GetY().ToString("F2") + ")\n";
+                info += "Posición final: (" + plan.GetFinalPosition().GetX().ToString("F2") + ", " + plan.GetFinalPosition().GetY().ToString("F2") + ")\n\n";
+            }
             
-            double distancia = plan0.GetPosition().Distancia(plan1.GetPosition());
-            info += "Distancia entre vuelos: " + distancia.ToString("F2");
+            if (numAviones >= 2)
+            {
+                info += "DISTANCIAS:\n";
+                for (int i = 0; i < numAviones; i++)
+                {
+                    for (int j = i + 1; j < numAviones; j++)
+                    {
+                        double dist = FlightsList.GetFlightPlan(i).GetPosition().Distancia(FlightsList.GetFlightPlan(j).GetPosition());
+                        info += FlightsList.GetFlightPlan(i).GetId() + " - " + FlightsList.GetFlightPlan(j).GetId() + ": " + dist.ToString("F2") + "\n";
+                    }
+                }
+            }
             
+            info += "\nDistancia de seguridad configurada: " + securityDistance;
             MessageBox.Show(info, "Datos de los Vuelos");
         }
 
-        // Fase 10: Verificar si hay conflicto
+        // Fase 10: Verificar si habrá conflicto a lo largo de la simulación (predicción futura)
         private void CheckConflictButton_Click(object sender, EventArgs e)
         {
-            FlightPlan plan0 = FlightsList.GetFlightPlan(0);
-            FlightPlan plan1 = FlightsList.GetFlightPlan(1);
+            int numAviones = FlightsList.GetNumeroFlightPlans();
             
-            double distancia = plan0.GetPosition().Distancia(plan1.GetPosition());
-            
-            if (distancia < securityDistance)
+            if (numAviones < 2)
             {
-                MessageBox.Show("SÍ - Los vuelos entrarán en conflicto.\nDistancia actual: " + distancia.ToString("F2") + "\nDistancia de seguridad: " + securityDistance, "Conflicto Detectado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Se necesitan al menos 2 vuelos", "Información");
+                return;
+            }
+            
+            string resultado = "PREDICCIÓN DE CONFLICTOS A LO LARGO DE LA SIMULACIÓN:\n\n";
+            bool hayConflictosFuturos = false;
+            
+            for (int i = 0; i < numAviones; i++)
+            {
+                if (FlightsList.GetFlightPlan(i).EstaAlFinal())
+                    continue;
+                
+                for (int j = i + 1; j < numAviones; j++)
+                {
+                    if (FlightsList.GetFlightPlan(j).EstaAlFinal())
+                        continue;
+                    
+                    double distanciaActual = FlightsList.GetFlightPlan(i).GetPosition().Distancia(FlightsList.GetFlightPlan(j).GetPosition());
+                    double distanciaMinima = FlightsList.GetFlightPlan(i).CalcularDistanciaMinimaFutura(FlightsList.GetFlightPlan(j));
+                    double distanciaSeguridad = securityDistance * 2;
+                    
+                    resultado += "Par: " + FlightsList.GetFlightPlan(i).GetId() + " - " + FlightsList.GetFlightPlan(j).GetId() + "\n";
+                    resultado += "  Distancia actual: " + distanciaActual.ToString("F2") + "\n";
+                    resultado += "  Distancia mínima prevista: " + distanciaMinima.ToString("F2") + "\n";
+                    resultado += "  Distancia de seguridad requerida: " + distanciaSeguridad.ToString("F2") + "\n";
+                    
+                    if (distanciaMinima < distanciaSeguridad)
+                    {
+                        resultado += "  ⚠️ SÍ - HABRÁ CONFLICTO durante la simulación\n";
+                        resultado += "  Los círculos de seguridad se solaparán en el futuro\n\n";
+                        hayConflictosFuturos = true;
+                    }
+                    else
+                    {
+                        resultado += "  ✓ NO - Sin conflicto previsto\n";
+                        resultado += "  Los vuelos mantendrán distancia segura\n\n";
+                    }
+                }
+            }
+            
+            if (hayConflictosFuturos)
+            {
+                resultado += "\n⚠️ CONCLUSIÓN: HAY CONFLICTOS FUTUROS PREVISTOS\n";
+                resultado += "Los vuelos entrarán en conflicto durante la simulación.";
+                MessageBox.Show(resultado, "Conflictos Futuros Detectados", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
-                MessageBox.Show("NO - Los vuelos no están en conflicto.\nDistancia actual: " + distancia.ToString("F2") + "\nDistancia de seguridad: " + securityDistance, "Sin Conflicto", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                resultado += "\n✓ CONCLUSIÓN: NO HAY CONFLICTOS PREVISTOS\n";
+                resultado += "Los vuelos completarán sus trayectorias sin conflictos.";
+                MessageBox.Show(resultado, "Sin Conflictos Futuros", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

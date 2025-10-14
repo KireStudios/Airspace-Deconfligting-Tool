@@ -85,12 +85,89 @@ namespace FlightLib
         
         public bool Conflicte(FlightPlan plane, double distanciaSeguretat)
         {
-            if (this.currentPosition.Distancia(plane.currentPosition) < distanciaSeguretat)
+            // CORRECCIÓN: distanciaSeguretat es el RADIO, comparar con la SUMA de radios
+            double distanciaMinima = distanciaSeguretat * 2;
+            
+            if (this.currentPosition.Distancia(plane.currentPosition) < distanciaMinima)
             {
                 Console.WriteLine("L'avio " + id + " te un conflicte amb l'avio " + plane.id + "!!!");
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Fase 10: Calcula la distancia mínima entre este avión y otro considerando sus trayectorias y velocidades en función del tiempo
+        /// </summary>
+        public double CalcularDistanciaMinimaFutura(FlightPlan otroAvion)
+        {
+            // Obtener posiciones actuales
+            double x1 = this.currentPosition.GetX();
+            double y1 = this.currentPosition.GetY();
+            double x2 = otroAvion.currentPosition.GetX();
+            double y2 = otroAvion.currentPosition.GetY();
+            
+            // Obtener posiciones finales
+            double fx1 = this.finalPosition.GetX();
+            double fy1 = this.finalPosition.GetY();
+            double fx2 = otroAvion.finalPosition.GetX();
+            double fy2 = otroAvion.finalPosition.GetY();
+            
+            // Calcular distancias a los destinos
+            double dist1 = Math.Sqrt((fx1 - x1) * (fx1 - x1) + (fy1 - y1) * (fy1 - y1));
+            double dist2 = Math.Sqrt((fx2 - x2) * (fx2 - x2) + (fy2 - y2) * (fy2 - y2));
+            
+            // Si algún avión ya llegó, usar distancia actual
+            if (dist1 < 0.01 || dist2 < 0.01)
+            {
+                return this.currentPosition.Distancia(otroAvion.currentPosition);
+            }
+            
+            // Vectores de dirección normalizados multiplicados por velocidad
+            double vx1 = (fx1 - x1) / dist1 * this.velocidad;
+            double vy1 = (fy1 - y1) / dist1 * this.velocidad;
+            double vx2 = (fx2 - x2) / dist2 * otroAvion.velocidad;
+            double vy2 = (fy2 - y2) / dist2 * otroAvion.velocidad;
+            
+            // Calcular velocidad relativa
+            double dvx = vx1 - vx2;
+            double dvy = vy1 - vy2;
+            
+            // Posición relativa
+            double dx = x1 - x2;
+            double dy = y1 - y2;
+            
+            // Calcular tiempo al punto más cercano: t = -(dx*dvx + dy*dvy) / (dvx^2 + dvy^2)
+            double velocidadRelativaCuadrado = dvx * dvx + dvy * dvy;
+            
+            if (velocidadRelativaCuadrado < 0.0001) 
+            {
+                // Velocidades paralelas o iguales, distancia se mantiene constante
+                return Math.Sqrt(dx * dx + dy * dy);
+            }
+            
+            double t = -(dx * dvx + dy * dvy) / velocidadRelativaCuadrado;
+            
+            // Limitar t al tiempo máximo de vuelo de cada avión
+            double tiempoMaximo1 = dist1 / this.velocidad;
+            double tiempoMaximo2 = dist2 / otroAvion.velocidad;
+            double tiempoMaximo = Math.Min(tiempoMaximo1, tiempoMaximo2);
+            
+            if (t < 0)
+                t = 0;
+            else if (t > tiempoMaximo)
+                t = tiempoMaximo;
+            
+            // Calcular posiciones en el tiempo t
+            double px1 = x1 + vx1 * t;
+            double py1 = y1 + vy1 * t;
+            double px2 = x2 + vx2 * t;
+            double py2 = y2 + vy2 * t;
+            
+            // Distancia mínima
+            double distanciaMinima = Math.Sqrt((px1 - px2) * (px1 - px2) + (py1 - py2) * (py1 - py2));
+            
+            return distanciaMinima;
         }
 
         //Getters

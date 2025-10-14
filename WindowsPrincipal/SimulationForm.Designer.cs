@@ -1,4 +1,16 @@
-﻿namespace WindowsPrincipal
+﻿using FlightLib;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WindowsPrincipal
 {
     partial class SimulationForm
     {
@@ -89,7 +101,7 @@
             this.button1.TabIndex = 4;
             this.button1.Text = "Move";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.MoveButton_Click);
             // 
             // RestartButton
             // 
