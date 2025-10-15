@@ -309,6 +309,10 @@ namespace WindowsPrincipal
 
         private void ShowDataButton_Click(object sender, EventArgs e)
         {
+            InfoVolsForm infoForm = new InfoVolsForm(FlightsList);
+            infoForm.ShowDialog();
+            
+            /* S'ha canviat per fer servir un datagridview en un altre formulari (Fase 9)
             int numAviones = FlightsList.GetNumeroFlightPlans();
             
             if (numAviones == 0)
@@ -345,6 +349,7 @@ namespace WindowsPrincipal
             
             info += "\nDistancia de seguridad configurada: " + securityDistance;
             MessageBox.Show(info, "Datos de los Vuelos");
+            */
         }
 
         // Fase 10: Verificar si habrá conflicto a lo largo de la simulación (predicción futura)

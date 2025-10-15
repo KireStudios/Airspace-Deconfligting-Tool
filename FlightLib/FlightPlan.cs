@@ -200,6 +200,11 @@ namespace FlightLib
         {
             currentPosition = initialPosition;
         }
+        
+        public double Distancia(FlightPlan avio)
+        {
+            return this.currentPosition.Distancia(avio.currentPosition);
+        }
 
         public void EscribeConsola()
         // escribe en consola los datos del plan de vuelo

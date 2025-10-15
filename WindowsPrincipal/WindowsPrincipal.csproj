@@ -52,6 +52,12 @@
     <Compile Include="CicleSecurityForm.Designer.cs">
       <DependentUpon>CicleSecurityForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="InfoVolsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InfoVolsForm.Designer.cs">
+      <DependentUpon>InfoVolsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +86,9 @@
     </Compile>
     <EmbeddedResource Include="CicleSecurityForm.resx">
       <DependentUpon>CicleSecurityForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InfoVolsForm.resx">
+      <DependentUpon>InfoVolsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
