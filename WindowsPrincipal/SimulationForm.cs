@@ -14,6 +14,8 @@ namespace WindowsPrincipal
 {
     public partial class SimulationForm : Form
     {
+        const int MAX_CONFLICTS = 100;
+        
         // Variables per a guardar que venen del principal
         private FlightPlanList FlightsList = new FlightPlanList();
         private int OriginalCicles;
@@ -23,6 +25,8 @@ namespace WindowsPrincipal
         
         // Fase 10: Conjunto para rastrear conflictos ya notificados
         private HashSet<string> conflictosNotificados = new HashSet<string>();
+        int[,] MatriuConflictes = new int[MAX_CONFLICTS, 2];
+        int NumConflictes = 0;
         
         public SimulationForm()
         {
@@ -127,11 +131,10 @@ namespace WindowsPrincipal
                     Convert.ToInt32(plan.GetPosition().GetY())
                 );
                 
-                // La elipse tiene como radio la distancia de seguridad
-                int diameter = Convert.ToInt32(securityDistance * 2);
+                int diameter = Convert.ToInt32(securityDistance); // Diámetro = 2 * radio, y el radio es securityDistance / 2
                 Rectangle ellipseRect = new Rectangle(
-                    currentPoint.X - Convert.ToInt32(securityDistance),
-                    currentPoint.Y - Convert.ToInt32(securityDistance),
+                    currentPoint.X - Convert.ToInt32(securityDistance/2),
+                    currentPoint.Y - Convert.ToInt32(securityDistance/2),
                     diameter,
                     diameter
                 );
@@ -270,8 +273,8 @@ namespace WindowsPrincipal
                     if (FlightsList.GetFlightPlan(j).EstaAlFinal())
                         continue;
                     
-                    double distancia = FlightsList.GetFlightPlan(i).GetPosition().Distancia(FlightsList.GetFlightPlan(j).GetPosition());
-                    double distanciaMinima = securityDistance * 2;
+                    double distancia = FlightsList.GetFlightPlan(i).Distancia(FlightsList.GetFlightPlan(j));
+                    double distanciaMinima = securityDistance;
                     
                     if (distancia < distanciaMinima)
                     {
@@ -378,7 +381,7 @@ namespace WindowsPrincipal
                     
                     double distanciaActual = FlightsList.GetFlightPlan(i).GetPosition().Distancia(FlightsList.GetFlightPlan(j).GetPosition());
                     double distanciaMinima = FlightsList.GetFlightPlan(i).CalcularDistanciaMinimaFutura(FlightsList.GetFlightPlan(j));
-                    double distanciaSeguridad = securityDistance * 2;
+                    double distanciaSeguridad = securityDistance;
                     
                     resultado += "Par: " + FlightsList.GetFlightPlan(i).GetId() + " - " + FlightsList.GetFlightPlan(j).GetId() + "\n";
                     resultado += "  Distancia actual: " + distanciaActual.ToString("F2") + "\n";
@@ -403,13 +406,87 @@ namespace WindowsPrincipal
             {
                 resultado += "\n⚠️ CONCLUSIÓN: HAY CONFLICTOS FUTUROS PREVISTOS\n";
                 resultado += "Los vuelos entrarán en conflicto durante la simulación.";
-                MessageBox.Show(resultado, "Conflictos Futuros Detectados", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (MessageBox.Show(resultado, "Conflictos Futuros Detectados", MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    ResoldreConflictes();
+                }
             }
             else
             {
                 resultado += "\n✓ CONCLUSIÓN: NO HAY CONFLICTOS PREVISTOS\n";
                 resultado += "Los vuelos completarán sus trayectorias sin conflictos.";
                 MessageBox.Show(resultado, "Sin Conflictos Futuros", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+        
+        private bool BuscarConflictes()
+        {
+            int numAvions = FlightsList.GetNumeroFlightPlans();
+            
+            if (numAvions < 2)
+                return false;
+            
+            NumConflictes = 0;
+            MatriuConflictes = new int[MAX_CONFLICTS, 2];
+
+            
+            for (int i = 0; i < numAvions; i++)
+            {
+                if (FlightsList.GetFlightPlan(i).EstaAlFinal() || FlightsList.GetFlightPlan(i).GetInitialPosition() == FlightsList.GetFlightPlan(i).GetPosition())
+                    continue;
+                
+                for (int j = i + 1; j < numAvions; j++)
+                {
+                    if (FlightsList.GetFlightPlan(j).EstaAlFinal() || FlightsList.GetFlightPlan(j).GetInitialPosition() == FlightsList.GetFlightPlan(j).GetPosition())
+                        continue;
+                    
+                    double distanciaMinima = FlightsList.GetFlightPlan(i).CalcularDistanciaMinimaFutura(FlightsList.GetFlightPlan(j));
+                    double distanciaSeguretat = securityDistance;
+                    
+                    if (distanciaMinima < distanciaSeguretat)
+                    {
+                        MatriuConflictes[NumConflictes, 0] = i;
+                        MatriuConflictes[NumConflictes++, 1] = j;
+                    }
+                }
+            }
+            
+            if (NumConflictes > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void ResoldreConflictes()
+        {
+            double dV = 1.0;
+            double Vmin = 10.0;
+
+            while (BuscarConflictes())
+            {
+                for (int i = 0; i < NumConflictes; i++)
+                {
+                    int id1 = MatriuConflictes[i, 0];
+                    int id2 = MatriuConflictes[i, 1];
+                    
+                    FlightPlan avio1 = FlightsList.GetFlightPlan(id1);
+                    FlightPlan avio2 = FlightsList.GetFlightPlan(id2);
+                    
+                    if (avio1.GetSpeed() >= avio2.GetSpeed())
+                    {
+                        avio1.SetVelocidad(avio1.GetSpeed() + dV);
+                        if (avio2.GetSpeed() - dV >= Vmin)
+                            avio2.SetVelocidad(avio2.GetSpeed() - dV);
+                    }
+                    else
+                    {
+                        if (avio1.GetSpeed() - dV >= Vmin)
+                            avio1.SetVelocidad(avio1.GetSpeed() - dV);
+                        avio2.SetVelocidad(avio2.GetSpeed() + dV);
+                    }
+                }
             }
         }
     }
