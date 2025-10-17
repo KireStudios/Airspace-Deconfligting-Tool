@@ -63,13 +63,13 @@ namespace WindowsPrincipal
 
         private void DeveloperTestFlightsButton_Click(object sender, EventArgs e)
         {
-            FlightPlan FP1 = new FlightPlan("FP1", 100, 0, 0, 100, 100);
-            FlightPlan FP2 = new FlightPlan("FP2", 250, 200, 0, 0, 200);
-            FlightPlan FP3 = new FlightPlan("FP3", 120, 0, 300, 400, 150);
+            FlightPlan FP1 = new FlightPlan("FP1", 200, 200, 0, 0, 100);
+            FlightPlan FP2 = new FlightPlan("FP2", 0, 200, 200, 0, 100);
+            FlightPlan FP3 = new FlightPlan("FP3", 400, 0, 350, 400, 150);
             FlightsList.AddFlightPlan(FP1);
             FlightsList.AddFlightPlan(FP2);
             FlightsList.AddFlightPlan(FP3);
-            MessageBox.Show("Test flights added correctly!!");
+            MessageBox.Show("3 test flights added correctly!!\n(FP1, 200, 200, 0, 0, 100)\n(FP2, 0, 200, 200, 0, 100)\n(FP3, 400, 0, 350, 400, 150)");
         }
     }
 }

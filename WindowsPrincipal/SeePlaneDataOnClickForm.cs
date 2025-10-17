@@ -24,7 +24,7 @@ namespace WindowsPrincipal
         {
             PlaneDataGridView.RowCount = 4;
             //PlaneDataGridView.RowTemplate.Height = 200;
-            PlaneDataGridView.ColumnCount = 2;
+            PlaneDataGridView.ColumnCount = 2; 
             PlaneDataGridView.Rows[0].Cells[0].Value = "Identification";
             PlaneDataGridView.Rows[1].Cells[0].Value = "Speed";
             PlaneDataGridView.Rows[2].Cells[0].Value = "Initial Position";

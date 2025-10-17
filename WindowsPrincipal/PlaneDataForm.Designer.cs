@@ -118,7 +118,7 @@
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(151, 48);
             this.CloseButton.TabIndex = 8;
-            this.CloseButton.Text = "Get me out of here";
+            this.CloseButton.Text = "Close";
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 

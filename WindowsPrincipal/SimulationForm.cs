@@ -38,7 +38,7 @@ namespace WindowsPrincipal
                 null, SimulationPanel, new object[] { true });
             
             autoTimer = new System.Windows.Forms.Timer();
-            autoTimer.Interval = 1000;
+            autoTimer.Interval = 500;
             autoTimer.Tick += AutoTimer_Tick;
             
             // Suscribirse al evento Shown para verificar conflictos después de que la ventana sea visible
@@ -213,6 +213,7 @@ namespace WindowsPrincipal
                     Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetY()) - 5
                 );
             }
+            autoTimer.Stop();
             SimulationPanel.Invalidate();
             
             // Verificar conflictos después de reiniciar
@@ -287,9 +288,9 @@ namespace WindowsPrincipal
                         
                         // Solo notificar si es un conflicto nuevo
                         if (!conflictosNotificados.Contains(claveConflicto))
-                        {
+                        {                            
                             conflictosNotificados.Add(claveConflicto);
-                            
+                            autoTimer.Stop();
                             // Mostrar notificación
                             MessageBox.Show(
                                 "⚠️ NUEVO CONFLICTO DETECTADO\n\n" +
@@ -401,7 +402,9 @@ namespace WindowsPrincipal
                     }
                 }
             }
-            
+            // Al clicar el No, no se resuelven los conflictos, pero al volver a abrir
+            // el messageBox y clicar Yes, siguen sin resolverse. Hay que cerrar y abrir la simulación.
+            // Lo cual no mola.
             if (hayConflictosFuturos)
             {
                 resultado += "\n⚠️ CONCLUSIÓN: HAY CONFLICTOS FUTUROS PREVISTOS\n";
@@ -423,9 +426,9 @@ namespace WindowsPrincipal
         private bool BuscarConflictes()
         {
             int numAvions = FlightsList.GetNumeroFlightPlans();
-            
+
             if (numAvions < 2)
-                return false;
+            { return false; }
             
             NumConflictes = 0;
             MatriuConflictes = new int[MAX_CONFLICTS, 2];
@@ -433,19 +436,25 @@ namespace WindowsPrincipal
             
             for (int i = 0; i < numAvions; i++)
             {
-                if (FlightsList.GetFlightPlan(i).EstaAlFinal() || FlightsList.GetFlightPlan(i).GetInitialPosition() == FlightsList.GetFlightPlan(i).GetPosition())
+                if (FlightsList.GetFlightPlan(i).EstaAlFinal())// || FlightsList.GetFlightPlan(i).GetInitialPosition() == FlightsList.GetFlightPlan(i).GetPosition())
                     continue;
                 
                 for (int j = i + 1; j < numAvions; j++)
                 {
-                    if (FlightsList.GetFlightPlan(j).EstaAlFinal() || FlightsList.GetFlightPlan(j).GetInitialPosition() == FlightsList.GetFlightPlan(j).GetPosition())
+                    if (FlightsList.GetFlightPlan(j).EstaAlFinal())// || FlightsList.GetFlightPlan(j).GetInitialPosition() == FlightsList.GetFlightPlan(j).GetPosition())
                         continue;
-                    
+
+                    double distanciaActual = FlightsList.GetFlightPlan(i).GetPosition().Distancia(FlightsList.GetFlightPlan(j).GetPosition());
                     double distanciaMinima = FlightsList.GetFlightPlan(i).CalcularDistanciaMinimaFutura(FlightsList.GetFlightPlan(j));
                     double distanciaSeguretat = securityDistance;
                     
                     if (distanciaMinima < distanciaSeguretat)
                     {
+                        if ((FlightsList.GetFlightPlan(i).GetInitialPosition() == FlightsList.GetFlightPlan(i).GetPosition() || FlightsList.GetFlightPlan(j).GetInitialPosition() == FlightsList.GetFlightPlan(j).GetPosition()) && (distanciaActual < distanciaMinima))
+                        {
+                            MessageBox.Show("Els avions es xoquen a l'inici, no es poden resoldre conflictes.", "Atenció", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            continue;
+                        }
                         MatriuConflictes[NumConflictes, 0] = i;
                         MatriuConflictes[NumConflictes++, 1] = j;
                     }
@@ -462,7 +471,7 @@ namespace WindowsPrincipal
         private void ResoldreConflictes()
         {
             double dV = 1.0;
-            double Vmin = 10.0;
+            double Vmin = 1.0;
 
             while (BuscarConflictes())
             {
