@@ -19,6 +19,51 @@ namespace FlightLib
             this.x = x;
             this.y = y;
         }
+        
+        public static Position operator +(Position a, Position b)
+        {
+            return new Position(a.x + b.x, a.y + b.y);
+        }
+        public static Position operator -(Position a, Position b)
+        {
+            return new Position(a.x - b.x, a.y - b.y);
+        }
+        public static Position operator *(Position a, double scalar)
+        {
+            return new Position(a.x * scalar, a.y * scalar);
+        }
+        public static Position operator *(double scalar, Position a)
+        {
+            return a*scalar;
+        }
+        public static Position operator /(Position a, double scalar)
+        {
+            return new Position(a.x / scalar, a.y / scalar);
+        }
+        public static bool operator ==(Position a, Position b)
+        {
+            return a.x == b.x && a.y == b.y;
+        }
+        public static bool operator !=(Position a, Position b)
+        {
+            return !(a == b);
+        }
+        public static bool operator ==(Position a, int b)
+        {
+            return a.x == b && a.y == b;
+        }
+        public static bool operator !=(Position a, int b)
+        {
+            return !(a == b);
+        }
+        public static double operator *(Position a, Position b)
+        {
+            return a.x * b.x + a.y * b.y;
+        }
+        public static double mod(Position a)
+        {
+            return Math.Sqrt(a.x * a.x + a.y * a.y);
+        }
 
         // Metodos
 

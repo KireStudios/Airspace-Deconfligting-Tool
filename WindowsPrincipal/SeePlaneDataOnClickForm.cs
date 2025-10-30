@@ -33,6 +33,10 @@ namespace WindowsPrincipal
             PlaneDataGridView.Rows[1].Cells[1].Value = SelectedFlightPlan.GetSpeed();
             PlaneDataGridView.Rows[2].Cells[1].Value = "(" + SelectedFlightPlan.GetPosition().GetX().ToString("F3") + ", " + SelectedFlightPlan.GetPosition().GetY().ToString("F3") + ")";
             PlaneDataGridView.Rows[3].Cells[1].Value = "(" + SelectedFlightPlan.GetFinalPosition().GetX() + ", " + SelectedFlightPlan.GetFinalPosition().GetY() + ")";
+
+            // Sol es pot modificar la velocitat
+            PlaneDataGridView.ReadOnly = true;
+            PlaneDataGridView.Rows[1].Cells[1].ReadOnly = false;
         }
 
         public void GetFlightPlan(FlightPlan SelectedFlightPlan)
@@ -42,6 +46,7 @@ namespace WindowsPrincipal
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
+            SelectedFlightPlan.SetVelocidad(Convert.ToDouble(PlaneDataGridView.Rows[1].Cells[1].Value));
             Close();
         }
     }

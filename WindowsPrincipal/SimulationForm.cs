@@ -433,12 +433,12 @@ namespace WindowsPrincipal
             
             for (int i = 0; i < numAvions; i++)
             {
-                if (FlightsList.GetFlightPlan(i).EstaAlFinal() || FlightsList.GetFlightPlan(i).GetInitialPosition() == FlightsList.GetFlightPlan(i).GetPosition())
+                if (FlightsList.GetFlightPlan(i).EstaAlFinal())// || FlightsList.GetFlightPlan(i).GetInitialPosition() == FlightsList.GetFlightPlan(i).GetPosition())
                     continue;
                 
                 for (int j = i + 1; j < numAvions; j++)
                 {
-                    if (FlightsList.GetFlightPlan(j).EstaAlFinal() || FlightsList.GetFlightPlan(j).GetInitialPosition() == FlightsList.GetFlightPlan(j).GetPosition())
+                    if (FlightsList.GetFlightPlan(j).EstaAlFinal())// || FlightsList.GetFlightPlan(j).GetInitialPosition() == FlightsList.GetFlightPlan(j).GetPosition())
                         continue;
                     
                     double distanciaMinima = FlightsList.GetFlightPlan(i).CalcularDistanciaMinimaFutura(FlightsList.GetFlightPlan(j));
@@ -461,31 +461,54 @@ namespace WindowsPrincipal
 
         private void ResoldreConflictes()
         {
-            double dV = 1.0;
-            double Vmin = 10.0;
-
             while (BuscarConflictes())
             {
                 for (int i = 0; i < NumConflictes; i++)
                 {
                     int id1 = MatriuConflictes[i, 0];
                     int id2 = MatriuConflictes[i, 1];
-                    
+
                     FlightPlan avio1 = FlightsList.GetFlightPlan(id1);
                     FlightPlan avio2 = FlightsList.GetFlightPlan(id2);
+
+                    Position p1 = avio1.GetPosition();
+                    Position p2 = avio2.GetPosition();
                     
-                    if (avio1.GetSpeed() >= avio2.GetSpeed())
+                    Position d1 = avio1.GetFinalPosition() - avio1.GetInitialPosition();
+                    Position d2 = avio2.GetFinalPosition() - avio2.GetInitialPosition();
+                    d1 = d1 / Position.mod(d1);
+                    d2 = d2 / Position.mod(d2);
+                    
+                    Position v1 = avio1.GetSpeed() * d1;
+                    Position v2 = avio2.GetSpeed() * d2;
+                    
+                    Position dP = p1 - p2;
+                    Position dV = v1 - v2;
+
+                    double t = 0;
+                    if (dV != 0)
                     {
-                        avio1.SetVelocidad(avio1.GetSpeed() + dV);
-                        if (avio2.GetSpeed() - dV >= Vmin)
-                            avio2.SetVelocidad(avio2.GetSpeed() - dV);
+                        // El temps t que minimitza la distancia t'=−(Δp⋅Δv)/∥Δv∥**2
+                        t = -(dP * dV) / (Position.mod(dV) * Position.mod(dV));
                     }
-                    else
+                    // Si t'<0, la distancia mínima ja ha passat
+                    t = Math.Max(t, 0);
+
+                    Position distanciaMin = dP + t * dV;
+                    double distanciaMinMod = Position.mod(distanciaMin);
+
+                    if (distanciaMinMod < securityDistance)
                     {
-                        if (avio1.GetSpeed() - dV >= Vmin)
-                            avio1.SetVelocidad(avio1.GetSpeed() - dV);
-                        avio2.SetVelocidad(avio2.GetSpeed() + dV);
+                        // Cal resoldre el conflicte
+                        double reduccioVelocitat = 0.1 * (securityDistance - distanciaMinMod);
+
+                        double novaVelocitat1 = Math.Max(avio1.GetSpeed() - reduccioVelocitat, 0);
+                        double novaVelocitat2 = Math.Max(avio2.GetSpeed() - reduccioVelocitat, 0);
+
+                        avio1.SetVelocidad(novaVelocitat1);
+                        avio2.SetVelocidad(novaVelocitat2);
                     }
+
                 }
             }
         }
