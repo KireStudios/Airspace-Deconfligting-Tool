@@ -213,6 +213,7 @@ namespace WindowsPrincipal
                     Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetY()) - 5
                 );
             }
+            autoTimer.Stop();
             SimulationPanel.Invalidate();
             
             // Verificar conflictos después de reiniciar
@@ -289,6 +290,7 @@ namespace WindowsPrincipal
                         if (!conflictosNotificados.Contains(claveConflicto))
                         {
                             conflictosNotificados.Add(claveConflicto);
+                            autoTimer.Stop();
                             
                             // Mostrar notificación
                             MessageBox.Show(
@@ -315,7 +317,7 @@ namespace WindowsPrincipal
             InfoVolsForm infoForm = new InfoVolsForm(FlightsList);
             infoForm.ShowDialog();
             
-            /* S'ha canviat per fer servir un datagridview en un altre formulari (Fase 9)
+            /* ERIK: S'ha canviat per fer servir un datagridview en un altre formulari (Fase 9)
             int numAviones = FlightsList.GetNumeroFlightPlans();
             
             if (numAviones == 0)
@@ -402,6 +404,11 @@ namespace WindowsPrincipal
                 }
             }
             
+            // Al clicar el No, no se resuelven los conflictos, pero al volver a abrir
+            // el messageBox y clicar Yes, siguen sin resolverse. Hay que cerrar y abrir la simulación.
+            // Lo cual no mola.
+            //
+            // ERIK: Aixo es completament fals. Funciona correctament.
             if (hayConflictosFuturos)
             {
                 resultado += "\n⚠️ CONCLUSIÓN: HAY CONFLICTOS FUTUROS PREVISTOS\n";
@@ -441,11 +448,17 @@ namespace WindowsPrincipal
                     if (FlightsList.GetFlightPlan(j).EstaAlFinal())// || FlightsList.GetFlightPlan(j).GetInitialPosition() == FlightsList.GetFlightPlan(j).GetPosition())
                         continue;
                     
+                    double distanciaActual = FlightsList.GetFlightPlan(i).GetPosition().Distancia(FlightsList.GetFlightPlan(j).GetPosition());
                     double distanciaMinima = FlightsList.GetFlightPlan(i).CalcularDistanciaMinimaFutura(FlightsList.GetFlightPlan(j));
                     double distanciaSeguretat = securityDistance;
                     
                     if (distanciaMinima < distanciaSeguretat)
                     {
+                        if ((FlightsList.GetFlightPlan(i).GetInitialPosition() == FlightsList.GetFlightPlan(i).GetPosition() || FlightsList.GetFlightPlan(j).GetInitialPosition() == FlightsList.GetFlightPlan(j).GetPosition()) && (distanciaActual < distanciaMinima))
+                        {
+                            MessageBox.Show("Els avions es xoquen a l'inici, no es poden resoldre conflictes.", "Atenció", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            continue;
+                        }
                         MatriuConflictes[NumConflictes, 0] = i;
                         MatriuConflictes[NumConflictes++, 1] = j;
                     }
