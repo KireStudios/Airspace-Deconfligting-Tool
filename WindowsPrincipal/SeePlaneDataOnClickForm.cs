@@ -35,8 +35,10 @@ namespace WindowsPrincipal
             PlaneDataGridView.Rows[3].Cells[1].Value = "(" + SelectedFlightPlan.GetFinalPosition().GetX() + ", " + SelectedFlightPlan.GetFinalPosition().GetY() + ")";
 
             // Sol es pot modificar la velocitat
-            PlaneDataGridView.ReadOnly = true;
-            PlaneDataGridView.Rows[1].Cells[1].ReadOnly = false;
+            PlaneDataGridView.ReadOnly = false;//true;
+            //PlaneDataGridView.Rows[1].Cells[1].ReadOnly = false;
+            
+            // ja es mira al tancar i sol es canvia la velocitat
         }
 
         public void GetFlightPlan(FlightPlan SelectedFlightPlan)

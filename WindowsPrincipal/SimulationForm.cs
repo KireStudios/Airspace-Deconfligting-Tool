@@ -32,10 +32,11 @@ namespace WindowsPrincipal
         {
             InitializeComponent();
             
+            // Han dit que hem de treure aixo pero les linies fan uns parpadejos estranys, aixi que ho deixo comentat per mes endavant.
             // Habilitar doble buffer en el panel usando reflexión para evitar parpadeo
-            typeof(Panel).InvokeMember("DoubleBuffered",
-                System.Reflection.BindingFlags.SetProperty | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic,
-                null, SimulationPanel, new object[] { true });
+            //typeof(Panel).InvokeMember("DoubleBuffered",
+            //    System.Reflection.BindingFlags.SetProperty | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic,
+            //    null, SimulationPanel, new object[] { true });
             
             autoTimer = new System.Windows.Forms.Timer();
             autoTimer.Interval = 1000;
@@ -261,7 +262,8 @@ namespace WindowsPrincipal
         private void VerificarYNotificarConflictos()
         {
             int numAviones = FlightsList.GetNumeroFlightPlans();
-            HashSet<string> conflictosActuales = new HashSet<string>();
+            // En aquesta versio no volen que fem servir el Hash set. NO BORRAR els Hash sets!!!, els deixo comentats.
+            //HashSet<string> conflictosActuales = new HashSet<string>();
             
             // Verificar todos los pares de aviones
             for (int i = 0; i < numAviones; i++)
@@ -284,10 +286,10 @@ namespace WindowsPrincipal
                         string id2 = FlightsList.GetFlightPlan(j).GetId();
                         string claveConflicto = string.Compare(id1, id2) < 0 ? id1 + "-" + id2 : id2 + "-" + id1;
                         
-                        conflictosActuales.Add(claveConflicto);
+                        //conflictosActuales.Add(claveConflicto);
                         
                         // Solo notificar si es un conflicto nuevo
-                        if (!conflictosNotificados.Contains(claveConflicto))
+                        if (true)//!conflictosNotificados.Contains(claveConflicto))
                         {
                             conflictosNotificados.Add(claveConflicto);
                             autoTimer.Stop();
@@ -309,7 +311,7 @@ namespace WindowsPrincipal
             }
             
             // Limpiar conflictos que ya no están activos (los aviones se alejaron)
-            conflictosNotificados.RemoveWhere(c => !conflictosActuales.Contains(c));
+            // conflictosNotificados.RemoveWhere(c => !conflictosActuales.Contains(c));
         }
 
         private void ShowDataButton_Click(object sender, EventArgs e)
@@ -514,12 +516,13 @@ namespace WindowsPrincipal
                     {
                         // Cal resoldre el conflicte
                         double reduccioVelocitat = 0.1 * (securityDistance - distanciaMinMod);
-
+                        reduccioVelocitat = Math.Max(reduccioVelocitat, 1);
+                        
                         double novaVelocitat1 = Math.Max(avio1.GetSpeed() - reduccioVelocitat, 0);
-                        double novaVelocitat2 = Math.Max(avio2.GetSpeed() - reduccioVelocitat, 0);
+                        //double novaVelocitat2 = Math.Max(avio2.GetSpeed() - reduccioVelocitat, 0);
 
                         avio1.SetVelocidad(novaVelocitat1);
-                        avio2.SetVelocidad(novaVelocitat2);
+                        //avio2.SetVelocidad(novaVelocitat2);
                     }
 
                 }
