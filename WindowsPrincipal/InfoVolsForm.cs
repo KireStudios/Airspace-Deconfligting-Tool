@@ -7,6 +7,11 @@ namespace WindowsPrincipal
     public partial class InfoVolsForm : Form
     {
         private FlightPlanList llistaVols;
+
+        private FlightPlan p1;
+        private FlightPlan p2;
+        bool Selecting1 = false;
+        bool Selecting2 = false;
         
         public InfoVolsForm(FlightPlanList llistaVols)
         {
@@ -43,6 +48,28 @@ namespace WindowsPrincipal
 
         private void VolsDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (Selecting1)
+            {
+                p1 = llistaVols.GetFlightPlan(e.RowIndex);
+                Pla1Button.Text = $"Pla 1: {p1.GetId()}";
+                Selecting1 = false;
+            }
+            else if (Selecting2)
+            {
+                p2 = llistaVols.GetFlightPlan(e.RowIndex);
+                Pla2Button.Text = $"Pla 2: {p2.GetId()}";
+                Selecting2 = false;
+            }
+            if (p1 != null && p2 != null)
+            {
+                double distancia = p1.Distancia(p2);
+                DistanciaLabel.Text = $"Distància mínima entre el vol {p1.GetId()} i el vol {p2.GetId()}: {distancia:F2} unitats";
+            }
+            else
+            {
+                DistanciaLabel.Text = "";
+            }
+            /*
             if (e.RowIndex >= 0 && e.RowIndex < llistaVols.GetNumeroFlightPlans())
             {
                 FlightPlan pv = llistaVols.GetFlightPlan(e.RowIndex);
@@ -55,7 +82,19 @@ namespace WindowsPrincipal
                     MessageBox.Show($"Distància mínima al vol {seguentPv.GetId()}: {distancia:F2} unitats",
                         "Distància entre vols", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-            }
+            }*/
+        }
+        
+        private void Pla1Button_Click(object sender, EventArgs e)
+        {
+            Selecting2 = false;
+            Selecting1 = true;
+        }
+
+        private void Pla2Button_Click(object sender, EventArgs e)
+        {
+            Selecting1 = false;
+            Selecting2 = true;
         }
     }
 }
