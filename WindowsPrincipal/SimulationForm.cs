@@ -93,6 +93,7 @@ namespace WindowsPrincipal
                 SimulationPanel.Controls.Add(plane);
                 plane.Click += SeePlaneData;
             }
+            CheckConflict();
         }
 
         private void SimulationForm_Shown(object sender, EventArgs e)
@@ -362,6 +363,10 @@ namespace WindowsPrincipal
         // Fase 10: Verificar si habrá conflicto a lo largo de la simulación (predicción futura)
         private void CheckConflictButton_Click(object sender, EventArgs e)
         {
+            CheckConflict();
+        }
+        private void CheckConflict()
+        { 
             int numAviones = FlightsList.GetNumeroFlightPlans();
             
             if (numAviones < 2)
