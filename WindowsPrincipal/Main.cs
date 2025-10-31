@@ -23,6 +23,11 @@ namespace WindowsPrincipal
             InitializeComponent();
         }
 
+        private void Main_Load(object sender, EventArgs e)
+        {
+
+        }
+
         private void addDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PlaneDataForm planeForm = new PlaneDataForm();
@@ -38,11 +43,6 @@ namespace WindowsPrincipal
             securityDistance = CSForm.GetSecurityDistance();
         }
 
-        private void Main_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void initializeSimulationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SimulationForm SimForm = new SimulationForm();
@@ -52,9 +52,16 @@ namespace WindowsPrincipal
             SimForm.ShowDialog();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void CloseButton_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadFileForm loadForm = new LoadFileForm();
+            loadForm.ShowDialog();
+
         }
     }
 }

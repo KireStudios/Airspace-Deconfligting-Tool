@@ -47,7 +47,6 @@ namespace WindowsPrincipal
             this.button1 = new System.Windows.Forms.Button();
             this.RestartButton = new System.Windows.Forms.Button();
             this.AutoSimulateButton = new System.Windows.Forms.Button();
-            this.StopSimulationButton = new System.Windows.Forms.Button();
             this.ShowDataButton = new System.Windows.Forms.Button();
             this.CheckConflictButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -123,16 +122,6 @@ namespace WindowsPrincipal
             this.AutoSimulateButton.UseVisualStyleBackColor = true;
             this.AutoSimulateButton.Click += new System.EventHandler(this.AutoSimulateButton_Click);
             // 
-            // StopSimulationButton
-            // 
-            this.StopSimulationButton.Location = new System.Drawing.Point(97, 450);
-            this.StopSimulationButton.Name = "StopSimulationButton";
-            this.StopSimulationButton.Size = new System.Drawing.Size(166, 40);
-            this.StopSimulationButton.TabIndex = 7;
-            this.StopSimulationButton.Text = "Stop Auto Simulation";
-            this.StopSimulationButton.UseVisualStyleBackColor = true;
-            this.StopSimulationButton.Click += new System.EventHandler(this.StopSimulationButton_Click);
-            // 
             // ShowDataButton
             // 
             this.ShowDataButton.Location = new System.Drawing.Point(97, 510);
@@ -160,7 +149,6 @@ namespace WindowsPrincipal
             this.ClientSize = new System.Drawing.Size(1177, 683);
             this.Controls.Add(this.CheckConflictButton);
             this.Controls.Add(this.ShowDataButton);
-            this.Controls.Add(this.StopSimulationButton);
             this.Controls.Add(this.AutoSimulateButton);
             this.Controls.Add(this.RestartButton);
             this.Controls.Add(this.button1);
@@ -185,7 +173,6 @@ namespace WindowsPrincipal
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button RestartButton;
         private System.Windows.Forms.Button AutoSimulateButton;
-        private System.Windows.Forms.Button StopSimulationButton;
         private System.Windows.Forms.Button ShowDataButton;
         private System.Windows.Forms.Button CheckConflictButton;
     }

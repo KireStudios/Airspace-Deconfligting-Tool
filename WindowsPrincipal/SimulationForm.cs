@@ -27,6 +27,8 @@ namespace WindowsPrincipal
         private HashSet<string> conflictosNotificados = new HashSet<string>();
         int[,] MatriuConflictes = new int[MAX_CONFLICTS, 2];
         int NumConflictes = 0;
+
+        private bool Mode = true;
         
         public SimulationForm()
         {
@@ -220,16 +222,23 @@ namespace WindowsPrincipal
             
             // Verificar conflictos después de reiniciar
             VerificarYNotificarConflictos();
+            Mode = true;
+            AutoSimulateButton.Text = "Start Simulation";
         }
 
         private void AutoSimulateButton_Click(object sender, EventArgs e)
         {
-            autoTimer.Start();
-        }
-
-        private void StopSimulationButton_Click(object sender, EventArgs e)
-        {
-            autoTimer.Stop();
+            if (Mode)
+            {
+                autoTimer.Start();
+                AutoSimulateButton.Text = "Stop Simulation";
+            }
+            else
+            {
+                autoTimer.Stop();
+                AutoSimulateButton.Text = "Start Simulation";
+            }
+            Mode = !Mode;
         }
 
         private void AutoTimer_Tick(object sender, EventArgs e)
@@ -420,6 +429,7 @@ namespace WindowsPrincipal
             {
                 resultado += "\n⚠️ CONCLUSIÓN: HAY CONFLICTOS FUTUROS PREVISTOS\n";
                 resultado += "Los vuelos entrarán en conflicto durante la simulación.";
+                resultado += "\n\n¿Desea resolver los conflictos ajustando las velocidades de los vuelos?";
                 if (MessageBox.Show(resultado, "Conflictos Futuros Detectados", MessageBoxButtons.YesNo,
                         MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
@@ -496,8 +506,8 @@ namespace WindowsPrincipal
                     
                     Position d1 = avio1.GetFinalPosition() - avio1.GetInitialPosition();
                     Position d2 = avio2.GetFinalPosition() - avio2.GetInitialPosition();
-                    d1 = d1 / Position.mod(d1);
-                    d2 = d2 / Position.mod(d2);
+                    d1 = d1 / d1.mod();
+                    d2 = d2 / d2.mod();
                     
                     Position v1 = avio1.GetSpeed() * d1;
                     Position v2 = avio2.GetSpeed() * d2;
@@ -509,13 +519,13 @@ namespace WindowsPrincipal
                     if (dV != 0)
                     {
                         // El temps t que minimitza la distancia t'=−(Δp⋅Δv)/∥Δv∥**2
-                        t = -(dP * dV) / (Position.mod(dV) * Position.mod(dV));
+                        t = -(dP * dV) / (dV.mod() * dV.mod());
                     }
                     // Si t'<0, la distancia mínima ja ha passat
                     t = Math.Max(t, 0);
 
                     Position distanciaMin = dP + t * dV;
-                    double distanciaMinMod = Position.mod(distanciaMin);
+                    double distanciaMinMod = distanciaMin.mod();
 
                     if (distanciaMinMod < securityDistance)
                     {

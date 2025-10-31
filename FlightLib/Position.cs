@@ -59,10 +59,10 @@ namespace FlightLib
         public static double operator *(Position a, Position b)
         {
             return a.x * b.x + a.y * b.y;
-        }
-        public static double mod(Position a)
+        }     
+        public double mod()
         {
-            return Math.Sqrt(a.x * a.x + a.y * a.y);
+            return Math.Sqrt(x * x + y * y);
         }
 
         // Metodos
