@@ -17,21 +17,23 @@ namespace WindowsPrincipal
         private void InfoVolsForm_Load(object sender, EventArgs e)
         {
             VolsDataGridView.RowCount = llistaVols.GetNumeroFlightPlans();
-            VolsDataGridView.ColumnCount = 5;
+            VolsDataGridView.ColumnCount = 6;
             VolsDataGridView.Columns[0].Name = "ID";
-            VolsDataGridView.Columns[1].Name = "Velocitat";
-            VolsDataGridView.Columns[2].Name = "Posició inicial";
-            VolsDataGridView.Columns[3].Name = "Posició actual";
-            VolsDataGridView.Columns[4].Name = "Posició final";
+            VolsDataGridView.Columns[1].Name = "Companyia";
+            VolsDataGridView.Columns[2].Name = "Velocitat";
+            VolsDataGridView.Columns[3].Name = "Posició inicial";
+            VolsDataGridView.Columns[4].Name = "Posició actual";
+            VolsDataGridView.Columns[5].Name = "Posició final";
             
             for (int i = 0; i < llistaVols.GetNumeroFlightPlans(); i++)
             {
                 FlightPlan fp = llistaVols.GetFlightPlan(i);
-                VolsDataGridView.Rows[i].Cells[0].Value = fp.id;
-                VolsDataGridView.Rows[i].Cells[1].Value = fp.GetSpeed().ToString("F2");
-                VolsDataGridView.Rows[i].Cells[2].Value = $"{fp.GetInitialPosition().GetX().ToString()}, {fp.GetInitialPosition().GetY().ToString()}";
-                VolsDataGridView.Rows[i].Cells[3].Value = $"{fp.GetPosition().GetX().ToString()}, {fp.GetPosition().GetY().ToString()}";
-                VolsDataGridView.Rows[i].Cells[4].Value = $"{fp.GetFinalPosition().GetX().ToString()}, {fp.GetFinalPosition().GetY().ToString()}";
+                VolsDataGridView.Rows[i].Cells[0].Value = fp.GetId();
+                VolsDataGridView.Rows[i].Cells[1].Value = fp.GetCompany();
+                VolsDataGridView.Rows[i].Cells[2].Value = fp.GetSpeed().ToString("F2");
+                VolsDataGridView.Rows[i].Cells[3].Value = $"{fp.GetInitialPosition().GetX().ToString()}, {fp.GetInitialPosition().GetY().ToString()}";
+                VolsDataGridView.Rows[i].Cells[4].Value = $"{fp.GetPosition().GetX().ToString()}, {fp.GetPosition().GetY().ToString()}";
+                VolsDataGridView.Rows[i].Cells[5].Value = $"{fp.GetFinalPosition().GetX().ToString()}, {fp.GetFinalPosition().GetY().ToString()}";
             }
             
             VolsDataGridView.ReadOnly = true;
@@ -50,7 +52,7 @@ namespace WindowsPrincipal
                     FlightPlan seguentPv =
                         llistaVols.GetFlightPlan((e.RowIndex + 1) % llistaVols.GetNumeroFlightPlans());
                     double distancia = pv.Distancia(seguentPv);
-                    MessageBox.Show($"Distància mínima al vol {seguentPv.id}: {distancia:F2} unitats", 
+                    MessageBox.Show($"Distància mínima al vol {seguentPv.GetId()}: {distancia:F2} unitats",
                         "Distància entre vols", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }

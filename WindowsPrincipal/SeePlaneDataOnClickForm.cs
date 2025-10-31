@@ -22,17 +22,19 @@ namespace WindowsPrincipal
 
         private void SeePlaneDataOnClickForm_Load(object sender, EventArgs e)
         {
-            PlaneDataGridView.RowCount = 4;
+            PlaneDataGridView.RowCount = 5;
             //PlaneDataGridView.RowTemplate.Height = 200;
             PlaneDataGridView.ColumnCount = 2;
             PlaneDataGridView.Rows[0].Cells[0].Value = "Identification";
-            PlaneDataGridView.Rows[1].Cells[0].Value = "Speed";
-            PlaneDataGridView.Rows[2].Cells[0].Value = "Initial Position";
-            PlaneDataGridView.Rows[3].Cells[0].Value = "Final Position";
+            PlaneDataGridView.Rows[1].Cells[0].Value = "Companyia";
+            PlaneDataGridView.Rows[2].Cells[0].Value = "Speed";
+            PlaneDataGridView.Rows[3].Cells[0].Value = "Initial Position";
+            PlaneDataGridView.Rows[4].Cells[0].Value = "Final Position";
             PlaneDataGridView.Rows[0].Cells[1].Value = SelectedFlightPlan.GetId();
-            PlaneDataGridView.Rows[1].Cells[1].Value = SelectedFlightPlan.GetSpeed();
-            PlaneDataGridView.Rows[2].Cells[1].Value = "(" + SelectedFlightPlan.GetPosition().GetX().ToString("F3") + ", " + SelectedFlightPlan.GetPosition().GetY().ToString("F3") + ")";
-            PlaneDataGridView.Rows[3].Cells[1].Value = "(" + SelectedFlightPlan.GetFinalPosition().GetX() + ", " + SelectedFlightPlan.GetFinalPosition().GetY() + ")";
+            PlaneDataGridView.Rows[1].Cells[1].Value = SelectedFlightPlan.GetCompany();
+            PlaneDataGridView.Rows[2].Cells[1].Value = SelectedFlightPlan.GetSpeed();
+            PlaneDataGridView.Rows[3].Cells[1].Value = "(" + SelectedFlightPlan.GetPosition().GetX().ToString("F3") + ", " + SelectedFlightPlan.GetPosition().GetY().ToString("F3") + ")";
+            PlaneDataGridView.Rows[4].Cells[1].Value = "(" + SelectedFlightPlan.GetFinalPosition().GetX() + ", " + SelectedFlightPlan.GetFinalPosition().GetY() + ")";
 
             // Sol es pot modificar la velocitat
             PlaneDataGridView.ReadOnly = false;//true;
@@ -48,7 +50,7 @@ namespace WindowsPrincipal
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
-            SelectedFlightPlan.SetVelocidad(Convert.ToDouble(PlaneDataGridView.Rows[1].Cells[1].Value));
+            SelectedFlightPlan.SetVelocidad(Convert.ToDouble(PlaneDataGridView.Rows[2].Cells[1].Value));
             Close();
         }
     }

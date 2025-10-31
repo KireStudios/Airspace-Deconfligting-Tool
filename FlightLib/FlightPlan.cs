@@ -12,16 +12,18 @@ namespace FlightLib
     {
         // Atributos
 
-        public string id; // identificador
+        string id; // identificador
+        string company; // companyia
         Position initialPosition; //Posició inicial
         Position currentPosition; // posicion actual
         Position finalPosition; // posicion final
         double velocidad;
 
         // Constructures
-        public FlightPlan(string id, double cpx, double cpy, double fpx, double fpy, double velocidad)
+        public FlightPlan(string id, string comp, double cpx, double cpy, double fpx, double fpy, double velocidad)
         {
             this.id = id;
+            this.company = comp;
             this.initialPosition = new Position(cpx, cpy);
             this.currentPosition = new Position(cpx, cpy);
             this.finalPosition = new Position(fpx, fpy);
@@ -193,6 +195,11 @@ namespace FlightLib
         public Position GetFinalPosition()
         {
             return finalPosition;
+        }
+        
+        public string GetCompany()
+        {
+            return company;
         }
 
 

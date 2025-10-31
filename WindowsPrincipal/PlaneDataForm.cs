@@ -36,6 +36,7 @@ namespace WindowsPrincipal
             try
             {
                 string id = IdentificationTextBox.Text;
+                string company = CompanyTextBox.Text;
                 double speed = Convert.ToDouble(SpeedTextBox.Text);
                 string[] initialPosition = InitialPositionTextBox.Text.Split(' ');
                 string[] finalPosition = FinalPositionTextBox.Text.Split(' ');
@@ -43,7 +44,7 @@ namespace WindowsPrincipal
                 double initialY = Convert.ToDouble(initialPosition[1]);
                 double finalX = Convert.ToDouble(finalPosition[0]);
                 double finalY = Convert.ToDouble(finalPosition[1]);
-                FlightPlan plan = new FlightPlan(id, initialX, initialY, finalX, finalY, speed);
+                FlightPlan plan = new FlightPlan(id, company, initialX, initialY, finalX, finalY, speed);
                 FlightsList.AddFlightPlan(plan);
                 
                 IdentificationTextBox.Text = null;
@@ -63,13 +64,13 @@ namespace WindowsPrincipal
 
         private void DeveloperTestFlightsButton_Click(object sender, EventArgs e)
         {
-            FlightPlan FP1 = new FlightPlan("FP1", 200, 200, 0, 0, 100);
-            FlightPlan FP2 = new FlightPlan("FP2", 0, 200, 200, 0, 100);
-            FlightPlan FP3 = new FlightPlan("FP3", 400, 0, 350, 400, 150);
+            FlightPlan FP1 = new FlightPlan("FP1", "StandBy Airlines", 200, 200, 0, 0, 100);
+            FlightPlan FP2 = new FlightPlan("FP2", "EasyFall",0, 200, 200, 0, 100);
+            FlightPlan FP3 = new FlightPlan("FP3", "StandBy Airlines",400, 0, 350, 400, 150);
             FlightsList.AddFlightPlan(FP1);
             FlightsList.AddFlightPlan(FP2);
             FlightsList.AddFlightPlan(FP3);
-            MessageBox.Show("3 test flights added correctly!!\n(FP1, 200, 200, 0, 0, 100)\n(FP2, 0, 200, 200, 0, 100)\n(FP3, 400, 0, 350, 400, 150)");
+            MessageBox.Show("3 test flights added correctly!!\n(FP1, StandBy Airlines,200, 200, 0, 0, 100)\n(FP2, EasyFall, 0, 200, 200, 0, 100)\n(FP3, StandBy Airlines,400, 0, 350, 400, 150)");
         }
     }
 }

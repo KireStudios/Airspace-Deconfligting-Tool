@@ -66,7 +66,7 @@ namespace SimulatorConsole
                 Console.WriteLine("Entra unicament 2 coordenades (que son numeros...), la x i la y, separades per un espai en blanc, si us plau ^-^");
             }
             
-            FlightPlan plan_a = new FlightPlan(identificador, ix, iy, fx, fy, velocitat);
+            FlightPlan plan_a = new FlightPlan(identificador, "company", ix, iy, fx, fy, velocitat);
             llista.AddFlightPlan(plan_a);
             
             Console.WriteLine("Escriu l'identificador");
@@ -114,7 +114,7 @@ namespace SimulatorConsole
                 Console.WriteLine("Entra unicament 2 coordenades (que son numeros...), la x i la y, separades per un espai en blanc, si us plau ^-^");
             }
             
-            FlightPlan plan_b = new FlightPlan(identificador, ix, iy, fx, fy, velocitat);
+            FlightPlan plan_b = new FlightPlan(identificador, "company", ix, iy, fx, fy, velocitat);
             llista.AddFlightPlan(plan_b);
             
             // Simulació

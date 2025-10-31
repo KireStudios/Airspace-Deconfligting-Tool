@@ -28,17 +28,17 @@ namespace WindowsPrincipal
             this.VolsDataGridView.Location = new System.Drawing.Point(0, 0);
             this.VolsDataGridView.Name = "VolsDataGridView";
             this.VolsDataGridView.RowTemplate.Height = 28;
-            this.VolsDataGridView.Size = new System.Drawing.Size(433, 194);
+            this.VolsDataGridView.Size = new System.Drawing.Size(503, 194);
             this.VolsDataGridView.TabIndex = 0;
             // 
             // InfoVolsForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(433, 194);
+            this.ClientSize = new System.Drawing.Size(503, 194);
             this.Controls.Add(this.VolsDataGridView);
-            this.MaximumSize = new System.Drawing.Size(455, 1500);
-            this.MinimumSize = new System.Drawing.Size(455, 100);
+            this.MaximumSize = new System.Drawing.Size(525, 1500);
+            this.MinimumSize = new System.Drawing.Size(525, 100);
             this.Name = "InfoVolsForm";
             this.Load += new System.EventHandler(this.InfoVolsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.VolsDataGridView)).EndInit();
