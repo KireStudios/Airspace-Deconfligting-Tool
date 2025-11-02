@@ -61,7 +61,7 @@ namespace WindowsPrincipal
         {
             LoadFileForm loadForm = new LoadFileForm();
             loadForm.ShowDialog();
-
+            FlightsList = new FlightPlanList(loadForm.GetFlightPlanList());
         }
     }
 }

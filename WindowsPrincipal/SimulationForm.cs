@@ -15,9 +15,9 @@ namespace WindowsPrincipal
     public partial class SimulationForm : Form
     {
         const int MAX_CONFLICTS = 100;
-        
+
         // Variables per a guardar que venen del principal
-        private FlightPlanList FlightsList = new FlightPlanList();
+        private FlightPlanList FlightsList;
         private int OriginalCicles;
         private int cicles;
         private double securityDistance;

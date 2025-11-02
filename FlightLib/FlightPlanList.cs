@@ -1,19 +1,39 @@
+using System.Collections.Generic;
+
 namespace FlightLib
 {
     public class FlightPlanList
     {
-        FlightPlan[] vector = new FlightPlan[10];
-        int numeroFlightPlans = 0;
-        
+        //Cambiado el vector de 10 por una lista dinámica.
+        List<FlightPlan> vectorFP = new List<FlightPlan>();
+        int numeroFlightPlans = 0;    //Ahora numeroFlightPlans es redundante, no?
+
+        //Constructors de FlightPlanList a partir d'una llista de FlightPlans i vacío.
+        public FlightPlanList(List<FlightPlan> FlightPlans)
+        {
+            int i = 0;
+            while (i < FlightPlans.Count)
+            {
+                AddFlightPlan(FlightPlans[i]);
+                i++;
+            }
+        }
+        public FlightPlanList()
+        {
+
+        }
         public int AddFlightPlan(FlightPlan flightPlan) 
         {
-            if (numeroFlightPlans == 10)
+            if (flightPlan != null)
+            {
+                vectorFP.Add(flightPlan);
+                numeroFlightPlans++;
+                return 0;
+            }
+            else
             {
                 return -1;
             }
-            vector[numeroFlightPlans] = flightPlan;
-            numeroFlightPlans++;
-            return 0;
         }
 
         public FlightPlan GetFlightPlan(int numeroFlightPlan)
@@ -22,16 +42,16 @@ namespace FlightLib
             {
                 return null;
             }
-            return vector[numeroFlightPlan];
+            return vectorFP[numeroFlightPlan];
         }
 
         public void Moure(int tempsCicle)
         {
             for (int i = 0; i < numeroFlightPlans; i++)
             {
-                if (!vector[i].EstaAlFinal())
+                if (!vectorFP[i].EstaAlFinal())
                 {
-                    vector[i].Moure(tempsCicle);
+                    vectorFP[i].Moure(tempsCicle);
                 }
             }
         }
@@ -40,9 +60,9 @@ namespace FlightLib
         {
             for (int i = 0; i < numeroFlightPlans; i++)
             {
-                if (!vector[i].EstaAlFinal())
+                if (!vectorFP[i].EstaAlFinal())
                 {
-                    vector[i].EscribeConsola();
+                    vectorFP[i].EscribeConsola();
                 }
             }
         }
@@ -51,7 +71,7 @@ namespace FlightLib
         {
             for (int i = 0; i < numeroFlightPlans; i++)
             {
-                vector[i].Restart();
+                vectorFP[i].Restart();
             }
         }
 
