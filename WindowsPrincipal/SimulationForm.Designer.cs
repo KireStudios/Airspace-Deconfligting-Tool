@@ -49,7 +49,19 @@ namespace WindowsPrincipal
             this.AutoSimulateButton = new System.Windows.Forms.Button();
             this.ShowDataButton = new System.Windows.Forms.Button();
             this.CheckConflictButton = new System.Windows.Forms.Button();
+            this.SaveButton = new System.Windows.Forms.Button();
+            this.UndoButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // UndoButton
+            // 
+            this.UndoButton.Location = new System.Drawing.Point(97, 290);
+            this.UndoButton.Name = "UndoButton";
+            this.UndoButton.Size = new System.Drawing.Size(166, 30);
+            this.UndoButton.TabIndex = 11;
+            this.UndoButton.Text = "Undo Last Step";
+            this.UndoButton.UseVisualStyleBackColor = true;
+            this.UndoButton.Click += new System.EventHandler(this.UndoButton_Click);
             // 
             // SimulationPanel
             // 
@@ -141,12 +153,24 @@ namespace WindowsPrincipal
             this.CheckConflictButton.Text = "Check Conflict";
             this.CheckConflictButton.UseVisualStyleBackColor = true;
             this.CheckConflictButton.Click += new System.EventHandler(this.CheckConflictButton_Click);
+            //
+            // SaveButton
+            // 
+            this.SaveButton.Location = new System.Drawing.Point(97, 450);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(166, 40);
+            this.SaveButton.TabIndex = 10;
+            this.SaveButton.Text = "Save Simulation";
+            this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveSimulationButton_Click);
             // 
             // SimulationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1177, 683);
+            this.Controls.Add(this.UndoButton);
+            this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.CheckConflictButton);
             this.Controls.Add(this.ShowDataButton);
             this.Controls.Add(this.AutoSimulateButton);
@@ -175,5 +199,8 @@ namespace WindowsPrincipal
         private System.Windows.Forms.Button AutoSimulateButton;
         private System.Windows.Forms.Button ShowDataButton;
         private System.Windows.Forms.Button CheckConflictButton;
+        private System.Windows.Forms.Button SaveButton;
+        private System.Windows.Forms.Button UndoButton;
+
     }
 }

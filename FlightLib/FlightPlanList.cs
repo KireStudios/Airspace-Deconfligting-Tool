@@ -1,19 +1,41 @@
+﻿using System;
+using System.IO;
+using System.Collections.Generic;
+
 namespace FlightLib
 {
     public class FlightPlanList
     {
-        FlightPlan[] vector = new FlightPlan[10];
-        int numeroFlightPlans = 0;
-        
-        public int AddFlightPlan(FlightPlan flightPlan) 
+        //Cambiado el vector de 10 por una lista dinámica.
+        List<FlightPlan> vectorFP = new List<FlightPlan>();
+        int numeroFlightPlans = 0;    //Ahora numeroFlightPlans es redundante, no?
+
+        //Constructors de FlightPlanList a partir d'una llista de FlightPlans i vacío.
+        public FlightPlanList(List<FlightPlan> FlightPlans)
         {
-            if (numeroFlightPlans == 10)
+            int i = 0;
+            while (i < FlightPlans.Count)
+            {
+                AddFlightPlan(FlightPlans[i]);
+                i++;
+            }
+        }
+        public FlightPlanList()
+        {
+
+        }
+        public int AddFlightPlan(FlightPlan flightPlan)
+        {
+            if (flightPlan != null)
+            {
+                vectorFP.Add(flightPlan);
+                numeroFlightPlans++;
+                return 0;
+            }
+            else
             {
                 return -1;
             }
-            vector[numeroFlightPlans] = flightPlan;
-            numeroFlightPlans++;
-            return 0;
         }
 
         public FlightPlan GetFlightPlan(int numeroFlightPlan)
@@ -22,16 +44,16 @@ namespace FlightLib
             {
                 return null;
             }
-            return vector[numeroFlightPlan];
+            return vectorFP[numeroFlightPlan];
         }
 
         public void Moure(int tempsCicle)
         {
             for (int i = 0; i < numeroFlightPlans; i++)
             {
-                if (!vector[i].EstaAlFinal())
+                if (!vectorFP[i].EstaAlFinal())
                 {
-                    vector[i].Moure(tempsCicle);
+                    vectorFP[i].Moure(tempsCicle);
                 }
             }
         }
@@ -40,9 +62,9 @@ namespace FlightLib
         {
             for (int i = 0; i < numeroFlightPlans; i++)
             {
-                if (!vector[i].EstaAlFinal())
+                if (!vectorFP[i].EstaAlFinal())
                 {
-                    vector[i].EscribeConsola();
+                    vectorFP[i].EscribeConsola();
                 }
             }
         }
@@ -51,7 +73,7 @@ namespace FlightLib
         {
             for (int i = 0; i < numeroFlightPlans; i++)
             {
-                vector[i].Restart();
+                vectorFP[i].Restart();
             }
         }
 
@@ -60,5 +82,35 @@ namespace FlightLib
         {
             return numeroFlightPlans;
         }
+
+        public void SaveToFile(string filePath)
+        {
+            StreamWriter writer = new StreamWriter(filePath);
+
+            try
+            {
+                for (int i = 0; i < numeroFlightPlans; i++)
+                {
+                    FlightPlan fp = vectorFP[i];
+                    string line = string.Format("{0},{1},{2},{3},{4},{5},{6}",
+                        fp.GetId(),
+                        fp.GetCompany(),
+                        fp.GetPosition().GetX(),
+                        fp.GetPosition().GetY(),
+                        fp.GetFinalPosition().GetX(),
+                        fp.GetFinalPosition().GetY(),
+                        fp.GetSpeed());
+                    writer.WriteLine(line);
+                }
+
+                writer.Close();
+            }
+            catch (Exception ex)
+            {
+                writer.Close();
+                throw new Exception("Error al guardar el archivo: " + ex.Message);
+            }
+        }
     }
 }
+

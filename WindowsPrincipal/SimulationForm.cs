@@ -15,9 +15,9 @@ namespace WindowsPrincipal
     public partial class SimulationForm : Form
     {
         const int MAX_CONFLICTS = 100;
-        
+
         // Variables per a guardar que venen del principal
-        private FlightPlanList FlightsList = new FlightPlanList();
+        private FlightPlanList FlightsList;
         private int OriginalCicles;
         private int cicles;
         private double securityDistance;
@@ -29,7 +29,11 @@ namespace WindowsPrincipal
         int NumConflictes = 0;
 
         private bool Mode = true;
-        
+
+        // Variables para guardar el estado anterior
+        private Position[] previousPositions = null;
+        private int previousCicles = 0;
+
         public SimulationForm()
         {
             InitializeComponent();
@@ -150,6 +154,59 @@ namespace WindowsPrincipal
                 }
             }
         }
+        //para guardar estado actual
+        private void SaveCurrentState()
+        {
+            int numPlanes = FlightsList.GetNumeroFlightPlans();
+            previousPositions = new Position[numPlanes];
+
+            for (int i = 0; i < numPlanes; i++)
+            {
+                Position currentPos = FlightsList.GetFlightPlan(i).GetPosition();
+                previousPositions[i] = new Position(currentPos.GetX(), currentPos.GetY());
+            }
+
+            previousCicles = cicles;
+        }
+
+        //Restaura estado anterior
+        private void UndoButton_Click(object sender, EventArgs e)
+        {
+            if (previousPositions == null)
+            {
+                MessageBox.Show("No hay ningún paso anterior para deshacer.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Restaurar posiciones
+            for (int i = 0; i < previousPositions.Length; i++)
+            {
+                FlightPlan fp = FlightsList.GetFlightPlan(i);
+                double x = previousPositions[i].GetX();
+                double y = previousPositions[i].GetY();
+
+                fp.SetPosition(x, y);
+
+            }
+
+            // Restaurar ciclos
+            cicles = previousCicles;
+
+            // Actualizar visualización
+            for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
+            {
+                SimulationPanel.Controls[i].Location = new Point(
+                    Convert.ToInt32(previousPositions[i].GetX()) - 5,
+                    Convert.ToInt32(previousPositions[i].GetY()) - 5
+                );
+            }
+
+            SimulationPanel.Invalidate();
+
+            // Limpiar estado guardado
+            previousPositions = null;
+
+        }
 
         private void SeePlaneData(object sender, EventArgs e)
         {
@@ -182,6 +239,9 @@ namespace WindowsPrincipal
         {
             if (cicles > 0)
             {
+                // Guardar estado antes de mover
+                SaveCurrentState();
+
                 FlightsList.Moure(10);
                 for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
                 {
@@ -206,7 +266,10 @@ namespace WindowsPrincipal
         {
             cicles = OriginalCicles;
             FlightsList.RestartAll();
-            
+
+            //Limpiar estado guardado
+            previousPositions = null;
+
             // Limpiar conflictos notificados al reiniciar
             conflictosNotificados.Clear();
             
@@ -245,6 +308,9 @@ namespace WindowsPrincipal
         {
             if (cicles > 0)
             {
+                //Guardar estado antes de mover
+                SaveCurrentState();
+
                 FlightsList.Moure(10);
                 for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
                 {
@@ -543,5 +609,30 @@ namespace WindowsPrincipal
                 }
             }
         }
+        private void SaveSimulationButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+            saveDialog.Title = "Guardar Estado de la Simulación";
+            saveDialog.DefaultExt = "txt";
+            saveDialog.FileName = "simulation_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".txt";
+
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    FlightsList.SaveToFile(saveDialog.FileName);
+                    MessageBox.Show("Estado de la simulación guardado correctamente en:\n" + saveDialog.FileName,
+                        "Guardado Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al guardar el archivo:\n" + ex.Message,
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+
     }
 }

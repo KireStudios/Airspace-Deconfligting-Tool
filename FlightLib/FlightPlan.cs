@@ -75,6 +75,11 @@ namespace FlightLib
             currentPosition = new Position(x, y);
         }
 
+        public void SetPosition(double x, double y)
+        {
+            this.currentPosition = new Position(x, y);
+        }
+
         public bool EstaAlFinal()
         {
             if (currentPosition.GetX() == finalPosition.GetX() && currentPosition.GetY() == finalPosition.GetY())
