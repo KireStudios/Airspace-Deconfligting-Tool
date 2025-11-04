@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data;
 using System.Data.SQLite;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 using System.IO;
 
 namespace UserManage
@@ -23,11 +16,51 @@ namespace UserManage
             string dataSource = $"Data Source={dbPath}";
             cnx = new SQLiteConnection(dataSource);
             cnx.Open();
+
+            CreateTableIfNotExists();
+
+            EnsureAdminUser("admin", "1234");
         }
+
+        private void CreateTableIfNotExists()
+        {
+            string sql = @"
+                CREATE TABLE IF NOT EXISTS users (
+                    id INTEGER PRIMARY KEY,
+                    username TEXT NOT NULL UNIQUE,
+                    password TEXT NOT NULL
+                );";
+
+            using (SQLiteCommand command = new SQLiteCommand(sql, cnx))
+            {
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private void EnsureAdminUser(string username, string password)
+        {
+            // Primero, comprueba si el usuario 'admin' ya existe
+            string checkSql = "SELECT COUNT(*) FROM users WHERE username = @user";
+            using (SQLiteCommand checkCommand = new SQLiteCommand(checkSql, cnx))
+            {
+                checkCommand.Parameters.AddWithValue("@user", username);
+                long count = (long)checkCommand.ExecuteScalar();
+
+                if (count == 0)
+                {
+                    CreateUser(username, password);
+                }
+            }
+        }
+
         public void Cerrar()
         {
-            cnx.Close();
+            if (cnx != null && cnx.State == ConnectionState.Open)
+            {
+                cnx.Close();
+            }
         }
+
         public DataTable GetUsers()
         {
             DataTable dt = new DataTable();
@@ -36,6 +69,7 @@ namespace UserManage
             adp.Fill(dt);
             return dt;
         }
+
         public string GetHashedPassword(string username)
         {
             string sql = "SELECT password FROM users WHERE username = @user";
@@ -46,6 +80,7 @@ namespace UserManage
                 return result?.ToString();
             }
         }
+
         public bool CreateUser(string username, string password)
         {
             try
@@ -64,7 +99,7 @@ namespace UserManage
             }
             catch (SQLiteException ex)
             {
-                if (ex.ErrorCode == SQLiteErrorCode.Constraint) // Usuario tiene que ser único
+                if (ex.ErrorCode == SQLiteErrorCode.Constraint)
                 {
                     return false;
                 }
