@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SQLite;
+using System.Data.Sql;
 using System.IO;
 
 namespace UserManage
@@ -11,8 +12,11 @@ namespace UserManage
 
         public void Iniciar()
         {
-            string relativePath = Path.Combine("..", "..", "..", "users.db");
-            string dbPath = Path.GetFullPath(relativePath);
+            // Ho canvio al appdata, aixi esta "amagat" (i mes segur?, pq no estan encriptats, no?) i no es pujen ni comparteixen els usuaris
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string dbFolder = Path.Combine(appData, "AirspaceDeconflictingTool");
+            Directory.CreateDirectory(dbFolder);
+            string dbPath = Path.Combine(dbFolder, "users.db");
             string dataSource = $"Data Source={dbPath}";
             cnx = new SQLiteConnection(dataSource);
             cnx.Open();
