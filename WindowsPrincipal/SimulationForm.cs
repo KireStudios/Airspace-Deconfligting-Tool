@@ -380,7 +380,7 @@ namespace WindowsPrincipal
             
             if (numAviones < 2)
             {
-                MessageBox.Show("Se necesitan al menos 2 vuelos", "Información");
+                MessageBox.Show("Se necesitan al menos 2 vuelos para que haya conflictos.", "Información");
                 return;
             }
             

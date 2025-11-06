@@ -8,16 +8,7 @@ namespace FlightLib
         List<FlightPlan> vectorFP = new List<FlightPlan>();
         int numeroFlightPlans = 0;    //Ahora numeroFlightPlans es redundante, no?
 
-        //Constructors de FlightPlanList a partir d'una llista de FlightPlans i vacío.
-        public FlightPlanList(List<FlightPlan> FlightPlans)
-        {
-            int i = 0;
-            while (i < FlightPlans.Count)
-            {
-                AddFlightPlan(FlightPlans[i]);
-                i++;
-            }
-        }
+        //Constructors de FlightPlanList buit.
         public FlightPlanList()
         {
 

@@ -37,7 +37,7 @@
             this.saveFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
+            this.BienvenidaLabel = new System.Windows.Forms.Label();
             this.CloseButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -50,7 +50,7 @@
             this.filesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1308, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1308, 30);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -61,7 +61,7 @@
             this.addCiclesAndSecurityDistanceToolStripMenuItem,
             this.initializeSimulationToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(75, 24);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(75, 26);
             this.optionsToolStripMenuItem.Text = "Options";
             // 
             // addDataToolStripMenuItem
@@ -92,7 +92,7 @@
             this.saveToolStripMenuItem,
             this.loadToolStripMenuItem});
             this.filesToolStripMenuItem.Name = "filesToolStripMenuItem";
-            this.filesToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.filesToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.filesToolStripMenuItem.Text = "File";
             // 
             // saveFileToolStripMenuItem
@@ -114,20 +114,23 @@
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
-            // label1
+            // BienvenidaLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(595, 100);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 16);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Hola caracola";
+            this.BienvenidaLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.BienvenidaLabel.AutoSize = true;
+            this.BienvenidaLabel.Location = new System.Drawing.Point(842, 96);
+            this.BienvenidaLabel.Name = "BienvenidaLabel";
+            this.BienvenidaLabel.Size = new System.Drawing.Size(92, 16);
+            this.BienvenidaLabel.TabIndex = 1;
+            this.BienvenidaLabel.Text = "Hola caracola";
             // 
             // CloseButton
             // 
             this.CloseButton.Location = new System.Drawing.Point(1007, 510);
+            this.CloseButton.MaximumSize = new System.Drawing.Size(150, 50);
+            this.CloseButton.MinimumSize = new System.Drawing.Size(150, 50);
             this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(222, 77);
+            this.CloseButton.Size = new System.Drawing.Size(150, 50);
             this.CloseButton.TabIndex = 2;
             this.CloseButton.Text = "Close this ADT";
             this.CloseButton.UseVisualStyleBackColor = true;
@@ -135,11 +138,11 @@
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1308, 644);
             this.Controls.Add(this.CloseButton);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.BienvenidaLabel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
@@ -158,7 +161,7 @@
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addCiclesAndSecurityDistanceToolStripMenuItem;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label BienvenidaLabel;
         private System.Windows.Forms.ToolStripMenuItem initializeSimulationToolStripMenuItem;
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.ToolStripMenuItem filesToolStripMenuItem;

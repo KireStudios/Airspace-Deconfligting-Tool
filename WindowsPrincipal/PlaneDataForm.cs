@@ -48,6 +48,7 @@ namespace WindowsPrincipal
                 FlightsList.AddFlightPlan(plan);
                 
                 IdentificationTextBox.Text = null;
+                CompanyTextBox.Text = null;
                 SpeedTextBox.Text = null;  
                 InitialPositionTextBox.Text = null;
                 FinalPositionTextBox.Text = null;

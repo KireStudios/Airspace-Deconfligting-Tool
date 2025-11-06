@@ -25,7 +25,9 @@ namespace WindowsPrincipal
 
         private void Main_Load(object sender, EventArgs e)
         {
-
+            this.WindowState = FormWindowState.Maximized;
+            //CloseButton.Location = new Point(this.ClientSize.Width - CloseButton.Width - 20, this.ClientSize.Height - CloseButton.Height - 20);
+            //BienvenidaLabel.Location = new Point((this.ClientSize.Width - BienvenidaLabel.Width) / 2, (this.ClientSize.Height - 2*BienvenidaLabel.Height));
         }
 
         private void addDataToolStripMenuItem_Click(object sender, EventArgs e)
@@ -61,7 +63,7 @@ namespace WindowsPrincipal
         {
             LoadFileForm loadForm = new LoadFileForm();
             loadForm.ShowDialog();
-            FlightsList = new FlightPlanList(loadForm.GetFlightPlanList());
+            FlightsList = loadForm.GetFlightPlanList();
         }
     }
 }
