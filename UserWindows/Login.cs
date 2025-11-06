@@ -51,8 +51,9 @@ namespace UserWindows
                     if (enteredPassword == storedHash)
                     {
                         MessageBox.Show("¡Login exitoso! Bienvenido/a.");
-                        new Main().Show();
-                        this.Hide();
+                        Hide();
+                        new Main().ShowDialog();
+                        Close();
                     }
                     else
                     {
