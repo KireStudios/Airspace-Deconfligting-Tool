@@ -15,7 +15,7 @@ namespace WindowsPrincipal
 {
     public partial class LoadFileForm : Form
     {
-        List<FlightPlan> FlightPlans = new List<FlightPlan>();
+        FlightPlanList FlightPlans = new FlightPlanList();
         public LoadFileForm()
         {
             InitializeComponent();
@@ -36,8 +36,9 @@ namespace WindowsPrincipal
           else
           {
             try
-            {   
-                StreamReader FileReader = new StreamReader(FileName);
+            {
+                string FilePath = Path.Combine(@"..\..\..\DebugData\", FileName);
+                StreamReader FileReader = new StreamReader(FilePath);
                 string FileLine = FileReader.ReadLine();
                 while (FileLine != null)
                 {
@@ -45,7 +46,7 @@ namespace WindowsPrincipal
                         FlightPlan FP = new FlightPlan(FPCharacteristics[0], FPCharacteristics[1], Convert.ToDouble(FPCharacteristics[2]),
                                                        Convert.ToDouble(FPCharacteristics[3]), Convert.ToDouble(FPCharacteristics[4]),
                                                        Convert.ToDouble(FPCharacteristics[5]), Convert.ToInt32(FPCharacteristics[6])); 
-                        FlightPlans.Add(FP);
+                        FlightPlans.AddFlightPlan(FP);
                         FileLine = FileReader.ReadLine();
                 }
                 FileReader.Close();
@@ -66,7 +67,7 @@ namespace WindowsPrincipal
           }
         }
 
-        public List<FlightPlan> GetFlightPlanList()
+        public FlightPlanList GetFlightPlanList()
         {
             return FlightPlans;
         }
