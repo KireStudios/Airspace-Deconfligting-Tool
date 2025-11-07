@@ -1,30 +1,19 @@
-﻿using System;
-using System.IO;
 using System.Collections.Generic;
 
 namespace FlightLib
 {
     public class FlightPlanList
     {
-        //Cambiado el vector de 10 por una lista dinámica.
+        //Cambiado el vector de 10 por una lista din�mica.
         List<FlightPlan> vectorFP = new List<FlightPlan>();
         int numeroFlightPlans = 0;    //Ahora numeroFlightPlans es redundante, no?
 
-        //Constructors de FlightPlanList a partir d'una llista de FlightPlans i vacío.
-        public FlightPlanList(List<FlightPlan> FlightPlans)
-        {
-            int i = 0;
-            while (i < FlightPlans.Count)
-            {
-                AddFlightPlan(FlightPlans[i]);
-                i++;
-            }
-        }
+        //Constructors de FlightPlanList buit.
         public FlightPlanList()
         {
 
         }
-        public int AddFlightPlan(FlightPlan flightPlan)
+        public int AddFlightPlan(FlightPlan flightPlan) 
         {
             if (flightPlan != null)
             {
