@@ -7,21 +7,40 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 using FlightLib;
 
-// TODO: S'ha de fer que es pugui arrosegar el formulari
 namespace WindowsPrincipal
 {
     public partial class PlaneDataForm : Form
     {
         FlightPlanList FlightsList = new FlightPlanList();
+        
+        // Per actualitzar sense tancar (ja no es fa servir ShowDialog)
         public event EventHandler<FlightPlanList> PlansUpdated;
 
+        // Per arrosegar el formulari
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+
+        private const int WM_NCLBUTTONDOWN = 0xA1;
+        private const int HTCAPTION = 0x2;
+        
+        
         public PlaneDataForm()
         {
             InitializeComponent();
+            
+            // Per arrosegar el formulari
+            this.MouseDown += Form1_MouseDown;
+            
+            // perque estigui sempre a dalt (es pot posar una opcio a les opcions o algo aixi)
+            this.TopMost = true;
         }
 
         public void PlaneDataForm_Load(object sender, EventArgs e)
@@ -80,6 +99,13 @@ namespace WindowsPrincipal
             FlightsList.AddFlightPlan(FP3);
             PlansUpdated?.Invoke(this, FlightsList);
             MessageBox.Show("3 test flights added correctly!!\n(FP1, StandBy Airlines,200, 200, 0, 0, 100)\n(FP2, EasyFall, 0, 200, 200, 0, 100)\n(FP3, StandBy Airlines,400, 0, 350, 400, 150)");
+        }
+
+        // Perque es pugui arrosegar el formulari
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
+            ReleaseCapture();
+            SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
         }
     }
 }
