@@ -1,10 +1,12 @@
+using System;
+using System.IO;
 using System.Collections.Generic;
 
 namespace FlightLib
 {
     public class FlightPlanList
     {
-        //Cambiado el vector de 10 por una lista dinámica.
+        //Cambiado el vector de 10 por una lista dinï¿½mica.
         List<FlightPlan> vectorFP = new List<FlightPlan>();
         int numeroFlightPlans = 0;    //Ahora numeroFlightPlans es redundante, no?
 
