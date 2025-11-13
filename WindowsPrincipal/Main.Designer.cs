@@ -23,11 +23,12 @@
         #region Código generado por el Diseñador de Windows Forms
 
         /// <summary>
-        /// Método necesario para admitir el Diseñador. No se puede modificar
-        /// el contenido de este método con el editor de código.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,115 +45,134 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.optionsToolStripMenuItem,
-            this.filesToolStripMenuItem});
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.optionsToolStripMenuItem, this.filesToolStripMenuItem });
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1308, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1066, 52);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // optionsToolStripMenuItem
             // 
-            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addDataToolStripMenuItem,
-            this.addCiclesAndSecurityDistanceToolStripMenuItem,
-            this.initializeSimulationToolStripMenuItem});
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.addDataToolStripMenuItem, this.addCiclesAndSecurityDistanceToolStripMenuItem, this.initializeSimulationToolStripMenuItem });
+            this.optionsToolStripMenuItem.Font = new System.Drawing.Font("Monotype Corsiva", 18F, System.Drawing.FontStyle.Italic);
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(75, 26);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(134, 48);
             this.optionsToolStripMenuItem.Text = "Options";
             // 
             // addDataToolStripMenuItem
             // 
+            this.addDataToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
             this.addDataToolStripMenuItem.Name = "addDataToolStripMenuItem";
-            this.addDataToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
+            this.addDataToolStripMenuItem.Size = new System.Drawing.Size(504, 48);
             this.addDataToolStripMenuItem.Text = "Add planes data";
             this.addDataToolStripMenuItem.Click += new System.EventHandler(this.addDataToolStripMenuItem_Click);
             // 
             // addCiclesAndSecurityDistanceToolStripMenuItem
             // 
             this.addCiclesAndSecurityDistanceToolStripMenuItem.Name = "addCiclesAndSecurityDistanceToolStripMenuItem";
-            this.addCiclesAndSecurityDistanceToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
+            this.addCiclesAndSecurityDistanceToolStripMenuItem.Size = new System.Drawing.Size(504, 48);
             this.addCiclesAndSecurityDistanceToolStripMenuItem.Text = "Add cicles and security distance";
             this.addCiclesAndSecurityDistanceToolStripMenuItem.Click += new System.EventHandler(this.addCiclesAndSecurityDistanceToolStripMenuItem_Click);
             // 
             // initializeSimulationToolStripMenuItem
             // 
             this.initializeSimulationToolStripMenuItem.Name = "initializeSimulationToolStripMenuItem";
-            this.initializeSimulationToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
+            this.initializeSimulationToolStripMenuItem.Size = new System.Drawing.Size(504, 48);
             this.initializeSimulationToolStripMenuItem.Text = "Initialize simulation";
             this.initializeSimulationToolStripMenuItem.Click += new System.EventHandler(this.initializeSimulationToolStripMenuItem_Click);
             // 
             // filesToolStripMenuItem
             // 
-            this.filesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveFileToolStripMenuItem,
-            this.saveToolStripMenuItem,
-            this.loadToolStripMenuItem});
+            this.filesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.saveFileToolStripMenuItem, this.saveToolStripMenuItem, this.loadToolStripMenuItem });
+            this.filesToolStripMenuItem.Font = new System.Drawing.Font("Monotype Corsiva", 18F, System.Drawing.FontStyle.Italic);
             this.filesToolStripMenuItem.Name = "filesToolStripMenuItem";
-            this.filesToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.filesToolStripMenuItem.Size = new System.Drawing.Size(83, 48);
             this.filesToolStripMenuItem.Text = "File";
             // 
             // saveFileToolStripMenuItem
             // 
             this.saveFileToolStripMenuItem.Name = "saveFileToolStripMenuItem";
-            this.saveFileToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
+            this.saveFileToolStripMenuItem.Size = new System.Drawing.Size(166, 48);
             this.saveFileToolStripMenuItem.Text = "New";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(166, 48);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(166, 48);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // BienvenidaLabel
             // 
-            this.BienvenidaLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.BienvenidaLabel.AutoSize = true;
-            this.BienvenidaLabel.Location = new System.Drawing.Point(842, 96);
+            this.BienvenidaLabel.BackColor = System.Drawing.Color.Transparent;
+            this.BienvenidaLabel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.BienvenidaLabel.Font = new System.Drawing.Font("Monotype Corsiva", 46F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BienvenidaLabel.ForeColor = System.Drawing.Color.Black;
+            this.BienvenidaLabel.Location = new System.Drawing.Point(34, 52);
+            this.BienvenidaLabel.Margin = new System.Windows.Forms.Padding(0);
             this.BienvenidaLabel.Name = "BienvenidaLabel";
-            this.BienvenidaLabel.Size = new System.Drawing.Size(92, 16);
+            this.BienvenidaLabel.Padding = new System.Windows.Forms.Padding(0, 40, 60, 0);
+            this.BienvenidaLabel.Size = new System.Drawing.Size(1032, 151);
             this.BienvenidaLabel.TabIndex = 1;
-            this.BienvenidaLabel.Text = "Hola caracola";
+            this.BienvenidaLabel.Text = "Airspace Deconflicting Tool";
             // 
             // CloseButton
             // 
-            this.CloseButton.Location = new System.Drawing.Point(1007, 510);
-            this.CloseButton.MaximumSize = new System.Drawing.Size(150, 50);
-            this.CloseButton.MinimumSize = new System.Drawing.Size(150, 50);
+            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CloseButton.AutoSize = true;
+            this.CloseButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.CloseButton.BackColor = System.Drawing.Color.Transparent;
+            this.CloseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.CloseButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.CloseButton.FlatAppearance.BorderSize = 0;
+            this.CloseButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.CloseButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.CloseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CloseButton.Font = new System.Drawing.Font("Monotype Corsiva", 32F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.CloseButton.ForeColor = System.Drawing.Color.DarkRed;
+            this.CloseButton.Location = new System.Drawing.Point(874, 589);
+            this.CloseButton.Margin = new System.Windows.Forms.Padding(0);
             this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(150, 50);
+            this.CloseButton.Size = new System.Drawing.Size(150, 89);
             this.CloseButton.TabIndex = 2;
-            this.CloseButton.Text = "Close this ADT";
-            this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Text = "Exit";
+            this.CloseButton.UseVisualStyleBackColor = false;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
             // Main
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1308, 644);
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1066, 690);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.BienvenidaLabel);
             this.Controls.Add(this.menuStrip1);
+            this.DoubleBuffered = true;
+            this.Font = new System.Drawing.Font("Monotype Corsiva", 8F, System.Drawing.FontStyle.Italic);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
             this.Text = "Principal";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Main_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion

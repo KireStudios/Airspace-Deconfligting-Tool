@@ -99,6 +99,9 @@
     <EmbeddedResource Include="LoadFileForm.resx">
       <DependentUpon>LoadFileForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Main.aa.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
