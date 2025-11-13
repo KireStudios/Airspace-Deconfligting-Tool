@@ -11,11 +11,14 @@ using System.Windows.Forms;
 
 using FlightLib;
 
+// TODO: S'ha de fer que es pugui arrosegar el formulari
 namespace WindowsPrincipal
 {
     public partial class PlaneDataForm : Form
     {
         FlightPlanList FlightsList = new FlightPlanList();
+        public event EventHandler<FlightPlanList> PlansUpdated;
+
         public PlaneDataForm()
         {
             InitializeComponent();
@@ -52,16 +55,20 @@ namespace WindowsPrincipal
                 SpeedTextBox.Text = null;  
                 InitialPositionTextBox.Text = null;
                 FinalPositionTextBox.Text = null;
+                
+                PlansUpdated?.Invoke(this, FlightsList);
             }
             catch (FormatException)
             {
                 MessageBox.Show("Format error! Check what you wrote.");
             }
         }
+        
+        /*
         public FlightPlanList GetFlightPlanList()
         {
             return FlightsList;
-        }
+        }*/
 
         private void DeveloperTestFlightsButton_Click(object sender, EventArgs e)
         {
@@ -71,6 +78,7 @@ namespace WindowsPrincipal
             FlightsList.AddFlightPlan(FP1);
             FlightsList.AddFlightPlan(FP2);
             FlightsList.AddFlightPlan(FP3);
+            PlansUpdated?.Invoke(this, FlightsList);
             MessageBox.Show("3 test flights added correctly!!\n(FP1, StandBy Airlines,200, 200, 0, 0, 100)\n(FP2, EasyFall, 0, 200, 200, 0, 100)\n(FP3, StandBy Airlines,400, 0, 350, 400, 150)");
         }
     }

@@ -18,6 +18,11 @@ namespace WindowsPrincipal
         FlightPlanList FlightsList;
         int cicles;
         double securityDistance;
+        
+        // ---
+        private PlaneDataForm AddPlaneForm;
+        // ---
+        
         public Main()
         {
             InitializeComponent();
@@ -32,9 +37,19 @@ namespace WindowsPrincipal
 
         private void addDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PlaneDataForm planeForm = new PlaneDataForm();
-            planeForm.ShowDialog();
-            FlightsList = planeForm.GetFlightPlanList();
+            if (AddPlaneForm != null)
+            {
+                AddPlaneForm.Close();
+            }
+
+            AddPlaneForm = new PlaneDataForm();
+            AddPlaneForm.Show(); //Dialog();
+            
+            AddPlaneForm.PlansUpdated += (s, flightPlans) =>
+            {
+                FlightsList = flightPlans;
+            };
+            // FlightsList = AddPlaneForm.GetFlightPlanList();
         }
 
         private void addCiclesAndSecurityDistanceToolStripMenuItem_Click(object sender, EventArgs e)
