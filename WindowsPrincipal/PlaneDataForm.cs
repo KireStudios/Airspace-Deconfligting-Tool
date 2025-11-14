@@ -40,7 +40,7 @@ namespace WindowsPrincipal
             this.MouseDown += Form1_MouseDown;
             
             // perque estigui sempre a dalt (es pot posar una opcio a les opcions o algo aixi)
-            this.TopMost = true;
+            //this.TopMost = true;
         }
 
         public void PlaneDataForm_Load(object sender, EventArgs e)

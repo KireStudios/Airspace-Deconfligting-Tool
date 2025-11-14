@@ -40,6 +40,7 @@ namespace WindowsPrincipal
             // 
             // Pla1Button
             // 
+            this.Pla1Button.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Pla1Button.Location = new System.Drawing.Point(521, 12);
             this.Pla1Button.Name = "Pla1Button";
             this.Pla1Button.Size = new System.Drawing.Size(175, 35);
@@ -50,6 +51,7 @@ namespace WindowsPrincipal
             // 
             // Pla2Button
             // 
+            this.Pla2Button.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Pla2Button.Location = new System.Drawing.Point(521, 53);
             this.Pla2Button.Name = "Pla2Button";
             this.Pla2Button.Size = new System.Drawing.Size(175, 35);
@@ -70,7 +72,7 @@ namespace WindowsPrincipal
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(712, 194);
+            this.ClientSize = new System.Drawing.Size(708, 194);
             this.Controls.Add(this.DistanciaLabel);
             this.Controls.Add(this.Pla2Button);
             this.Controls.Add(this.Pla1Button);

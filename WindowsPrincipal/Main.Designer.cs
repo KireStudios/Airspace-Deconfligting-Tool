@@ -46,8 +46,11 @@
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.optionsToolStripMenuItem, this.filesToolStripMenuItem });
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.optionsToolStripMenuItem,
+            this.filesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1066, 52);
@@ -56,58 +59,64 @@
             // 
             // optionsToolStripMenuItem
             // 
-            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.addDataToolStripMenuItem, this.addCiclesAndSecurityDistanceToolStripMenuItem, this.initializeSimulationToolStripMenuItem });
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addDataToolStripMenuItem,
+            this.addCiclesAndSecurityDistanceToolStripMenuItem,
+            this.initializeSimulationToolStripMenuItem});
             this.optionsToolStripMenuItem.Font = new System.Drawing.Font("Monotype Corsiva", 18F, System.Drawing.FontStyle.Italic);
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(134, 48);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(137, 48);
             this.optionsToolStripMenuItem.Text = "Options";
             // 
             // addDataToolStripMenuItem
             // 
             this.addDataToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
             this.addDataToolStripMenuItem.Name = "addDataToolStripMenuItem";
-            this.addDataToolStripMenuItem.Size = new System.Drawing.Size(504, 48);
+            this.addDataToolStripMenuItem.Size = new System.Drawing.Size(532, 52);
             this.addDataToolStripMenuItem.Text = "Add planes data";
             this.addDataToolStripMenuItem.Click += new System.EventHandler(this.addDataToolStripMenuItem_Click);
             // 
             // addCiclesAndSecurityDistanceToolStripMenuItem
             // 
             this.addCiclesAndSecurityDistanceToolStripMenuItem.Name = "addCiclesAndSecurityDistanceToolStripMenuItem";
-            this.addCiclesAndSecurityDistanceToolStripMenuItem.Size = new System.Drawing.Size(504, 48);
+            this.addCiclesAndSecurityDistanceToolStripMenuItem.Size = new System.Drawing.Size(532, 52);
             this.addCiclesAndSecurityDistanceToolStripMenuItem.Text = "Add cicles and security distance";
             this.addCiclesAndSecurityDistanceToolStripMenuItem.Click += new System.EventHandler(this.addCiclesAndSecurityDistanceToolStripMenuItem_Click);
             // 
             // initializeSimulationToolStripMenuItem
             // 
             this.initializeSimulationToolStripMenuItem.Name = "initializeSimulationToolStripMenuItem";
-            this.initializeSimulationToolStripMenuItem.Size = new System.Drawing.Size(504, 48);
+            this.initializeSimulationToolStripMenuItem.Size = new System.Drawing.Size(532, 52);
             this.initializeSimulationToolStripMenuItem.Text = "Initialize simulation";
             this.initializeSimulationToolStripMenuItem.Click += new System.EventHandler(this.initializeSimulationToolStripMenuItem_Click);
             // 
             // filesToolStripMenuItem
             // 
-            this.filesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.saveFileToolStripMenuItem, this.saveToolStripMenuItem, this.loadToolStripMenuItem });
+            this.filesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveFileToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.loadToolStripMenuItem});
             this.filesToolStripMenuItem.Font = new System.Drawing.Font("Monotype Corsiva", 18F, System.Drawing.FontStyle.Italic);
             this.filesToolStripMenuItem.Name = "filesToolStripMenuItem";
-            this.filesToolStripMenuItem.Size = new System.Drawing.Size(83, 48);
+            this.filesToolStripMenuItem.Size = new System.Drawing.Size(86, 48);
             this.filesToolStripMenuItem.Text = "File";
             // 
             // saveFileToolStripMenuItem
             // 
             this.saveFileToolStripMenuItem.Name = "saveFileToolStripMenuItem";
-            this.saveFileToolStripMenuItem.Size = new System.Drawing.Size(166, 48);
+            this.saveFileToolStripMenuItem.Size = new System.Drawing.Size(194, 52);
             this.saveFileToolStripMenuItem.Text = "New";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(166, 48);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(194, 52);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(166, 48);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(194, 52);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
@@ -133,6 +142,7 @@
             this.CloseButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CloseButton.BackColor = System.Drawing.Color.Transparent;
             this.CloseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.CloseButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.CloseButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.CloseButton.FlatAppearance.BorderSize = 0;
             this.CloseButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -173,6 +183,7 @@
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion

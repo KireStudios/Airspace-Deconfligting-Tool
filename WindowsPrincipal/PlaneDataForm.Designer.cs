@@ -47,7 +47,8 @@
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Monotype Corsiva", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
@@ -118,6 +119,7 @@
             // 
             this.AddFlightPlanButton.AutoSize = true;
             this.AddFlightPlanButton.BackColor = System.Drawing.Color.Transparent;
+            this.AddFlightPlanButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.AddFlightPlanButton.FlatAppearance.BorderSize = 0;
             this.AddFlightPlanButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.AddFlightPlanButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
@@ -136,6 +138,7 @@
             // 
             this.CloseButton.AutoSize = true;
             this.CloseButton.BackColor = System.Drawing.Color.Transparent;
+            this.CloseButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.CloseButton.FlatAppearance.BorderSize = 0;
             this.CloseButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.CloseButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
@@ -172,6 +175,7 @@
             // 
             // DeveloperTestFlightsButton
             // 
+            this.DeveloperTestFlightsButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.DeveloperTestFlightsButton.Location = new System.Drawing.Point(357, 301);
             this.DeveloperTestFlightsButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.DeveloperTestFlightsButton.Name = "DeveloperTestFlightsButton";
@@ -232,6 +236,7 @@
             this.Load += new System.EventHandler(this.PlaneDataForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         private System.Windows.Forms.TextBox CompanyTextBox;
