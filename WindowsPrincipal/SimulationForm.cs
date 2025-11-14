@@ -145,6 +145,12 @@ namespace WindowsPrincipal
                     securityPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
                     g.DrawEllipse(securityPen, ellipseRect);
                 }
+                
+                // Dibuixar els avions
+                SimulationPanel.Controls[i].Location = new Point(
+                    Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetX()) - 5, 
+                    Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetY()) - 5
+                );
             }
         }
         //para guardar estado actual
@@ -163,13 +169,6 @@ namespace WindowsPrincipal
             }
 
             FlightsList = previousFlightPlans.Pop();
-            for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
-            {
-                SimulationPanel.Controls[i].Location = new Point(
-                    Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetX()) - 5, 
-                    Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetY()) - 5
-                );
-            }
             
             cicles++;
             SimulationPanel.Invalidate();
@@ -239,13 +238,6 @@ namespace WindowsPrincipal
             // Limpiar conflictos notificados al reiniciar
             conflictosNotificados.Clear();
             
-            for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
-            {
-                SimulationPanel.Controls[i].Location = new Point(
-                    Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetX()) - 5, 
-                    Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetY()) - 5
-                );
-            }
             autoTimer.Stop();
             SimulationPanel.Invalidate();
             
