@@ -15,6 +15,7 @@ namespace UserWindows
     public partial class CreateAccount : Form
     {
         Manage user_base = new Manage();
+        bool created = false;
         public CreateAccount(Manage user_base)
         {
             this.user_base = user_base;
@@ -45,6 +46,7 @@ namespace UserWindows
                 if (success)
                 {
                     MessageBox.Show($"Usuario '{user}' creado exitosamente.");
+                    created = true;
                     Close();
                 }
                 else
@@ -56,5 +58,6 @@ namespace UserWindows
                 }
             }
         }
+        public bool IsCreated() { return created; }
     }
 }

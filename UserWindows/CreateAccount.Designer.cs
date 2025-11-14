@@ -39,9 +39,12 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 162);
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.Font = new System.Drawing.Font("Monotype Corsiva", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(20, 299);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(140, 41);
+            this.button1.Size = new System.Drawing.Size(233, 76);
             this.button1.TabIndex = 0;
             this.button1.Text = "Create account";
             this.button1.UseVisualStyleBackColor = true;
@@ -49,57 +52,63 @@
             // 
             // userBox
             // 
-            this.userBox.Location = new System.Drawing.Point(12, 25);
+            this.userBox.Location = new System.Drawing.Point(20, 45);
+            this.userBox.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.userBox.Name = "userBox";
-            this.userBox.Size = new System.Drawing.Size(140, 20);
+            this.userBox.Size = new System.Drawing.Size(231, 30);
             this.userBox.TabIndex = 1;
             // 
             // keyBox1
             // 
-            this.keyBox1.Location = new System.Drawing.Point(12, 73);
+            this.keyBox1.Location = new System.Drawing.Point(20, 134);
+            this.keyBox1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.keyBox1.Name = "keyBox1";
-            this.keyBox1.Size = new System.Drawing.Size(140, 20);
+            this.keyBox1.Size = new System.Drawing.Size(231, 30);
             this.keyBox1.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 9);
+            this.label1.Location = new System.Drawing.Point(16, 17);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 13);
+            this.label1.Size = new System.Drawing.Size(80, 24);
             this.label1.TabIndex = 3;
             this.label1.Text = "Username";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 57);
+            this.label2.Location = new System.Drawing.Point(20, 106);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.Size = new System.Drawing.Size(78, 24);
             this.label2.TabIndex = 4;
             this.label2.Text = "Password";
             // 
             // keyBox2
             // 
-            this.keyBox2.Location = new System.Drawing.Point(12, 119);
+            this.keyBox2.Location = new System.Drawing.Point(20, 220);
+            this.keyBox2.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.keyBox2.Name = "keyBox2";
-            this.keyBox2.Size = new System.Drawing.Size(140, 20);
+            this.keyBox2.Size = new System.Drawing.Size(231, 30);
             this.keyBox2.TabIndex = 5;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 103);
+            this.label3.Location = new System.Drawing.Point(16, 189);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(90, 13);
+            this.label3.Size = new System.Drawing.Size(129, 24);
             this.label3.TabIndex = 6;
             this.label3.Text = "Repeat password";
             // 
             // CreateAccount
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(174, 218);
+            this.ClientSize = new System.Drawing.Size(275, 402);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.keyBox2);
             this.Controls.Add(this.label2);
@@ -107,6 +116,8 @@
             this.Controls.Add(this.keyBox1);
             this.Controls.Add(this.userBox);
             this.Controls.Add(this.button1);
+            this.Font = new System.Drawing.Font("Monotype Corsiva", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.Name = "CreateAccount";
             this.Text = "CreateAccount";
             this.ResumeLayout(false);

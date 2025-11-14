@@ -28,7 +28,10 @@ namespace UserWindows
         {
             CreateAccount create = new CreateAccount(user_base);
             create.ShowDialog();
-            MessageBox.Show("Ahora inicia sesión");
+            if (create.IsCreated())
+            {
+                MessageBox.Show("Ahora inicia sesión");
+            }
         }
 
         private void LoginBtn_Click(object sender, EventArgs e)
