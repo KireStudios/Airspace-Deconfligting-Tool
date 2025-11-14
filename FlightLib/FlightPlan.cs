@@ -20,12 +20,19 @@ namespace FlightLib
         double velocidad;
 
         // Constructures
-        public FlightPlan(string id, string comp, double cpx, double cpy, double fpx, double fpy, double velocidad)
+        public FlightPlan(string id, string comp, double ipx, double ipy, double fpx, double fpy, double velocidad, double cpx = Double.PositiveInfinity, double cpy = Double.PositiveInfinity)
         {
             this.id = id;
             this.company = comp;
-            this.initialPosition = new Position(cpx, cpy);
-            this.currentPosition = new Position(cpx, cpy);
+            this.initialPosition = new Position(ipx, ipy);
+            if (cpx == Double.PositiveInfinity && cpy == Double.PositiveInfinity)
+            {
+                this.currentPosition = new Position(ipx, ipy);
+            }
+            else
+            {
+                this.currentPosition = new Position(cpx, cpy);
+            }
             this.finalPosition = new Position(fpx, fpy);
             this.velocidad = velocidad;
         }
@@ -227,6 +234,12 @@ namespace FlightLib
             Console.WriteLine("Velocidad: {0}", velocidad);
             Console.WriteLine("Posición actual: ({0:F2},{1:F2})", currentPosition.GetX(), currentPosition.GetY());
             Console.WriteLine("******************************");
+        }
+
+        // return a copy of the flight plan, not a reference
+        public FlightPlan copy()
+        {
+            return new FlightPlan(this.id, this.company, this.initialPosition.GetX(), this.initialPosition.GetY(), this.finalPosition.GetX(), this.finalPosition.GetY(), this.velocidad, this.currentPosition.GetX(), this.currentPosition.GetY());
         }
     }
 }

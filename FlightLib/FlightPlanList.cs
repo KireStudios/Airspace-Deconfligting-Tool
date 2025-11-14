@@ -6,7 +6,7 @@ namespace FlightLib
 {
     public class FlightPlanList
     {
-        //Cambiado el vector de 10 por una lista din�mica.
+        //Cambiado el vector de 10 por una lista dinamica.
         List<FlightPlan> vectorFP = new List<FlightPlan>();
         int numeroFlightPlans = 0;    //Ahora numeroFlightPlans es redundante, no?
 
@@ -15,6 +15,7 @@ namespace FlightLib
         {
 
         }
+        
         public int AddFlightPlan(FlightPlan flightPlan) 
         {
             if (flightPlan != null)
@@ -101,6 +102,19 @@ namespace FlightLib
                 writer.Close();
                 throw new Exception("Error al guardar el archivo: " + ex.Message);
             }
+        }
+
+        // return a copy of the flight plan list, not a reference
+        public FlightPlanList copy()
+        {
+            // returns a copy of this FlightPlanList
+            FlightPlanList copyFPL = new FlightPlanList();
+            for (int i = 0; i < this.numeroFlightPlans; i++)
+            {
+                copyFPL.AddFlightPlan(this.vectorFP[i].copy());
+            }
+            
+            return copyFPL;
         }
     }
 }

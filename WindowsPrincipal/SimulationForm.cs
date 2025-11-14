@@ -31,18 +31,11 @@ namespace WindowsPrincipal
         private bool Mode = true;
 
         // Variables para guardar el estado anterior
-        private Position[] previousPositions = null;
-        private int previousCicles = 0;
+        private Stack<FlightPlanList> previousFlightPlans = new Stack<FlightPlanList>();
 
         public SimulationForm()
         {
             InitializeComponent();
-            
-            // Han dit que hem de treure aixo pero les linies fan uns parpadejos estranys, aixi que ho deixo comentat per mes endavant.
-            // Habilitar doble buffer en el panel usando reflexión para evitar parpadeo
-            //typeof(Panel).InvokeMember("DoubleBuffered",
-            //    System.Reflection.BindingFlags.SetProperty | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic,
-            //    null, SimulationPanel, new object[] { true });
             
             autoTimer = new System.Windows.Forms.Timer();
             autoTimer.Interval = 1000;
@@ -157,55 +150,29 @@ namespace WindowsPrincipal
         //para guardar estado actual
         private void SaveCurrentState()
         {
-            int numPlanes = FlightsList.GetNumeroFlightPlans();
-            previousPositions = new Position[numPlanes];
-
-            for (int i = 0; i < numPlanes; i++)
-            {
-                Position currentPos = FlightsList.GetFlightPlan(i).GetPosition();
-                previousPositions[i] = new Position(currentPos.GetX(), currentPos.GetY());
-            }
-
-            previousCicles = cicles;
+            previousFlightPlans.Push(FlightsList.copy());
         }
 
         //Restaura estado anterior
         private void UndoButton_Click(object sender, EventArgs e)
         {
-            if (previousPositions == null)
+            if (previousFlightPlans.Count <= 0)
             {
                 MessageBox.Show("No hay ningún paso anterior para deshacer.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            // Restaurar posiciones
-            for (int i = 0; i < previousPositions.Length; i++)
-            {
-                FlightPlan fp = FlightsList.GetFlightPlan(i);
-                double x = previousPositions[i].GetX();
-                double y = previousPositions[i].GetY();
-
-                fp.SetPosition(x, y);
-
-            }
-
-            // Restaurar ciclos
-            cicles = previousCicles;
-
-            // Actualizar visualización
+            FlightsList = previousFlightPlans.Pop();
             for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
             {
                 SimulationPanel.Controls[i].Location = new Point(
-                    Convert.ToInt32(previousPositions[i].GetX()) - 5,
-                    Convert.ToInt32(previousPositions[i].GetY()) - 5
+                    Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetX()) - 5, 
+                    Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetY()) - 5
                 );
             }
-
+            
+            cicles++;
             SimulationPanel.Invalidate();
-
-            // Limpiar estado guardado
-            previousPositions = null;
-
         }
 
         private void SeePlaneData(object sender, EventArgs e)
@@ -264,11 +231,10 @@ namespace WindowsPrincipal
 
         private void RestartButton_Click(object sender, EventArgs e)
         {
-            cicles = OriginalCicles;
             FlightsList.RestartAll();
 
             //Limpiar estado guardado
-            previousPositions = null;
+            previousFlightPlans = new Stack<FlightPlanList>();
 
             // Limpiar conflictos notificados al reiniciar
             conflictosNotificados.Clear();
@@ -632,7 +598,7 @@ namespace WindowsPrincipal
                 }
             }
         }
-
+        
 
     }
 }
