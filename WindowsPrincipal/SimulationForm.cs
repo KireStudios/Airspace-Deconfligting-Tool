@@ -570,8 +570,8 @@ namespace WindowsPrincipal
         private void SaveSimulationButton_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
-            saveDialog.Title = "Guardar Estado de la Simulación";
+            //saveDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+            saveDialog.Title = "Save simulation";
             saveDialog.DefaultExt = "txt";
             saveDialog.FileName = "simulation_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".txt";
 
@@ -590,7 +590,41 @@ namespace WindowsPrincipal
                 }
             }
         }
-        
 
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            //saveDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+            saveDialog.Title = "Save simulation";
+            saveDialog.DefaultExt = "txt";
+            saveDialog.FileName = "simulation_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".txt";
+
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    FlightsList.SaveToFile(saveDialog.FileName);
+                    MessageBox.Show("Estado de la simulación guardado correctamente en:\n" + saveDialog.FileName,
+                        "Guardado Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al guardar el archivo:\n" + ex.Message,
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void checkConflictsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckConflict();
+        }
+
+        private void showFlightDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InfoVolsForm infoForm = new InfoVolsForm(FlightsList);
+            infoForm.ShowDialog();
+        }
     }
 }
