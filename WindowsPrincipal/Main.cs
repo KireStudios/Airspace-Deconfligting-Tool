@@ -66,7 +66,7 @@ namespace WindowsPrincipal
             SimForm.GetFlightPlanListSimulation(FlightsList);
             SimForm.GetCiclesSimulation(cicles);
             SimForm.GetSecurityDistanceSimulation(securityDistance);
-            SimForm.ShowDialog();
+            SimForm.Show();
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
@@ -74,11 +74,21 @@ namespace WindowsPrincipal
             Close();
         }
 
-        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        private void loadFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadFileForm loadForm = new LoadFileForm();
             loadForm.ShowDialog();
             FlightsList = loadForm.GetFlightPlanList();
+        }
+
+        private void newFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FlightsList = new FlightPlanList();
+        }
+        
+        private void saveFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Save            
         }
     }
 }
