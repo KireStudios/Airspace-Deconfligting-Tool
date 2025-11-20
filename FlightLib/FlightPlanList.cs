@@ -90,6 +90,7 @@ namespace FlightLib
                 if (simulating)
                 {
                     header += currentCicle.ToString();
+                    header += Environment.NewLine;
                 }
                 header += string.Format("{0},{1}", cicles, securityDistance);
                 header += Environment.NewLine;
