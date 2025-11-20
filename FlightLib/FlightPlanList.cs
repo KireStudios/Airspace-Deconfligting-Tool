@@ -75,24 +75,55 @@ namespace FlightLib
             return numeroFlightPlans;
         }
 
-        public void SaveToFile(string filePath)
+        public void SaveToFile(string filePath, bool simulating = false, int cicles = 0, int currentCicle = 0, double securityDistance = 0.0)
         {
             StreamWriter writer = new StreamWriter(filePath);
 
             try
             {
-                for (int i = 0; i < numeroFlightPlans; i++)
+                string header;
+                header = simulating.ToString();
+                header += Environment.NewLine;
+                if (simulating)
                 {
-                    FlightPlan fp = vectorFP[i];
-                    string line = string.Format("{0},{1},{2},{3},{4},{5},{6}",
-                        fp.GetId(),
-                        fp.GetCompany(),
-                        fp.GetPosition().GetX(),
-                        fp.GetPosition().GetY(),
-                        fp.GetFinalPosition().GetX(),
-                        fp.GetFinalPosition().GetY(),
-                        fp.GetSpeed());
-                    writer.WriteLine(line);
+                    header += string.Format("{0},{1},{2}", cicles, currentCicle, securityDistance);
+                    header += Environment.NewLine;
+                }
+                writer.Write(header);
+                
+                if (simulating)
+                {
+                    for (int i = 0; i < numeroFlightPlans; i++)
+                    {
+                        FlightPlan fp = vectorFP[i];
+                        string line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
+                            fp.GetId(),
+                            fp.GetCompany(),
+                            fp.GetPosition().GetX(),
+                            fp.GetPosition().GetY(),
+                            fp.GetPosition().GetX(),
+                            fp.GetPosition().GetY(),
+                            fp.GetFinalPosition().GetX(),
+                            fp.GetFinalPosition().GetY(),
+                            fp.GetSpeed());
+                        writer.WriteLine(line);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < numeroFlightPlans; i++)
+                    {
+                        FlightPlan fp = vectorFP[i];
+                        string line = string.Format("{0},{1},{2},{3},{4},{5},{6}",
+                            fp.GetId(),
+                            fp.GetCompany(),
+                            fp.GetPosition().GetX(),
+                            fp.GetPosition().GetY(),
+                            fp.GetFinalPosition().GetX(),
+                            fp.GetFinalPosition().GetY(),
+                            fp.GetSpeed());
+                        writer.WriteLine(line);
+                    }
                 }
 
                 writer.Close();

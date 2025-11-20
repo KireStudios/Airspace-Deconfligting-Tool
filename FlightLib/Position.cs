@@ -40,14 +40,14 @@ namespace FlightLib
         {
             return new Position(a.x / scalar, a.y / scalar);
         }
-        public static bool operator ==(Position a, Position b)
+        /*public static bool operator ==(Position a, Position b)
         {
             return a.x == b.x && a.y == b.y;
         }
         public static bool operator !=(Position a, Position b)
         {
             return !(a == b);
-        }
+        }*/
         public static bool operator ==(Position a, int b)
         {
             return a.x == b && a.y == b;

@@ -612,7 +612,7 @@ namespace WindowsPrincipal
             {
                 try
                 {
-                    FlightsList.SaveToFile(saveDialog.FileName);
+                    FlightsList.SaveToFile(saveDialog.FileName, true);
                     MessageBox.Show("Estado de la simulación guardado correctamente en:\n" + saveDialog.FileName,
                         "Guardado Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
