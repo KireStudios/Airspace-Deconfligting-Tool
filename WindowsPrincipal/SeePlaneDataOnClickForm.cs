@@ -14,6 +14,8 @@ namespace WindowsPrincipal
     public partial class SeePlaneDataOnClickForm : Form
     {
         FlightPlan SelectedFlightPlan;
+        
+        private double velocitatModificada;
 
         public SeePlaneDataOnClickForm()
         {
@@ -43,14 +45,21 @@ namespace WindowsPrincipal
             // ja es mira al tancar i sol es canvia la velocitat
         }
 
+        /*
         public void GetFlightPlan(FlightPlan SelectedFlightPlan)
         {
             this.SelectedFlightPlan = SelectedFlightPlan;
+        }*/
+        
+        public double GetVelocitatModificada()
+        {
+            return velocitatModificada;
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
-            SelectedFlightPlan.SetVelocidad(Convert.ToDouble(PlaneDataGridView.Rows[2].Cells[1].Value));
+            //SelectedFlightPlan.SetVelocidad(Convert.ToDouble(PlaneDataGridView.Rows[2].Cells[1].Value));
+            velocitatModificada = PlaneDataGridView.Rows[2].Cells[1].Value != null ? Convert.ToDouble(PlaneDataGridView.Rows[2].Cells[1].Value) : SelectedFlightPlan.GetSpeed();
             Close();
         }
     }

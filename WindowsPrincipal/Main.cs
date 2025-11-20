@@ -58,7 +58,7 @@ namespace WindowsPrincipal
 
         private void addCiclesAndSecurityDistanceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CicleSecurityForm CSForm = new CicleSecurityForm();
+            CicleSecurityForm CSForm = new CicleSecurityForm(cicles, securityDistance);
             CSForm.ShowDialog();
             cicles = CSForm.GetCicles();
             securityDistance = CSForm.GetSecurityDistance();
@@ -88,6 +88,7 @@ namespace WindowsPrincipal
         private void newFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FlightsList = new FlightPlanList();
+            MessageBox.Show("New simulation created successfully!", "New Simulation", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         
         private void saveFileToolStripMenuItem_Click(object sender, EventArgs e)

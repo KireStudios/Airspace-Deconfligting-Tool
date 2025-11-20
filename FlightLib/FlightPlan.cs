@@ -18,6 +18,7 @@ namespace FlightLib
         Position currentPosition; // posicion actual
         Position finalPosition; // posicion final
         double velocidad;
+        private double velocitatInicial;
 
         // Constructures
         public FlightPlan(string id, string comp, double ipx, double ipy, double fpx, double fpy, double velocidad, double cpx = Double.PositiveInfinity, double cpy = Double.PositiveInfinity)
@@ -35,6 +36,7 @@ namespace FlightLib
             }
             this.finalPosition = new Position(fpx, fpy);
             this.velocidad = velocidad;
+            this.velocitatInicial = velocidad;
         }
 
         // Metodos
@@ -218,6 +220,7 @@ namespace FlightLib
         public void Restart()
         {
             currentPosition = initialPosition;
+            velocidad = velocitatInicial;
         }
         
         public double Distancia(FlightPlan avio)

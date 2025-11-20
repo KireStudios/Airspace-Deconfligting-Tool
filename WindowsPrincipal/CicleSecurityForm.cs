@@ -29,9 +29,12 @@ namespace WindowsPrincipal
         private const int WM_NCLBUTTONDOWN = 0xA1;
         private const int HTCAPTION = 0x2;
         
-        public CicleSecurityForm()
+        public CicleSecurityForm(int cicles, double securityDistance)
         {
             InitializeComponent();
+            
+            this.cicles = cicles;
+            this.securityDistance = securityDistance;
             
             // Per arrosegar el formulari
             this.MouseDown += Form1_MouseDown;
@@ -45,8 +48,16 @@ namespace WindowsPrincipal
         {
             try
             {
-                cicles = Convert.ToInt32(CicleTextBox.Text);
-                securityDistance = Convert.ToDouble(SecurityTextBox.Text);
+                if (CicleTextBox.Text != "")
+                {
+                    cicles = Convert.ToInt32(CicleTextBox.Text);
+                }
+
+                if (SecurityTextBox.Text != "")
+                {
+                    securityDistance = Convert.ToDouble(SecurityTextBox.Text);
+                }
+
                 CicleTextBox.Text = null;
                 SecurityTextBox.Text = null;
                 MessageBox.Show("Cicle and security distance added correctly!!");
@@ -79,7 +90,7 @@ namespace WindowsPrincipal
         private void fillAuto_Click(object sender, EventArgs e)
         {
             cicles = generator.Next(10, 100);
-            securityDistance = generator.Next(5, 30);
+            securityDistance = generator.Next(15, 30);
             CicleTextBox.Text = Convert.ToString(cicles);
             SecurityTextBox.Text = Convert.ToString(securityDistance);
         }

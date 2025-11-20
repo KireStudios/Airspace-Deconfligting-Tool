@@ -187,8 +187,14 @@ namespace WindowsPrincipal
             if (selectedFlightPlan != null)
             {
                 SeePlaneDataOnClickForm SeePlaneDataForm = new SeePlaneDataOnClickForm();
-                SeePlaneDataForm.GetFlightPlan(selectedFlightPlan);
+                //SeePlaneDataForm.GetFlightPlan(selectedFlightPlan);
                 SeePlaneDataForm.ShowDialog();
+                // Actualitzar la velocitat si s'ha modificat
+                double novaVelocitat = SeePlaneDataForm.GetVelocitatModificada();
+                if (novaVelocitat != selectedFlightPlan.GetSpeed())
+                {
+                    selectedFlightPlan.SetVelocidad(novaVelocitat);
+                }
             }
         }
 
@@ -421,26 +427,26 @@ namespace WindowsPrincipal
                     if (FlightsList.GetFlightPlan(j).EstaAlFinal())
                         continue;
                     
-                    double distanciaActual = FlightsList.GetFlightPlan(i).GetPosition().Distancia(FlightsList.GetFlightPlan(j).GetPosition());
+                    //double distanciaActual = FlightsList.GetFlightPlan(i).GetPosition().Distancia(FlightsList.GetFlightPlan(j).GetPosition());
                     double distanciaMinima = FlightsList.GetFlightPlan(i).CalcularDistanciaMinimaFutura(FlightsList.GetFlightPlan(j));
                     double distanciaSeguridad = securityDistance;
                     
-                    resultado += "Par: " + FlightsList.GetFlightPlan(i).GetId() + " - " + FlightsList.GetFlightPlan(j).GetId() + "\n";
+                    /*resultado += "Par: " + FlightsList.GetFlightPlan(i).GetId() + " - " + FlightsList.GetFlightPlan(j).GetId() + "\n";
                     resultado += "  Distancia actual: " + distanciaActual.ToString("F2") + "\n";
                     resultado += "  Distancia mínima prevista: " + distanciaMinima.ToString("F2") + "\n";
-                    resultado += "  Distancia de seguridad requerida: " + distanciaSeguridad.ToString("F2") + "\n";
+                    resultado += "  Distancia de seguridad requerida: " + distanciaSeguridad.ToString("F2") + "\n";*/
                     
                     if (distanciaMinima < distanciaSeguridad)
                     {
-                        resultado += "  ⚠️ SÍ - HABRÁ CONFLICTO durante la simulación\n";
-                        resultado += "  Los círculos de seguridad se solaparán en el futuro\n\n";
+                        //resultado += "  ⚠️ SÍ - HABRÁ CONFLICTO durante la simulación\n";
+                        //resultado += "  Los círculos de seguridad se solaparán en el futuro\n\n";
                         hayConflictosFuturos = true;
                     }
-                    else
+                    /*else
                     {
                         resultado += "  ✓ NO - Sin conflicto previsto\n";
                         resultado += "  Los vuelos mantendrán distancia segura\n\n";
-                    }
+                    }*/
                 }
             }
             
