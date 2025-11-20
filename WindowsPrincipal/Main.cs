@@ -20,12 +20,16 @@ namespace WindowsPrincipal
         double securityDistance;
         
         // ---
-        private PlaneDataForm AddPlaneForm;
+        // private PlaneDataForm AddPlaneForm;
         // ---
         
         public Main()
         {
             InitializeComponent();
+            
+            FlightsList = new FlightPlanList();
+            cicles = 0;
+            securityDistance = 0.0;
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -37,19 +41,19 @@ namespace WindowsPrincipal
 
         private void addDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (AddPlaneForm != null)
+            /*if (AddPlaneForm != null)
             {
                 AddPlaneForm.Close();
-            }
+            }*/
 
-            AddPlaneForm = new PlaneDataForm();
-            AddPlaneForm.Show(); //Dialog();
+            PlaneDataForm AddPlaneForm = new PlaneDataForm();
+            AddPlaneForm.ShowDialog(); //Show(); //Dialog();
             
-            AddPlaneForm.PlansUpdated += (s, flightPlans) =>
+            /*AddPlaneForm.PlansUpdated += (s, flightPlans) =>
             {
                 FlightsList = flightPlans;
-            };
-            // FlightsList = AddPlaneForm.GetFlightPlanList();
+            };*/
+            FlightsList = AddPlaneForm.GetFlightPlanList();
         }
 
         private void addCiclesAndSecurityDistanceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -66,7 +70,7 @@ namespace WindowsPrincipal
             SimForm.GetFlightPlanListSimulation(FlightsList);
             SimForm.GetCiclesSimulation(cicles);
             SimForm.GetSecurityDistanceSimulation(securityDistance);
-            SimForm.Show();
+            SimForm.ShowDialog();
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
@@ -88,7 +92,26 @@ namespace WindowsPrincipal
         
         private void saveFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Save            
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            //saveDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+            saveDialog.Title = "Save simulation";
+            saveDialog.DefaultExt = "txt";
+            saveDialog.FileName = "simulation_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".txt";
+
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    FlightsList.SaveToFile(saveDialog.FileName);
+                    MessageBox.Show("Estado de la simulación guardado correctamente en:\n" + saveDialog.FileName,
+                        "Guardado Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al guardar el archivo:\n" + ex.Message,
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }          
         }
     }
 }

@@ -12,6 +12,7 @@ namespace WindowsPrincipal
         private FlightPlan p2;
         bool Selecting1 = false;
         bool Selecting2 = false;
+        private bool actiu = false;
         
         public InfoVolsForm(FlightPlanList llistaVols)
         {
@@ -21,7 +22,16 @@ namespace WindowsPrincipal
         
         private void InfoVolsForm_Load(object sender, EventArgs e)
         {
-            VolsDataGridView.RowCount = llistaVols.GetNumeroFlightPlans();
+            if (llistaVols.GetNumeroFlightPlans() == 0)
+            {
+                VolsDataGridView.RowCount = 1;
+            }
+            else
+            {
+                VolsDataGridView.RowCount = llistaVols.GetNumeroFlightPlans();
+                actiu = true;
+            }
+            
             VolsDataGridView.ColumnCount = 6;
             VolsDataGridView.Columns[0].Name = "ID";
             VolsDataGridView.Columns[1].Name = "Companyia";
@@ -87,14 +97,20 @@ namespace WindowsPrincipal
         
         private void Pla1Button_Click(object sender, EventArgs e)
         {
-            Selecting2 = false;
-            Selecting1 = true;
+            if (actiu)
+            {
+                Selecting2 = false;
+                Selecting1 = true;
+            }
         }
 
         private void Pla2Button_Click(object sender, EventArgs e)
         {
-            Selecting1 = false;
-            Selecting2 = true;
+            if (actiu)
+            {
+                Selecting1 = false;
+                Selecting2 = true;
+            }
         }
     }
 }

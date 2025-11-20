@@ -40,6 +40,7 @@ namespace WindowsPrincipal
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.SimulationPanel = new System.Windows.Forms.Panel();
             this.labelCoord0 = new System.Windows.Forms.Label();
             this.SimulationLabel = new System.Windows.Forms.Label();
@@ -47,18 +48,14 @@ namespace WindowsPrincipal
             this.button1 = new System.Windows.Forms.Button();
             this.RestartButton = new System.Windows.Forms.Button();
             this.AutoSimulateButton = new System.Windows.Forms.Button();
-            this.ShowDataButton = new System.Windows.Forms.Button();
-            this.CheckConflictButton = new System.Windows.Forms.Button();
-            this.SaveButton = new System.Windows.Forms.Button();
             this.UndoButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addFlightPlansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addCiclesAndSecurityDistanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFlightDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkConflictsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AutoTimer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -138,39 +135,6 @@ namespace WindowsPrincipal
             this.AutoSimulateButton.UseVisualStyleBackColor = true;
             this.AutoSimulateButton.Click += new System.EventHandler(this.AutoSimulateButton_Click);
             // 
-            // ShowDataButton
-            // 
-            this.ShowDataButton.Location = new System.Drawing.Point(109, 638);
-            this.ShowDataButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ShowDataButton.Name = "ShowDataButton";
-            this.ShowDataButton.Size = new System.Drawing.Size(187, 50);
-            this.ShowDataButton.TabIndex = 8;
-            this.ShowDataButton.Text = "Show Flight Data";
-            this.ShowDataButton.UseVisualStyleBackColor = true;
-            this.ShowDataButton.Click += new System.EventHandler(this.ShowDataButton_Click);
-            // 
-            // CheckConflictButton
-            // 
-            this.CheckConflictButton.Location = new System.Drawing.Point(109, 712);
-            this.CheckConflictButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.CheckConflictButton.Name = "CheckConflictButton";
-            this.CheckConflictButton.Size = new System.Drawing.Size(187, 50);
-            this.CheckConflictButton.TabIndex = 9;
-            this.CheckConflictButton.Text = "Check Conflict";
-            this.CheckConflictButton.UseVisualStyleBackColor = true;
-            this.CheckConflictButton.Click += new System.EventHandler(this.CheckConflictButton_Click);
-            // 
-            // SaveButton
-            // 
-            this.SaveButton.Location = new System.Drawing.Point(109, 562);
-            this.SaveButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(187, 50);
-            this.SaveButton.TabIndex = 10;
-            this.SaveButton.Text = "Save Simulation";
-            this.SaveButton.UseVisualStyleBackColor = true;
-            this.SaveButton.Click += new System.EventHandler(this.SaveSimulationButton_Click);
-            // 
             // UndoButton
             // 
             this.UndoButton.Location = new System.Drawing.Point(109, 362);
@@ -207,36 +171,29 @@ namespace WindowsPrincipal
             // 
             // optionsToolStripMenuItem
             // 
-            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.addFlightPlansToolStripMenuItem, this.addCiclesAndSecurityDistanceToolStripMenuItem, this.showFlightDataToolStripMenuItem, this.checkConflictsToolStripMenuItem });
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.showFlightDataToolStripMenuItem, this.checkConflictsToolStripMenuItem });
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(88, 29);
             this.optionsToolStripMenuItem.Text = "Options";
             // 
-            // addFlightPlansToolStripMenuItem
-            // 
-            this.addFlightPlansToolStripMenuItem.Name = "addFlightPlansToolStripMenuItem";
-            this.addFlightPlansToolStripMenuItem.Size = new System.Drawing.Size(334, 30);
-            this.addFlightPlansToolStripMenuItem.Text = "Add flight plans";
-            // 
-            // addCiclesAndSecurityDistanceToolStripMenuItem
-            // 
-            this.addCiclesAndSecurityDistanceToolStripMenuItem.Name = "addCiclesAndSecurityDistanceToolStripMenuItem";
-            this.addCiclesAndSecurityDistanceToolStripMenuItem.Size = new System.Drawing.Size(334, 30);
-            this.addCiclesAndSecurityDistanceToolStripMenuItem.Text = "Add cicles and security distance";
-            // 
             // showFlightDataToolStripMenuItem
             // 
             this.showFlightDataToolStripMenuItem.Name = "showFlightDataToolStripMenuItem";
-            this.showFlightDataToolStripMenuItem.Size = new System.Drawing.Size(334, 30);
+            this.showFlightDataToolStripMenuItem.Size = new System.Drawing.Size(227, 30);
             this.showFlightDataToolStripMenuItem.Text = "Show Flights Data";
             this.showFlightDataToolStripMenuItem.Click += new System.EventHandler(this.showFlightDataToolStripMenuItem_Click);
             // 
             // checkConflictsToolStripMenuItem
             // 
             this.checkConflictsToolStripMenuItem.Name = "checkConflictsToolStripMenuItem";
-            this.checkConflictsToolStripMenuItem.Size = new System.Drawing.Size(334, 30);
+            this.checkConflictsToolStripMenuItem.Size = new System.Drawing.Size(227, 30);
             this.checkConflictsToolStripMenuItem.Text = "Check conflicts";
             this.checkConflictsToolStripMenuItem.Click += new System.EventHandler(this.checkConflictsToolStripMenuItem_Click);
+            // 
+            // AutoTimer
+            // 
+            this.AutoTimer.Interval = 1000;
+            this.AutoTimer.Tick += new System.EventHandler(this.AutoTimer_Tick);
             // 
             // SimulationForm
             // 
@@ -244,9 +201,6 @@ namespace WindowsPrincipal
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1324, 854);
             this.Controls.Add(this.UndoButton);
-            this.Controls.Add(this.SaveButton);
-            this.Controls.Add(this.CheckConflictButton);
-            this.Controls.Add(this.ShowDataButton);
             this.Controls.Add(this.AutoSimulateButton);
             this.Controls.Add(this.RestartButton);
             this.Controls.Add(this.button1);
@@ -267,13 +221,12 @@ namespace WindowsPrincipal
             this.PerformLayout();
         }
 
+        private System.Windows.Forms.Timer AutoTimer;
+
         private System.Windows.Forms.ToolStripMenuItem showFlightDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkConflictsToolStripMenuItem;
 
-        private System.Windows.Forms.ToolStripMenuItem addFlightPlansToolStripMenuItem;
-
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addCiclesAndSecurityDistanceToolStripMenuItem;
 
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -289,9 +242,6 @@ namespace WindowsPrincipal
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button RestartButton;
         private System.Windows.Forms.Button AutoSimulateButton;
-        private System.Windows.Forms.Button ShowDataButton;
-        private System.Windows.Forms.Button CheckConflictButton;
-        private System.Windows.Forms.Button SaveButton;
         private System.Windows.Forms.Button UndoButton;
 
     }

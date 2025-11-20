@@ -18,7 +18,7 @@ namespace WindowsPrincipal
     {
         FlightPlanList FlightsList = new FlightPlanList();
         
-        // Per actualitzar sense tancar (ja no es fa servir ShowDialog)
+        // Per actualitzar sense tancar (si no es fa servir ShowDialog)
         public event EventHandler<FlightPlanList> PlansUpdated;
 
         // Per arrosegar el formulari
@@ -83,11 +83,11 @@ namespace WindowsPrincipal
             }
         }
         
-        /*
+        
         public FlightPlanList GetFlightPlanList()
         {
             return FlightsList;
-        }*/
+        }
 
         private void DeveloperTestFlightsButton_Click(object sender, EventArgs e)
         {

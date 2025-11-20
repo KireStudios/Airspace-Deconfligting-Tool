@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace WindowsPrincipal
@@ -21,7 +22,6 @@ namespace WindowsPrincipal
         private int OriginalCicles;
         private int cicles;
         private double securityDistance;
-        private System.Windows.Forms.Timer autoTimer;
         
         // Fase 10: Conjunto para rastrear conflictos ya notificados
         private HashSet<string> conflictosNotificados = new HashSet<string>();
@@ -36,10 +36,6 @@ namespace WindowsPrincipal
         public SimulationForm()
         {
             InitializeComponent();
-            
-            autoTimer = new System.Windows.Forms.Timer();
-            autoTimer.Interval = 1000;
-            autoTimer.Tick += AutoTimer_Tick;
             
             // Suscribirse al evento Shown para verificar conflictos después de que la ventana sea visible
             this.Shown += SimulationForm_Shown;
@@ -238,7 +234,7 @@ namespace WindowsPrincipal
             // Limpiar conflictos notificados al reiniciar
             conflictosNotificados.Clear();
             
-            autoTimer.Stop();
+            AutoTimer.Stop();
             SimulationPanel.Invalidate();
             
             // Verificar conflictos después de reiniciar
@@ -251,17 +247,18 @@ namespace WindowsPrincipal
         {
             if (Mode)
             {
-                autoTimer.Start();
+                AutoTimer.Start();
                 AutoSimulateButton.Text = "Stop Simulation";
             }
             else
             {
-                autoTimer.Stop();
+                AutoTimer.Stop();
                 AutoSimulateButton.Text = "Start Simulation";
             }
             Mode = !Mode;
         }
 
+        
         private void AutoTimer_Tick(object sender, EventArgs e)
         {
             if (cicles > 0)
@@ -285,7 +282,7 @@ namespace WindowsPrincipal
             }
             else
             {
-                autoTimer.Stop();
+                AutoTimer.Stop();
                 MessageBox.Show("Simulación completada");
             }
         }
@@ -326,7 +323,7 @@ namespace WindowsPrincipal
                         if (true)//!conflictosNotificados.Contains(claveConflicto))
                         {
                             conflictosNotificados.Add(claveConflicto);
-                            autoTimer.Stop();
+                            AutoTimer.Stop();
                             
                             // Mostrar notificación
                             MessageBox.Show(
@@ -348,6 +345,7 @@ namespace WindowsPrincipal
             // conflictosNotificados.RemoveWhere(c => !conflictosActuales.Contains(c));
         }
 
+        /*
         private void ShowDataButton_Click(object sender, EventArgs e)
         {
             InfoVolsForm infoForm = new InfoVolsForm(FlightsList);
@@ -390,14 +388,16 @@ namespace WindowsPrincipal
             
             info += "\nDistancia de seguridad configurada: " + securityDistance;
             MessageBox.Show(info, "Datos de los Vuelos");
-            */
-        }
+            *-/
+        }*/
 
         // Fase 10: Verificar si habrá conflicto a lo largo de la simulación (predicción futura)
+        /*
         private void CheckConflictButton_Click(object sender, EventArgs e)
         {
             CheckConflict();
-        }
+        }*/
+        
         private void CheckConflict()
         { 
             int numAviones = FlightsList.GetNumeroFlightPlans();
@@ -567,6 +567,8 @@ namespace WindowsPrincipal
                 }
             }
         }
+        
+        /*
         private void SaveSimulationButton_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
@@ -589,7 +591,7 @@ namespace WindowsPrincipal
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }
+        }*/
 
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
