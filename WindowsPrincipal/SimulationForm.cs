@@ -236,6 +236,8 @@ namespace WindowsPrincipal
 
             //Limpiar estado guardado
             previousFlightPlans = new Stack<FlightPlanList>();
+            
+            cicles = OriginalCicles;
 
             // Limpiar conflictos notificados al reiniciar
             conflictosNotificados.Clear();
@@ -612,7 +614,7 @@ namespace WindowsPrincipal
             {
                 try
                 {
-                    FlightsList.SaveToFile(saveDialog.FileName, true);
+                    FlightsList.SaveToFile(saveDialog.FileName, OriginalCicles, securityDistance, true, cicles);
                     MessageBox.Show("Estado de la simulación guardado correctamente en:\n" + saveDialog.FileName,
                         "Guardado Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }

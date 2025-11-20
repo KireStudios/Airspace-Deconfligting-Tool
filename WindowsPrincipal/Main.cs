@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace WindowsPrincipal
         // Variables per a guardar les dades que venen dels altres formularis
         FlightPlanList FlightsList;
         int cicles;
+        int currentCicle;
         double securityDistance;
         
         // ---
@@ -80,9 +82,88 @@ namespace WindowsPrincipal
 
         private void loadFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LoadFileForm loadForm = new LoadFileForm();
-            loadForm.ShowDialog();
-            FlightsList = loadForm.GetFlightPlanList();
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = Path.GetFullPath(@"..\..\..\DebugData\");
+                openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = true;
+                openFileDialog.Title = "Select Flight Plan File";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string FilePath = openFileDialog.FileName;
+                    FlightPlanList loadedFlightPlans = new FlightPlanList();
+                    bool simulating = false;
+                    
+                    try
+                    {
+                        StreamReader FileReader = new StreamReader(FilePath);
+                        string FileLine = FileReader.ReadLine();
+
+                        if (FileLine != null && bool.Parse(FileLine))
+                        {
+                            simulating = true;
+                            FileLine = FileReader.ReadLine();
+                            currentCicle = int.Parse(FileLine);
+                        }
+
+                        string[] Line = FileReader.ReadLine().Split(',');
+                        cicles = int.Parse(Line[0]);
+                        securityDistance = double.Parse(Line[1]);
+                        
+                        FileLine = FileReader.ReadLine();
+
+                        FlightPlan FP;
+                        
+                        while (FileLine != null)
+                        {
+                            if (simulating)
+                            {
+                                string[] FPCharacteristics = FileLine.Split(',');
+                                FP = new FlightPlan(FPCharacteristics[0], FPCharacteristics[1],
+                                    Convert.ToDouble(FPCharacteristics[2]),
+                                    Convert.ToDouble(FPCharacteristics[3]), Convert.ToDouble(FPCharacteristics[6]),
+                                    Convert.ToDouble(FPCharacteristics[7]), Convert.ToInt32(FPCharacteristics[8]),
+                                    Convert.ToDouble(FPCharacteristics[4]), Convert.ToDouble(FPCharacteristics[5]));
+                            }
+                            else
+                            {
+                                string[] FPCharacteristics = FileLine.Split(',');
+                                FP = new FlightPlan(FPCharacteristics[0], FPCharacteristics[1],
+                                    Convert.ToDouble(FPCharacteristics[2]),
+                                    Convert.ToDouble(FPCharacteristics[3]), Convert.ToDouble(FPCharacteristics[4]),
+                                    Convert.ToDouble(FPCharacteristics[5]), Convert.ToInt32(FPCharacteristics[6]));
+                            }
+                            loadedFlightPlans.AddFlightPlan(FP);
+                            FileLine = FileReader.ReadLine();
+                        }
+
+                        FileReader.Close();
+
+                        FlightsList = loadedFlightPlans;
+                        MessageBox.Show(
+                            "File loaded successfully!", "Success",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        MessageBox.Show("File not found. Please check the file path and try again.", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    catch (FormatException)
+                    {
+                        MessageBox.Show(
+                            "File format is incorrect. Please ensure the file contains valid data separated by commas.",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
 
         private void newFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -103,7 +184,7 @@ namespace WindowsPrincipal
             {
                 try
                 {
-                    FlightsList.SaveToFile(saveDialog.FileName);
+                    FlightsList.SaveToFile(saveDialog.FileName, cicles, securityDistance);
                     MessageBox.Show("Estado de la simulación guardado correctamente en:\n" + saveDialog.FileName,
                         "Guardado Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }

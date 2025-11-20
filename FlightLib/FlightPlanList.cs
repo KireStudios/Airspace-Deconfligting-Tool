@@ -78,7 +78,7 @@ namespace FlightLib
             return numeroFlightPlans;
         }
 
-        public void SaveToFile(string filePath, bool simulating = false, int cicles = 0, int currentCicle = 0, double securityDistance = 0.0)
+        public void SaveToFile(string filePath, int cicles, double securityDistance, bool simulating = false, int currentCicle = 0)
         {
             StreamWriter writer = new StreamWriter(filePath);
 
@@ -89,9 +89,10 @@ namespace FlightLib
                 header += Environment.NewLine;
                 if (simulating)
                 {
-                    header += string.Format("{0},{1},{2}", cicles, currentCicle, securityDistance);
-                    header += Environment.NewLine;
+                    header += currentCicle.ToString();
                 }
+                header += string.Format("{0},{1}", cicles, securityDistance);
+                header += Environment.NewLine;
                 writer.Write(header);
                 
                 if (simulating)
@@ -102,8 +103,8 @@ namespace FlightLib
                         string line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
                             fp.GetId(),
                             fp.GetCompany(),
-                            fp.GetPosition().GetX(),
-                            fp.GetPosition().GetY(),
+                            fp.GetInitialPosition().GetX(),
+                            fp.GetInitialPosition().GetY(),
                             fp.GetPosition().GetX(),
                             fp.GetPosition().GetY(),
                             fp.GetFinalPosition().GetX(),
