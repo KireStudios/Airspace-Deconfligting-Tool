@@ -61,26 +61,31 @@ namespace WindowsPrincipal
 
         private void VolsDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (Selecting1)
+            if (e.RowIndex >= 0 && e.RowIndex < llistaVols.GetNumeroFlightPlans())
             {
-                p1 = llistaVols.GetFlightPlan(e.RowIndex);
-                Pla1Button.Text = $"Pla 1: {p1.GetId()}";
-                Selecting1 = false;
-            }
-            else if (Selecting2)
-            {
-                p2 = llistaVols.GetFlightPlan(e.RowIndex);
-                Pla2Button.Text = $"Pla 2: {p2.GetId()}";
-                Selecting2 = false;
-            }
-            if (p1 != null && p2 != null)
-            {
-                double distancia = p1.Distancia(p2);
-                DistanciaLabel.Text = $"Distància mínima entre el vol {p1.GetId()} i el vol {p2.GetId()}: {distancia:F2} unitats";
-            }
-            else
-            {
-                DistanciaLabel.Text = "";
+                if (Selecting1)
+                {
+                    p1 = llistaVols.GetFlightPlan(e.RowIndex);
+                    Pla1Button.Text = $"Pla 1: {p1.GetId()}";
+                    Selecting1 = false;
+                }
+                else if (Selecting2)
+                {
+                    p2 = llistaVols.GetFlightPlan(e.RowIndex);
+                    Pla2Button.Text = $"Pla 2: {p2.GetId()}";
+                    Selecting2 = false;
+                }
+
+                if (p1 != null && p2 != null)
+                {
+                    double distancia = p1.Distancia(p2);
+                    DistanciaLabel.Text =
+                        $"Distància mínima entre el vol {p1.GetId()} i el vol {p2.GetId()}: {distancia:F2} unitats";
+                }
+                else
+                {
+                    DistanciaLabel.Text = "";
+                }
             }
             /*
             if (e.RowIndex >= 0 && e.RowIndex < llistaVols.GetNumeroFlightPlans())
