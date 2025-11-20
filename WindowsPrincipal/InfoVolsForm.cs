@@ -40,6 +40,8 @@ namespace WindowsPrincipal
             VolsDataGridView.Columns[4].Name = "Posició actual";
             VolsDataGridView.Columns[5].Name = "Posició final";
             
+            VolsDataGridView.RowHeadersVisible = false;
+            
             for (int i = 0; i < llistaVols.GetNumeroFlightPlans(); i++)
             {
                 FlightPlan fp = llistaVols.GetFlightPlan(i);
@@ -53,6 +55,7 @@ namespace WindowsPrincipal
             
             VolsDataGridView.ReadOnly = true;
             VolsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            VolsDataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             VolsDataGridView.CellClick += VolsDataGridView_CellClick;
         }
 

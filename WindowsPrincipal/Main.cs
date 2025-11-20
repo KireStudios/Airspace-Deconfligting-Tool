@@ -53,7 +53,7 @@ namespace WindowsPrincipal
             {
                 FlightsList = flightPlans;
             };*/
-            FlightsList = AddPlaneForm.GetFlightPlanList();
+            FlightsList.AddFlightPlans(AddPlaneForm.GetFlightPlanList());
         }
 
         private void addCiclesAndSecurityDistanceToolStripMenuItem_Click(object sender, EventArgs e)

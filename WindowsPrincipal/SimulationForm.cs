@@ -186,7 +186,7 @@ namespace WindowsPrincipal
             
             if (selectedFlightPlan != null)
             {
-                SeePlaneDataOnClickForm SeePlaneDataForm = new SeePlaneDataOnClickForm();
+                SeePlaneDataOnClickForm SeePlaneDataForm = new SeePlaneDataOnClickForm(selectedFlightPlan);
                 //SeePlaneDataForm.GetFlightPlan(selectedFlightPlan);
                 SeePlaneDataForm.ShowDialog();
                 // Actualitzar la velocitat si s'ha modificat

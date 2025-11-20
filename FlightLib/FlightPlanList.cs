@@ -16,17 +16,20 @@ namespace FlightLib
 
         }
         
-        public int AddFlightPlan(FlightPlan flightPlan) 
+        public void AddFlightPlan(FlightPlan flightPlan) 
         {
             if (flightPlan != null)
             {
                 vectorFP.Add(flightPlan);
                 numeroFlightPlans++;
-                return 0;
             }
-            else
+        }
+
+        public void AddFlightPlans(FlightPlanList flightPlanList)
+        {
+            for (int i = 0; i < flightPlanList.GetNumeroFlightPlans(); i++)
             {
-                return -1;
+                AddFlightPlan(flightPlanList.GetFlightPlan(i));
             }
         }
 
