@@ -92,7 +92,7 @@ namespace FlightLib
                     header += currentCicle.ToString();
                     header += Environment.NewLine;
                 }
-                header += string.Format("{0},{1}", cicles, securityDistance);
+                header += string.Format("{0}.{1}", cicles, securityDistance);
                 header += Environment.NewLine;
                 writer.Write(header);
                 
@@ -101,7 +101,7 @@ namespace FlightLib
                     for (int i = 0; i < numeroFlightPlans; i++)
                     {
                         FlightPlan fp = vectorFP[i];
-                        string line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
+                        string line = string.Format("{0}.{1}.{2}.{3}.{4}.{5}.{6}.{7}.{8}",
                             fp.GetId(),
                             fp.GetCompany(),
                             fp.GetInitialPosition().GetX(),
@@ -119,7 +119,7 @@ namespace FlightLib
                     for (int i = 0; i < numeroFlightPlans; i++)
                     {
                         FlightPlan fp = vectorFP[i];
-                        string line = string.Format("{0},{1},{2},{3},{4},{5},{6}",
+                        string line = string.Format("{0}.{1}.{2}.{3}.{4}.{5}.{6}",
                             fp.GetId(),
                             fp.GetCompany(),
                             fp.GetPosition().GetX(),
