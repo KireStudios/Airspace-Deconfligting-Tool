@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 
@@ -10,17 +6,17 @@ namespace FlightLib
 {
     public class FlightPlan
     {
-        // Atributos
+        // Atributs
 
-        string id; // identificador
-        string company; // companyia
+        string id; // Identificador
+        string company; // Companyia
         Position initialPosition; //Posició inicial
-        Position currentPosition; // posicion actual
-        Position finalPosition; // posicion final
+        Position currentPosition; // Posicion actual
+        Position finalPosition; // Posició final
         double velocidad;
         private double velocitatInicial;
 
-        // Constructures
+        // Constructors
         public FlightPlan(string id, string comp, double ipx, double ipy, double fpx, double fpy, double velocidad, double cpx = Double.PositiveInfinity, double cpy = Double.PositiveInfinity)
         {
             this.id = id;
@@ -39,42 +35,47 @@ namespace FlightLib
             this.velocitatInicial = velocidad;
         }
 
-        // Metodos
+        // Mètodes
 
         public void SetVelocidad(double velocidad)
         // setter del atributo velocidad
         { this.velocidad = velocidad; }
 
         public void Moure(double tiempo)
-        // Mueve el vuelo a la posición correspondiente a viajar durante el tiempo que se recibe como parámetro
+        // Mou el vol a la posició corresponent al temps rebut com a paràmetre
         {
-            // Si ya está al final, no hacer nada
+            // Si ja és al final, no cal fer res
             if (EstaAlFinal())
             {
                 return;
             }
 
-            //Calculamos la distancia recorrida en el tiempo dado
+            // Calcular la distància recorreguda en el temps donat
             double distancia = tiempo * this.velocidad / 60;
 
-            //Calculamos las razones trigonométricas
-            double hipotenusa = Math.Sqrt((finalPosition.GetX() - currentPosition.GetX()) * (finalPosition.GetX() - currentPosition.GetX()) + (finalPosition.GetY() - currentPosition.GetY()) * (finalPosition.GetY() - currentPosition.GetY()));
-            
-            // Si la hipotenusa es 0, ya estamos en el destino
+            // Calcular la distància restant fins al destí (hipotenusa)
+            double hipotenusa = Math.Sqrt(
+                (finalPosition.GetX() - currentPosition.GetX()) * (finalPosition.GetX() - currentPosition.GetX()) +
+                (finalPosition.GetY() - currentPosition.GetY()) * (finalPosition.GetY() - currentPosition.GetY())
+            );
+
+            // Si la hipotenusa és 0, ja hem arribat al destí
             if (hipotenusa == 0)
             {
                 return;
             }
-            
+
+            // Calcular les components del moviment segons cosinus i sinus
             double coseno = (finalPosition.GetX() - currentPosition.GetX()) / hipotenusa;
             double seno = (finalPosition.GetY() - currentPosition.GetY()) / hipotenusa;
 
-            //Caculamos la nueva posición del vuelo
+            // Calcular la nova posició del vol
             double x = currentPosition.GetX() + distancia * coseno;
             double y = currentPosition.GetY() + distancia * seno;
-            
-            //Comprovem que no ens passem
-            if ((x - currentPosition.GetX()) * (x - finalPosition.GetX()) > 0 || (y - currentPosition.GetY()) * (y - finalPosition.GetY()) > 0)
+
+            // Comprovar que no ens passem del destí
+            if ((x - currentPosition.GetX()) * (x - finalPosition.GetX()) > 0 ||
+                (y - currentPosition.GetY()) * (y - finalPosition.GetY()) > 0)
             {
                 x = finalPosition.GetX();
                 y = finalPosition.GetY();
@@ -84,11 +85,13 @@ namespace FlightLib
             currentPosition = new Position(x, y);
         }
 
+        // Setter de la posició actual
         public void SetPosition(double x, double y)
         {
             this.currentPosition = new Position(x, y);
         }
 
+        // Comprova si l'avió ha arribat al seu destí
         public bool EstaAlFinal()
         {
             if (currentPosition.GetX() == finalPosition.GetX() && currentPosition.GetY() == finalPosition.GetY())
@@ -98,10 +101,10 @@ namespace FlightLib
             }
             return false;
         }
-        
+
+        // Comprova si hi ha conflicte amb un altre avió
         public bool Conflicte(FlightPlan plane, double distanciaSeguretat)
         {
-            // CORRECCIÓN: distanciaSeguretat es el RADIO, comparar con la SUMA de radios
             double distanciaMinima = distanciaSeguretat * 2;
             
             if (this.currentPosition.Distancia(plane.currentPosition) < distanciaMinima)
@@ -112,79 +115,78 @@ namespace FlightLib
             return false;
         }
 
-        /// <summary>
-        /// Fase 10: Calcula la distancia mínima entre este avión y otro considerando sus trayectorias y velocidades en función del tiempo
-        /// </summary>
+        // Fase 10: Calcula la distància mínima futura entre aquest avió i un altre
         public double CalcularDistanciaMinimaFutura(FlightPlan otroAvion)
         {
-            // Obtener posiciones actuales
+            // Obtenir posicions actuals
             double x1 = this.currentPosition.GetX();
             double y1 = this.currentPosition.GetY();
             double x2 = otroAvion.currentPosition.GetX();
             double y2 = otroAvion.currentPosition.GetY();
-            
-            // Obtener posiciones finales
+
+            // Obtenir posicions finals
             double fx1 = this.finalPosition.GetX();
             double fy1 = this.finalPosition.GetY();
             double fx2 = otroAvion.finalPosition.GetX();
             double fy2 = otroAvion.finalPosition.GetY();
-            
-            // Calcular distancias a los destinos
+
+            // Calcular distàncies fins al destí
             double dist1 = Math.Sqrt((fx1 - x1) * (fx1 - x1) + (fy1 - y1) * (fy1 - y1));
             double dist2 = Math.Sqrt((fx2 - x2) * (fx2 - x2) + (fy2 - y2) * (fy2 - y2));
-            
-            // Si algún avión ya llegó, usar distancia actual
+
+            // Si algun avió ja ha arribat, utilitzar la distància actual
             if (dist1 < 0.01 || dist2 < 0.01)
             {
                 return this.currentPosition.Distancia(otroAvion.currentPosition);
             }
-            
-            // Vectores de dirección normalizados multiplicados por velocidad
+
+            // Vectors de direcció normalitzats multiplicats per la velocitat
             double vx1 = (fx1 - x1) / dist1 * this.velocidad;
             double vy1 = (fy1 - y1) / dist1 * this.velocidad;
             double vx2 = (fx2 - x2) / dist2 * otroAvion.velocidad;
             double vy2 = (fy2 - y2) / dist2 * otroAvion.velocidad;
-            
-            // Calcular velocidad relativa
+
+            // Calcular la velocitat relativa
             double dvx = vx1 - vx2;
             double dvy = vy1 - vy2;
-            
-            // Posición relativa
+
+            // Posició relativa
             double dx = x1 - x2;
             double dy = y1 - y2;
-            
-            // Calcular tiempo al punto más cercano: t = -(dx*dvx + dy*dvy) / (dvx^2 + dvy^2)
-            double velocidadRelativaCuadrado = dvx * dvx + dvy * dvy;
-            
-            if (velocidadRelativaCuadrado < 0.0001) 
+
+            // Calcular el temps fins al punt més proper t = -(dx*dvx + dy*dvy) / (dvx^2 + dvy^2)
+            double velocitatRelativaQuadrat = dvx * dvx + dvy * dvy;
+
+            if (velocitatRelativaQuadrat < 0.0001)
             {
-                // Velocidades paralelas o iguales, distancia se mantiene constante
+                // Velocitats iguals o paral·leles: la distància no canvia apreciablement
                 return Math.Sqrt(dx * dx + dy * dy);
             }
-            
-            double t = -(dx * dvx + dy * dvy) / velocidadRelativaCuadrado;
-            
-            // Limitar t al tiempo máximo de vuelo de cada avión
-            double tiempoMaximo1 = dist1 / this.velocidad;
-            double tiempoMaximo2 = dist2 / otroAvion.velocidad;
-            double tiempoMaximo = Math.Min(tiempoMaximo1, tiempoMaximo2);
-            
+
+            double t = -(dx * dvx + dy * dvy) / velocitatRelativaQuadrat;
+
+            // Limitar t al temps màxim de vol de cada avió
+            double tempsMaxim1 = dist1 / this.velocidad;
+            double tempsMaxim2 = dist2 / otroAvion.velocidad;
+            double tempsMaxim = Math.Min(tempsMaxim1, tempsMaxim2);
+
             if (t < 0)
                 t = 0;
-            else if (t > tiempoMaximo)
-                t = tiempoMaximo;
-            
-            // Calcular posiciones en el tiempo t
+            else if (t > tempsMaxim)
+                t = tempsMaxim;
+
+            // Calcular posicions en el temps t
             double px1 = x1 + vx1 * t;
             double py1 = y1 + vy1 * t;
             double px2 = x2 + vx2 * t;
             double py2 = y2 + vy2 * t;
-            
-            // Distancia mínima
+
+            // Distància mínima
             double distanciaMinima = Math.Sqrt((px1 - px2) * (px1 - px2) + (py1 - py2) * (py1 - py2));
-            
+
             return distanciaMinima;
         }
+
 
         //Getters
         public string GetId()
@@ -216,20 +218,21 @@ namespace FlightLib
             return company;
         }
 
-
+        // Reinicia la posició actual a la inicial
         public void Restart()
         {
             currentPosition = initialPosition;
             velocidad = velocitatInicial;
         }
-        
+
+        // Calcula la distància entre aquest avió i un altre
         public double Distancia(FlightPlan avio)
         {
             return this.currentPosition.Distancia(avio.currentPosition);
         }
 
+        // Escriu en consola els dades del FlightPlan
         public void EscribeConsola()
-        // escribe en consola los datos del plan de vuelo
         {
             Console.WriteLine("******************************");
             Console.WriteLine("Datos del vuelo: ");
@@ -239,7 +242,7 @@ namespace FlightLib
             Console.WriteLine("******************************");
         }
 
-        // return a copy of the flight plan, not a reference
+        // Retorna una còpia del FlightPlanList
         public FlightPlan copy()
         {
             return new FlightPlan(this.id, this.company, this.initialPosition.GetX(), this.initialPosition.GetY(), this.finalPosition.GetX(), this.finalPosition.GetY(), this.velocidad, this.currentPosition.GetX(), this.currentPosition.GetY());

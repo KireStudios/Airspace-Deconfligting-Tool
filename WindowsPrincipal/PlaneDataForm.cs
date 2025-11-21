@@ -22,11 +22,11 @@ namespace WindowsPrincipal
         //public event EventHandler<FlightPlanList> PlansUpdated;
 
         // Per arrosegar el formulari
-        [DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
+        //[DllImport("user32.dll")]
+        //public static extern bool ReleaseCapture();
 
-        [DllImport("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        //[DllImport("user32.dll")]
+        //public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
         private const int WM_NCLBUTTONDOWN = 0xA1;
         private const int HTCAPTION = 0x2;
@@ -91,21 +91,21 @@ namespace WindowsPrincipal
 
         private void DeveloperTestFlightsButton_Click(object sender, EventArgs e)
         {
-            FlightPlan FP1 = new FlightPlan("FP1", "StandBy Airlines", 200, 200, 0, 0, 100);
-            FlightPlan FP2 = new FlightPlan("FP2", "EasyFall",0, 200, 200, 0, 100);
-            FlightPlan FP3 = new FlightPlan("FP3", "StandBy Airlines",400, 0, 350, 400, 150);
+            FlightPlan FP1 = new FlightPlan("FP1", "StandBy Airlines", 400*3/4, 400*3/4, 0, 0, 100);
+            FlightPlan FP2 = new FlightPlan("FP2", "EasyFall",0, 400*3/4, 400*3/4, 0, 100);
+            FlightPlan FP3 = new FlightPlan("FP3", "StandBy Airlines",800*3/4, 0, 700*3/4, 800*3/4, 150);
             FlightsList.AddFlightPlan(FP1);
             FlightsList.AddFlightPlan(FP2);
             FlightsList.AddFlightPlan(FP3);
             //PlansUpdated?.Invoke(this, FlightsList);
-            MessageBox.Show("3 test flights added correctly!!\n(FP1, StandBy Airlines,200, 200, 0, 0, 100)\n(FP2, EasyFall, 0, 200, 200, 0, 100)\n(FP3, StandBy Airlines,400, 0, 350, 400, 150)");
+            MessageBox.Show("3 test flights added correctly!!\n(FP1, StandBy Airlines,400, 400, 0, 0, 100)\n(FP2, EasyFall, 0, 400, 400, 0, 100)\n(FP3, StandBy Airlines,800, 0, 700, 800, 150)");
         }
 
         // Perque es pugui arrosegar el formulari
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
-            ReleaseCapture();
-            SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+            //ReleaseCapture();
+            //SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
         }
     }
 }

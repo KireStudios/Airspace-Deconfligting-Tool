@@ -17,6 +17,7 @@ namespace WindowsPrincipal
         
         private double velocitatModificada;
 
+        // Constructor que rep el FlightPlan seleccionat
         public SeePlaneDataOnClickForm(FlightPlan selectedFlightPlan)
         {
             InitializeComponent();
@@ -24,10 +25,10 @@ namespace WindowsPrincipal
             SelectedFlightPlan = selectedFlightPlan;
         }
 
+        // Carregar les dades del FlightPlan seleccionat al DataGridView
         private void SeePlaneDataOnClickForm_Load(object sender, EventArgs e)
         {
             PlaneDataGridView.RowCount = 5;
-            //PlaneDataGridView.RowTemplate.Height = 200;
             PlaneDataGridView.ColumnCount = 2;
             PlaneDataGridView.Rows[0].Cells[0].Value = "Identification";
             PlaneDataGridView.Rows[1].Cells[0].Value = "Companyia";
@@ -46,26 +47,29 @@ namespace WindowsPrincipal
             
             // ja es mira al tancar i sol es canvia la velocitat
         }
-
-        /*
-        public void GetFlightPlan(FlightPlan SelectedFlightPlan)
-        {
-            this.SelectedFlightPlan = SelectedFlightPlan;
-        }*/
-        
+              
         public double GetVelocitatModificada()
         {
             return velocitatModificada;
         }
 
+        //Per si es vol canviar la velocitat directament al DataGridView
         private void PlaneDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex == 2 && e.ColumnIndex == 1)
             {
-                //SelectedFlightPlan.SetSpeed(Convert.ToDouble(PlaneDataGridView.Rows[2].Cells[1].Value));
-                velocitatModificada = PlaneDataGridView.Rows[2].Cells[1].Value != null
-                    ? Convert.ToDouble(PlaneDataGridView.Rows[2].Cells[1].Value)
-                    : SelectedFlightPlan.GetSpeed();
+                try
+                {
+                    //SelectedFlightPlan.SetSpeed(Convert.ToDouble(PlaneDataGridView.Rows[2].Cells[1].Value));
+                    velocitatModificada = PlaneDataGridView.Rows[2].Cells[1].Value != null
+                        ? Convert.ToDouble(PlaneDataGridView.Rows[2].Cells[1].Value)
+                        : SelectedFlightPlan.GetSpeed();
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Invalid speed format. Please enter a numeric value.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
             }
         }
     }

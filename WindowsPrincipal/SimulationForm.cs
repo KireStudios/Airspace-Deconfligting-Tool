@@ -59,7 +59,8 @@ namespace WindowsPrincipal
         }
 
         private void SimulationForm_Load(object sender, EventArgs e)
-        {
+        {   
+            SimulationPanel.Size = new Size(750, 600);
             // Suscribirse al evento Paint para dibujar las trayectorias y elipses
             SimulationPanel.Paint += new PaintEventHandler(SimulationPanel_Paint);
             
@@ -102,6 +103,7 @@ namespace WindowsPrincipal
         {
             Graphics g = e.Graphics;
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
 
             for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
             {
@@ -536,27 +538,27 @@ namespace WindowsPrincipal
                     Position p1 = avio1.GetPosition();
                     Position p2 = avio2.GetPosition();
                     
-                    Position d1 = avio1.GetFinalPosition() - avio1.GetInitialPosition();
-                    Position d2 = avio2.GetFinalPosition() - avio2.GetInitialPosition();
-                    d1 = d1 / d1.mod();
-                    d2 = d2 / d2.mod();
+                    Position d1 = p1.resta(avio1.GetFinalPosition(), avio1.GetInitialPosition());
+                    Position d2 = p1.resta(avio2.GetFinalPosition(), avio2.GetInitialPosition());
+                    d1 = d1.div(d1, d1.mod());
+                    d2 = d1.div(d2, d2.mod());
                     
-                    Position v1 = avio1.GetSpeed() * d1;
-                    Position v2 = avio2.GetSpeed() * d2;
+                    Position v1 = d1.mult(avio1.GetSpeed(), d1);
+                    Position v2 = d1.mult(avio2.GetSpeed(), d2);
                     
-                    Position dP = p1 - p2;
-                    Position dV = v1 - v2;
+                    Position dP =p1.resta(p1, p2);
+                    Position dV = p1.resta(v1, v2);
 
                     double t = 0;
-                    if (dV != 0)
+                    if (!p1.igual(dV, 0))
                     {
                         // El temps t que minimitza la distancia t'=−(Δp⋅Δv)/∥Δv∥**2
-                        t = -(dP * dV) / (dV.mod() * dV.mod());
+                        t = -dP.mult(dP, dV) / (dV.mod() * dV.mod());
                     }
                     // Si t'<0, la distancia mínima ja ha passat
                     t = Math.Max(t, 0);
 
-                    Position distanciaMin = dP + t * dV;
+                    Position distanciaMin = p1.suma(dP, p1.mult(t, dV));
                     double distanciaMinMod = distanciaMin.mod();
 
                     if (distanciaMinMod < securityDistance)

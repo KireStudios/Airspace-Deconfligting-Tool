@@ -1,5 +1,0 @@
-False
-68,21
-FP1,StandBy Airlines,200,200,0,0,100
-FP2,EasyFall,0,200,200,0,100
-FP3,StandBy Airlines,400,0,350,400,150

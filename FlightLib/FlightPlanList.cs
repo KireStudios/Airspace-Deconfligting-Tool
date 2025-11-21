@@ -6,7 +6,7 @@ namespace FlightLib
 {
     public class FlightPlanList
     {
-        //Cambiado el vector de 10 por una lista dinamica.
+        //Canviat el vector de 10 per una llista dinàmica
         List<FlightPlan> vectorFP = new List<FlightPlan>();
         int numeroFlightPlans = 0;    //Ahora numeroFlightPlans es redundante, no?
 
@@ -15,7 +15,8 @@ namespace FlightLib
         {
 
         }
-        
+
+        // Afegeix un FlightPlan a la llista, sempre que no sigui null
         public void AddFlightPlan(FlightPlan flightPlan) 
         {
             if (flightPlan != null)
@@ -25,6 +26,7 @@ namespace FlightLib
             }
         }
 
+        // Recorre tots els FlightPlans d’una altra llista i els afegeix un per un
         public void AddFlightPlans(FlightPlanList flightPlanList)
         {
             for (int i = 0; i < flightPlanList.GetNumeroFlightPlans(); i++)
@@ -33,6 +35,7 @@ namespace FlightLib
             }
         }
 
+        // Retorna el FlightPlan a la posició indicada, o null si el número és incorrecte
         public FlightPlan GetFlightPlan(int numeroFlightPlan)
         {
             if (numeroFlightPlan < 0 || numeroFlightPlan > numeroFlightPlans)
@@ -42,6 +45,7 @@ namespace FlightLib
             return vectorFP[numeroFlightPlan];
         }
 
+        // Mou tots els FlightPlans que encara no han arribat al final
         public void Moure(int tempsCicle)
         {
             for (int i = 0; i < numeroFlightPlans; i++)
@@ -53,6 +57,7 @@ namespace FlightLib
             }
         }
 
+        // Escriu per consola els FlightPlans que encara estan en moviment.
         public void EscriureConsola()
         {
             for (int i = 0; i < numeroFlightPlans; i++)
@@ -72,12 +77,13 @@ namespace FlightLib
             }
         }
 
-        // Per portar la contabilitat del numero de FlightPlans
+        // Per portar la contabilitat del número de FlightPlans
         public int GetNumeroFlightPlans()
         {
             return numeroFlightPlans;
         }
 
+        // Guarda l'estat actual de la llista de FlightPlans en un fitxer
         public void SaveToFile(string filePath, int cicles, double securityDistance, bool simulating = false, int currentCicle = 0)
         {
             StreamWriter writer = new StreamWriter(filePath);
@@ -87,21 +93,23 @@ namespace FlightLib
                 string header;
                 header = simulating.ToString();
                 header += Environment.NewLine;
+
                 if (simulating)
                 {
                     header += currentCicle.ToString();
                     header += Environment.NewLine;
                 }
-                header += string.Format("{0},{1}", cicles, securityDistance);
+                header += string.Format("{0}.{1}", cicles, securityDistance);
                 header += Environment.NewLine;
                 writer.Write(header);
-                
+
+                // Si la simulació està en marxa, escriu totes les dades
                 if (simulating)
                 {
                     for (int i = 0; i < numeroFlightPlans; i++)
                     {
                         FlightPlan fp = vectorFP[i];
-                        string line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
+                        string line = string.Format("{0}.{1}.{2}.{3}.{4}.{5}.{6}.{7}.{8}",
                             fp.GetId(),
                             fp.GetCompany(),
                             fp.GetInitialPosition().GetX(),
@@ -114,12 +122,14 @@ namespace FlightLib
                         writer.WriteLine(line);
                     }
                 }
+
+                // Si la simulació no està en marxa, escriu només les dades inicials
                 else
                 {
                     for (int i = 0; i < numeroFlightPlans; i++)
                     {
                         FlightPlan fp = vectorFP[i];
-                        string line = string.Format("{0},{1},{2},{3},{4},{5},{6}",
+                        string line = string.Format("{0}.{1}.{2}.{3}.{4}.{5}.{6}",
                             fp.GetId(),
                             fp.GetCompany(),
                             fp.GetPosition().GetX(),
@@ -133,6 +143,7 @@ namespace FlightLib
 
                 writer.Close();
             }
+
             catch (Exception ex)
             {
                 writer.Close();
@@ -140,10 +151,9 @@ namespace FlightLib
             }
         }
 
-        // return a copy of the flight plan list, not a reference
+        // Retorna una còpia del FlightPlanList
         public FlightPlanList copy()
         {
-            // returns a copy of this FlightPlanList
             FlightPlanList copyFPL = new FlightPlanList();
             for (int i = 0; i < this.numeroFlightPlans; i++)
             {

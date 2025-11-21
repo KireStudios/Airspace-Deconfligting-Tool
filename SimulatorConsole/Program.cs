@@ -7,6 +7,7 @@ using FlightLib;
 
 namespace SimulatorConsole
 {
+    // Programa principal de simulació per consola
     public class Program
     {
         static void Main(string[] args)
@@ -14,7 +15,8 @@ namespace SimulatorConsole
             FlightPlanList llista = new FlightPlanList();
 
             string input;
-            
+
+            // Dades del primer avió
             Console.WriteLine("Escriu l'identificador");
             string identificador = Console.ReadLine();
 
@@ -65,10 +67,12 @@ namespace SimulatorConsole
                 }
                 Console.WriteLine("Entra unicament 2 coordenades (que son numeros...), la x i la y, separades per un espai en blanc, si us plau ^-^");
             }
-            
+
+            // Crear i afegir el primer avió
             FlightPlan plan_a = new FlightPlan(identificador, "company", ix, iy, fx, fy, velocitat);
             llista.AddFlightPlan(plan_a);
-            
+
+            // Dades del segon avió
             Console.WriteLine("Escriu l'identificador");
             identificador = Console.ReadLine();
 
@@ -113,12 +117,12 @@ namespace SimulatorConsole
                 }
                 Console.WriteLine("Entra unicament 2 coordenades (que son numeros...), la x i la y, separades per un espai en blanc, si us plau ^-^");
             }
-            
+
+            // Crear i afegir el segon avió
             FlightPlan plan_b = new FlightPlan(identificador, "company", ix, iy, fx, fy, velocitat);
             llista.AddFlightPlan(plan_b);
             
             // Simulació
-
             int cicles = 10;
             int tempsCicle = 60;
             double distanciaSeguretat = 10;
