@@ -58,10 +58,18 @@ namespace WindowsPrincipal
         {
             if (e.RowIndex == 2 && e.ColumnIndex == 1)
             {
-                //SelectedFlightPlan.SetSpeed(Convert.ToDouble(PlaneDataGridView.Rows[2].Cells[1].Value));
-                velocitatModificada = PlaneDataGridView.Rows[2].Cells[1].Value != null
-                    ? Convert.ToDouble(PlaneDataGridView.Rows[2].Cells[1].Value)
-                    : SelectedFlightPlan.GetSpeed();
+                try
+                {
+                    //SelectedFlightPlan.SetSpeed(Convert.ToDouble(PlaneDataGridView.Rows[2].Cells[1].Value));
+                    velocitatModificada = PlaneDataGridView.Rows[2].Cells[1].Value != null
+                        ? Convert.ToDouble(PlaneDataGridView.Rows[2].Cells[1].Value)
+                        : SelectedFlightPlan.GetSpeed();
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Invalid speed format. Please enter a numeric value.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
             }
         }
     }

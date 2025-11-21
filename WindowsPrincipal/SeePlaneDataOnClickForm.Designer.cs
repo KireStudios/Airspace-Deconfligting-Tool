@@ -42,20 +42,18 @@
             this.PlaneDataGridView.Name = "PlaneDataGridView";
             this.PlaneDataGridView.RowHeadersWidth = 51;
             this.PlaneDataGridView.RowTemplate.Height = 24;
-            this.PlaneDataGridView.Size = new System.Drawing.Size(400, 185);
+            this.PlaneDataGridView.Size = new System.Drawing.Size(356, 148);
             this.PlaneDataGridView.TabIndex = 0;
             this.PlaneDataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.PlaneDataGridView_CellValueChanged);
             // 
             // SeePlaneDataOnClickForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(398, 184);
-            this.Controls.Add(this.dataGridView1);
+            this.ClientSize = new System.Drawing.Size(354, 147);
             this.Controls.Add(this.PlaneDataGridView);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "SeePlaneDataOnClickForm";
             this.Text = "Plane Data";
             this.Load += new System.EventHandler(this.SeePlaneDataOnClickForm_Load);

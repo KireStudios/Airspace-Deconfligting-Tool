@@ -91,14 +91,14 @@ namespace WindowsPrincipal
 
         private void DeveloperTestFlightsButton_Click(object sender, EventArgs e)
         {
-            FlightPlan FP1 = new FlightPlan("FP1", "StandBy Airlines", 200, 200, 0, 0, 100);
-            FlightPlan FP2 = new FlightPlan("FP2", "EasyFall",0, 200, 200, 0, 100);
-            FlightPlan FP3 = new FlightPlan("FP3", "StandBy Airlines",400, 0, 350, 400, 150);
+            FlightPlan FP1 = new FlightPlan("FP1", "StandBy Airlines", 400, 400, 0, 0, 100);
+            FlightPlan FP2 = new FlightPlan("FP2", "EasyFall",0, 400, 400, 0, 100);
+            FlightPlan FP3 = new FlightPlan("FP3", "StandBy Airlines",800, 0, 700, 800, 150);
             FlightsList.AddFlightPlan(FP1);
             FlightsList.AddFlightPlan(FP2);
             FlightsList.AddFlightPlan(FP3);
             //PlansUpdated?.Invoke(this, FlightsList);
-            MessageBox.Show("3 test flights added correctly!!\n(FP1, StandBy Airlines,200, 200, 0, 0, 100)\n(FP2, EasyFall, 0, 200, 200, 0, 100)\n(FP3, StandBy Airlines,400, 0, 350, 400, 150)");
+            MessageBox.Show("3 test flights added correctly!!\n(FP1, StandBy Airlines,400, 400, 0, 0, 100)\n(FP2, EasyFall, 0, 400, 400, 0, 100)\n(FP3, StandBy Airlines,800, 0, 700, 800, 150)");
         }
 
         // Perque es pugui arrosegar el formulari

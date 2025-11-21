@@ -34,11 +34,11 @@ namespace WindowsPrincipal
             
             VolsDataGridView.ColumnCount = 6;
             VolsDataGridView.Columns[0].Name = "ID";
-            VolsDataGridView.Columns[1].Name = "Companyia";
-            VolsDataGridView.Columns[2].Name = "Velocitat";
-            VolsDataGridView.Columns[3].Name = "Posició inicial";
-            VolsDataGridView.Columns[4].Name = "Posició actual";
-            VolsDataGridView.Columns[5].Name = "Posició final";
+            VolsDataGridView.Columns[1].Name = "Company";
+            VolsDataGridView.Columns[2].Name = "Velocity";
+            VolsDataGridView.Columns[3].Name = "Initial position";
+            VolsDataGridView.Columns[4].Name = "Actual position";
+            VolsDataGridView.Columns[5].Name = "Final position";
             
             VolsDataGridView.RowHeadersVisible = false;
             
@@ -109,6 +109,7 @@ namespace WindowsPrincipal
             {
                 Selecting2 = false;
                 Selecting1 = true;
+                Pla1Button.Text = "Select plan in the grid";
             }
         }
 
@@ -118,6 +119,7 @@ namespace WindowsPrincipal
             {
                 Selecting1 = false;
                 Selecting2 = true;
+                Pla2Button.Text = "Select plan in the grid";
             }
         }
     }

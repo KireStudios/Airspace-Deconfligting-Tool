@@ -73,7 +73,7 @@ namespace WindowsPrincipal
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(708, 194);
+            this.ClientSize = new System.Drawing.Size(712, 194);
             this.Controls.Add(this.DistanciaLabel);
             this.Controls.Add(this.Pla2Button);
             this.Controls.Add(this.Pla1Button);
@@ -84,6 +84,7 @@ namespace WindowsPrincipal
             this.Load += new System.EventHandler(this.InfoVolsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.VolsDataGridView)).EndInit();
             this.ResumeLayout(false);
+
         }
 
         private System.Windows.Forms.Label DistanciaLabel;

@@ -59,7 +59,8 @@ namespace WindowsPrincipal
         }
 
         private void SimulationForm_Load(object sender, EventArgs e)
-        {
+        {   
+            SimulationPanel.Size = new Size(1000, 800);
             // Suscribirse al evento Paint para dibujar las trayectorias y elipses
             SimulationPanel.Paint += new PaintEventHandler(SimulationPanel_Paint);
             
@@ -102,6 +103,7 @@ namespace WindowsPrincipal
         {
             Graphics g = e.Graphics;
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
 
             for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
             {
