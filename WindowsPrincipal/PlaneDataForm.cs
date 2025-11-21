@@ -19,7 +19,7 @@ namespace WindowsPrincipal
         FlightPlanList FlightsList = new FlightPlanList();
         
         // Per actualitzar sense tancar (si no es fa servir ShowDialog)
-        public event EventHandler<FlightPlanList> PlansUpdated;
+        //public event EventHandler<FlightPlanList> PlansUpdated;
 
         // Per arrosegar el formulari
         [DllImport("user32.dll")]
@@ -75,7 +75,7 @@ namespace WindowsPrincipal
                 InitialPositionTextBox.Text = null;
                 FinalPositionTextBox.Text = null;
                 
-                PlansUpdated?.Invoke(this, FlightsList);
+                //PlansUpdated?.Invoke(this, FlightsList);
             }
             catch (FormatException)
             {
@@ -97,7 +97,7 @@ namespace WindowsPrincipal
             FlightsList.AddFlightPlan(FP1);
             FlightsList.AddFlightPlan(FP2);
             FlightsList.AddFlightPlan(FP3);
-            PlansUpdated?.Invoke(this, FlightsList);
+            //PlansUpdated?.Invoke(this, FlightsList);
             MessageBox.Show("3 test flights added correctly!!\n(FP1, StandBy Airlines,200, 200, 0, 0, 100)\n(FP2, EasyFall, 0, 200, 200, 0, 100)\n(FP3, StandBy Airlines,400, 0, 350, 400, 150)");
         }
 

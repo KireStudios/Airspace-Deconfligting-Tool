@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,9 +16,23 @@ namespace UserWindows
     public partial class Login : Form
     {
         Manage user_base = new Manage();
+        
+        // Per arrosegar el formulari
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+
+        private const int WM_NCLBUTTONDOWN = 0xA1;
+        private const int HTCAPTION = 0x2;
+        
         public Login()
         {
             InitializeComponent();
+            
+            // Per arrosegar el formulari
+            this.MouseDown += Form1_MouseDown;
         }
 
         private void Login_Load(object sender, EventArgs e)
@@ -72,6 +87,18 @@ namespace UserWindows
             {
                 MessageBox.Show("Error de formato en la entrada de datos.");
             }
+        }
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+        
+        // Perque es pugui arrosegar el formulari
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
+            ReleaseCapture();
+            SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
         }
     }
 }

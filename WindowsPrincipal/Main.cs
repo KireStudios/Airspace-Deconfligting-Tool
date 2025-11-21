@@ -108,7 +108,7 @@ namespace WindowsPrincipal
                             currentCicle = int.Parse(FileLine);
                         }
 
-                        string[] Line = FileReader.ReadLine().Split(',');
+                        string[] Line = FileReader.ReadLine().Split('.');
                         cicles = int.Parse(Line[0]);
                         securityDistance = double.Parse(Line[1]);
                         
@@ -120,7 +120,7 @@ namespace WindowsPrincipal
                         {
                             if (simulating)
                             {
-                                string[] FPCharacteristics = FileLine.Split(',');
+                                string[] FPCharacteristics = FileLine.Split('.');
                                 FP = new FlightPlan(FPCharacteristics[0], FPCharacteristics[1],
                                     Convert.ToDouble(FPCharacteristics[2]),
                                     Convert.ToDouble(FPCharacteristics[3]), Convert.ToDouble(FPCharacteristics[6]),
@@ -129,7 +129,7 @@ namespace WindowsPrincipal
                             }
                             else
                             {
-                                string[] FPCharacteristics = FileLine.Split(',');
+                                string[] FPCharacteristics = FileLine.Split('.');
                                 FP = new FlightPlan(FPCharacteristics[0], FPCharacteristics[1],
                                     Convert.ToDouble(FPCharacteristics[2]),
                                     Convert.ToDouble(FPCharacteristics[3]), Convert.ToDouble(FPCharacteristics[4]),
