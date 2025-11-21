@@ -53,7 +53,6 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(398, 184);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.PlaneDataGridView);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "SeePlaneDataOnClickForm";

@@ -30,7 +30,7 @@ namespace WindowsPrincipal
         // Carregar el fitxer quan es prem el botó
         private void LoadButton_Click(object sender, EventArgs e)
         {
-            string FileName = FileNameTextBox.Text
+            string FileName = FileNameTextBox.Text;
             // Comprovar que el fitxer és .txt
             string[] trozos = FileName.Split('.');
           if (trozos.Length != 2 || trozos[trozos.Length - 1] != "txt")
