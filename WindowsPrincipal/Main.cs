@@ -124,7 +124,7 @@ namespace WindowsPrincipal
                                 FP = new FlightPlan(FPCharacteristics[0], FPCharacteristics[1],
                                     Convert.ToDouble(FPCharacteristics[2]),
                                     Convert.ToDouble(FPCharacteristics[3]), Convert.ToDouble(FPCharacteristics[6]),
-                                    Convert.ToDouble(FPCharacteristics[7]), Convert.ToInt32(FPCharacteristics[8]),
+                                    Convert.ToDouble(FPCharacteristics[7]), Convert.ToDouble(FPCharacteristics[8]),
                                     Convert.ToDouble(FPCharacteristics[4]), Convert.ToDouble(FPCharacteristics[5]));
                             }
                             else
@@ -133,7 +133,7 @@ namespace WindowsPrincipal
                                 FP = new FlightPlan(FPCharacteristics[0], FPCharacteristics[1],
                                     Convert.ToDouble(FPCharacteristics[2]),
                                     Convert.ToDouble(FPCharacteristics[3]), Convert.ToDouble(FPCharacteristics[4]),
-                                    Convert.ToDouble(FPCharacteristics[5]), Convert.ToInt32(FPCharacteristics[6]));
+                                    Convert.ToDouble(FPCharacteristics[5]), Convert.ToDouble(FPCharacteristics[6]));
                             }
                             loadedFlightPlans.AddFlightPlan(FP);
                             FileLine = FileReader.ReadLine();
@@ -154,7 +154,7 @@ namespace WindowsPrincipal
                     catch (FormatException)
                     {
                         MessageBox.Show(
-                            "File format is incorrect. Please ensure the file contains valid data separated by commas.",
+                            "File format is incorrect. Please ensure the file contains valid data separated by dots.",
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     catch (Exception ex)
