@@ -18,11 +18,11 @@ namespace UserWindows
         Manage user_base = new Manage();
         
         // Per arrosegar el formulari
-        [DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
+        //[DllImport("user32.dll")]
+        //public static extern bool ReleaseCapture();
 
-        [DllImport("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        //[DllImport("user32.dll")]
+        //public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
         private const int WM_NCLBUTTONDOWN = 0xA1;
         private const int HTCAPTION = 0x2;
@@ -97,8 +97,8 @@ namespace UserWindows
         // Perque es pugui arrosegar el formulari
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
-            ReleaseCapture();
-            SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+            //ReleaseCapture();
+            //SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
         }
     }
 }

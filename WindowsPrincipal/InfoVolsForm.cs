@@ -4,6 +4,7 @@ using System.Windows.Forms;
 
 namespace WindowsPrincipal
 {
+    // Formulari per a mostrar la informació dels vols
     public partial class InfoVolsForm : Form
     {
         private FlightPlanList llistaVols;
@@ -12,16 +13,19 @@ namespace WindowsPrincipal
         private FlightPlan p2;
         bool Selecting1 = false;
         bool Selecting2 = false;
-        private bool actiu = false;
-        
+        private bool actiu = false; // Indica si hi ha vols carregats i es pot seleccionar
+
+        // Constructor del formulari
         public InfoVolsForm(FlightPlanList llistaVols)
         {
             InitializeComponent();
             this.llistaVols = llistaVols;
         }
-        
+
+        // Carregar la informació dels vols al DataGridView
         private void InfoVolsForm_Load(object sender, EventArgs e)
         {
+            // Comprova si hi ha vols disponibles
             if (llistaVols.GetNumeroFlightPlans() == 0)
             {
                 VolsDataGridView.RowCount = 1;
@@ -31,7 +35,8 @@ namespace WindowsPrincipal
                 VolsDataGridView.RowCount = llistaVols.GetNumeroFlightPlans();
                 actiu = true;
             }
-            
+
+            // Definició de les columnes
             VolsDataGridView.ColumnCount = 6;
             VolsDataGridView.Columns[0].Name = "ID";
             VolsDataGridView.Columns[1].Name = "Company";
@@ -41,7 +46,8 @@ namespace WindowsPrincipal
             VolsDataGridView.Columns[5].Name = "Final position";
             
             VolsDataGridView.RowHeadersVisible = false;
-            
+
+            // Omplir el DataGridView amb les dades reals
             for (int i = 0; i < llistaVols.GetNumeroFlightPlans(); i++)
             {
                 FlightPlan fp = llistaVols.GetFlightPlan(i);
@@ -52,23 +58,29 @@ namespace WindowsPrincipal
                 VolsDataGridView.Rows[i].Cells[4].Value = $"{fp.GetPosition().GetX().ToString()}, {fp.GetPosition().GetY().ToString()}";
                 VolsDataGridView.Rows[i].Cells[5].Value = $"{fp.GetFinalPosition().GetX().ToString()}, {fp.GetFinalPosition().GetY().ToString()}";
             }
-            
+
+            // Configuració visual
             VolsDataGridView.ReadOnly = true;
             VolsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             VolsDataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            // Gestionar els clics a les cel·les
             VolsDataGridView.CellClick += VolsDataGridView_CellClick;
         }
 
+        // Selecciona els vols quan l’usuari fa clic i calcula la distància mínima
         private void VolsDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.RowIndex < llistaVols.GetNumeroFlightPlans())
             {
+                // Seleccionar el primer vol
                 if (Selecting1)
                 {
                     p1 = llistaVols.GetFlightPlan(e.RowIndex);
                     Pla1Button.Text = $"Pla 1: {p1.GetId()}";
                     Selecting1 = false;
                 }
+                // Seleccionar el segon vol
                 else if (Selecting2)
                 {
                     p2 = llistaVols.GetFlightPlan(e.RowIndex);
@@ -76,6 +88,7 @@ namespace WindowsPrincipal
                     Selecting2 = false;
                 }
 
+                // Si els dos vols són seleccionats, mostra la distància
                 if (p1 != null && p2 != null)
                 {
                     double distancia = p1.Distancia(p2);
@@ -87,22 +100,9 @@ namespace WindowsPrincipal
                     DistanciaLabel.Text = "";
                 }
             }
-            /*
-            if (e.RowIndex >= 0 && e.RowIndex < llistaVols.GetNumeroFlightPlans())
-            {
-                FlightPlan pv = llistaVols.GetFlightPlan(e.RowIndex);
-                // Distancia amb un altre vol (per exemple, el seguent vol de la llista)
-                if (llistaVols.GetNumeroFlightPlans() > 1)
-                {
-                    FlightPlan seguentPv =
-                        llistaVols.GetFlightPlan((e.RowIndex + 1) % llistaVols.GetNumeroFlightPlans());
-                    double distancia = pv.Distancia(seguentPv);
-                    MessageBox.Show($"Distància mínima al vol {seguentPv.GetId()}: {distancia:F2} unitats",
-                        "Distància entre vols", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }*/
         }
-        
+
+        // Activa la selecció del primer vol quan l’usuari vol assignar Pla 1
         private void Pla1Button_Click(object sender, EventArgs e)
         {
             if (actiu)
@@ -113,6 +113,7 @@ namespace WindowsPrincipal
             }
         }
 
+        // Activa la selecció del segon vol quan l’usuari vol assignar Pla 2
         private void Pla2Button_Click(object sender, EventArgs e)
         {
             if (actiu)

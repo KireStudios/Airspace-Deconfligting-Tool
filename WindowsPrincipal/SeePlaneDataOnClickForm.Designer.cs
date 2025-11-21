@@ -52,7 +52,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(354, 147);
+            this.ClientSize = new System.Drawing.Size(398, 184);
             this.Controls.Add(this.PlaneDataGridView);
             this.Name = "SeePlaneDataOnClickForm";
             this.Text = "Plane Data";
