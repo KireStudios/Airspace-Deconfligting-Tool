@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using FlightLib;
 namespace WindowsPrincipal
 {
+    // Formulari per a afegir cicles i distància de seguretat
     public partial class CicleSecurityForm : Form
     {
         //Variables per a guardar els valors dels TextBox
@@ -28,7 +29,8 @@ namespace WindowsPrincipal
 
         private const int WM_NCLBUTTONDOWN = 0xA1;
         private const int HTCAPTION = 0x2;
-        
+
+        // Constructor del formulari
         public CicleSecurityForm(int cicles, double securityDistance)
         {
             InitializeComponent();
@@ -39,7 +41,7 @@ namespace WindowsPrincipal
             // Per arrosegar el formulari
             this.MouseDown += Form1_MouseDown;
             
-            // perque estigui sempre a dalt (es pot posar una opcio a les opcions o algo aixi)
+            // Perquè estigui sempre a dalt (es pot posar una opció a les opcions o algo així)
             //this.TopMost = true;
         }
 
@@ -68,12 +70,13 @@ namespace WindowsPrincipal
             }
         }
 
+        //Tancar el formulari
         private void ReturnButton_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        //Per a traspassar les dades de Cicle i SecurityDistance al Main
+        //Per traspassar les dades de Cicle i SecurityDistance al Main
         public int GetCicles()
         {
             return cicles;
@@ -83,10 +86,13 @@ namespace WindowsPrincipal
             return securityDistance;
         }
 
+        //Carregar el formulari
         private void CicleSecurityForm_Load(object sender, EventArgs e)
         {
 
         }
+
+        //Omplir automàticament els camps amb valors aleatoris
         private void fillAuto_Click(object sender, EventArgs e)
         {
             cicles = generator.Next(10, 100);
@@ -94,8 +100,8 @@ namespace WindowsPrincipal
             CicleTextBox.Text = Convert.ToString(cicles);
             SecurityTextBox.Text = Convert.ToString(securityDistance);
         }
-        
-        // Perque es pugui arrosegar el formulari
+
+        // Per arrosegar el formulari
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             ReleaseCapture();

@@ -13,8 +13,10 @@ using FlightLib;
 
 namespace WindowsPrincipal
 {
+    // Formulari per carregar un fitxer de text amb els FlightPlans
     public partial class LoadFileForm : Form
     {
+        // Llista on guardarem els vols carregats del fitxer
         FlightPlanList FlightPlans = new FlightPlanList();
         public LoadFileForm()
         {
@@ -25,10 +27,12 @@ namespace WindowsPrincipal
 
         }
 
+        // Carregar el fitxer quan es prem el botó
         private void LoadButton_Click(object sender, EventArgs e)
         {
-          string FileName = FileNameTextBox.Text;
-          string[] trozos = FileName.Split('.');
+            string FileName = FileNameTextBox.Text
+            // Comprovar que el fitxer és .txt
+            string[] trozos = FileName.Split('.');
           if (trozos.Length != 2 || trozos[trozos.Length - 1] != "txt")
           {
                 MessageBox.Show("File extension not valid or TextBox is blank. Use .txt files only and write the extension.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -37,12 +41,14 @@ namespace WindowsPrincipal
           {
             try
             {
+                // Ruta fixa al directori DebugData
                 string FilePath = Path.Combine(@"..\..\..\DebugData\", FileName);
                 StreamReader FileReader = new StreamReader(FilePath);
                 string FileLine = FileReader.ReadLine();
                 while (FileLine != null)
                 {
                         string[] FPCharacteristics = FileLine.Split(',');
+                        // Construcció del FlightPlan des dels valors del fitxer
                         FlightPlan FP = new FlightPlan(FPCharacteristics[0], FPCharacteristics[1], Convert.ToDouble(FPCharacteristics[2]),
                                                        Convert.ToDouble(FPCharacteristics[3]), Convert.ToDouble(FPCharacteristics[4]),
                                                        Convert.ToDouble(FPCharacteristics[5]), Convert.ToInt32(FPCharacteristics[6])); 
@@ -67,11 +73,13 @@ namespace WindowsPrincipal
           }
         }
 
+        // Retorna la llista de FlightPlans carregats des del fitxer
         public FlightPlanList GetFlightPlanList()
         {
             return FlightPlans;
         }
 
+        // Tanca el formulari quan l'usuari accepta la seva derrota
         private void CloseButton_Click(object sender, EventArgs e)
         {
             Close();

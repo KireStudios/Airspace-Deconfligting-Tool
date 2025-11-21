@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace FlightLib
 {
+    // Class Position per representar una posició en 2D
     public class Position
     {
-        // Atributos
-        double x; // coordenada X (2D)
-        double y; // coordenada Y (2D)
+        // Atributs
+        double x; // Coordenada X (2D)
+        double y; // Coordenada Y (2D)
 
         // Constructores
-
         public Position(double x, double y)
         {
             this.x = x;
@@ -40,14 +40,6 @@ namespace FlightLib
         {
             return new Position(a.x / scalar, a.y / scalar);
         }
-        /*public static bool operator ==(Position a, Position b)
-        {
-            return a.x == b.x && a.y == b.y;
-        }
-        public static bool operator !=(Position a, Position b)
-        {
-            return !(a == b);
-        }*/
         public static bool operator ==(Position a, int b)
         {
             return a.x == b && a.y == b;
@@ -65,16 +57,16 @@ namespace FlightLib
             return Math.Sqrt(x * x + y * y);
         }
 
-        // Metodos
+        // Mètodes
 
+        //Gettera
         public double GetX()
-        // getter del atributo x
         { return x; }
 
         public double GetY()
-        // getter del atributo y
         { return y; }
         
+        //Setters
         public void SetX(int x)
         {
             this.x = x;
@@ -85,7 +77,7 @@ namespace FlightLib
         }
 
         public double Distancia(Position b)
-        // retorna la distancia entre los dos Position
+        // Retorna la distancia entre les dues posicions
         {
             double resultado = Math.Sqrt((x - b.x) * (x - b.x) + (y - b.y) * (y - b.y));
             return resultado;
