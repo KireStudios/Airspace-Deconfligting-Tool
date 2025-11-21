@@ -91,9 +91,9 @@ namespace WindowsPrincipal
 
         private void DeveloperTestFlightsButton_Click(object sender, EventArgs e)
         {
-            FlightPlan FP1 = new FlightPlan("FP1", "StandBy Airlines", 400, 400, 0, 0, 100);
-            FlightPlan FP2 = new FlightPlan("FP2", "EasyFall",0, 400, 400, 0, 100);
-            FlightPlan FP3 = new FlightPlan("FP3", "StandBy Airlines",800, 0, 700, 800, 150);
+            FlightPlan FP1 = new FlightPlan("FP1", "StandBy Airlines", 400*3/4, 400*3/4, 0, 0, 100);
+            FlightPlan FP2 = new FlightPlan("FP2", "EasyFall",0, 400*3/4, 400*3/4, 0, 100);
+            FlightPlan FP3 = new FlightPlan("FP3", "StandBy Airlines",800*3/4, 0, 700*3/4, 800*3/4, 150);
             FlightsList.AddFlightPlan(FP1);
             FlightsList.AddFlightPlan(FP2);
             FlightsList.AddFlightPlan(FP3);

@@ -60,7 +60,7 @@ namespace WindowsPrincipal
 
         private void SimulationForm_Load(object sender, EventArgs e)
         {   
-            SimulationPanel.Size = new Size(1000, 800);
+            SimulationPanel.Size = new Size(750, 600);
             // Suscribirse al evento Paint para dibujar las trayectorias y elipses
             SimulationPanel.Paint += new PaintEventHandler(SimulationPanel_Paint);
             

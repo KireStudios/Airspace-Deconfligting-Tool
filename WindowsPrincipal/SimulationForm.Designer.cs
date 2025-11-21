@@ -41,6 +41,7 @@ namespace WindowsPrincipal
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationForm));
             this.SimulationPanel = new System.Windows.Forms.Panel();
             this.SimulationLabel = new System.Windows.Forms.Label();
             this.CloseButton = new System.Windows.Forms.Button();
@@ -60,125 +61,159 @@ namespace WindowsPrincipal
             // 
             // SimulationPanel
             // 
-            this.SimulationPanel.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.SimulationPanel.Location = new System.Drawing.Point(408, 57);
+            this.SimulationPanel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.SimulationPanel.Location = new System.Drawing.Point(449, 123);
             this.SimulationPanel.Margin = new System.Windows.Forms.Padding(0);
             this.SimulationPanel.Name = "SimulationPanel";
-            this.SimulationPanel.Size = new System.Drawing.Size(1130, 900);
+            this.SimulationPanel.Size = new System.Drawing.Size(1271, 1125);
             this.SimulationPanel.TabIndex = 0;
             // 
             // SimulationLabel
             // 
             this.SimulationLabel.AutoSize = true;
-            this.SimulationLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.SimulationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SimulationLabel.Location = new System.Drawing.Point(97, 57);
+            this.SimulationLabel.BackColor = System.Drawing.Color.Transparent;
+            this.SimulationLabel.Font = new System.Drawing.Font("Monotype Corsiva", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SimulationLabel.Location = new System.Drawing.Point(109, 71);
             this.SimulationLabel.Name = "SimulationLabel";
-            this.SimulationLabel.Size = new System.Drawing.Size(166, 38);
+            this.SimulationLabel.Size = new System.Drawing.Size(221, 57);
             this.SimulationLabel.TabIndex = 2;
             this.SimulationLabel.Text = "Simulation";
             // 
             // CloseButton
             // 
             this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CloseButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CloseButton.Location = new System.Drawing.Point(1419, 43);
+            this.CloseButton.BackColor = System.Drawing.Color.Transparent;
+            this.CloseButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.CloseButton.FlatAppearance.BorderSize = 0;
+            this.CloseButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.CloseButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.CloseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CloseButton.Font = new System.Drawing.Font("Monotype Corsiva", 28F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CloseButton.ForeColor = System.Drawing.Color.DarkRed;
+            this.CloseButton.Location = new System.Drawing.Point(1596, 54);
+            this.CloseButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(135, 52);
+            this.CloseButton.Size = new System.Drawing.Size(152, 65);
             this.CloseButton.TabIndex = 3;
-            this.CloseButton.Text = "Close Simulation";
-            this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Text = "X";
+            this.CloseButton.UseVisualStyleBackColor = false;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(125, 222);
+            this.button1.BackColor = System.Drawing.Color.Transparent;
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Monotype Corsiva", 16F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(141, 278);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(113, 63);
+            this.button1.Size = new System.Drawing.Size(127, 79);
             this.button1.TabIndex = 4;
             this.button1.Text = "Move";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.MoveButton_Click);
             // 
             // RestartButton
             // 
-            this.RestartButton.Location = new System.Drawing.Point(144, 331);
+            this.RestartButton.BackColor = System.Drawing.Color.Transparent;
+            this.RestartButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.RestartButton.FlatAppearance.BorderSize = 0;
+            this.RestartButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.RestartButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.RestartButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.RestartButton.Font = new System.Drawing.Font("Monotype Corsiva", 16F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RestartButton.Location = new System.Drawing.Point(85, 636);
+            this.RestartButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.RestartButton.Name = "RestartButton";
-            this.RestartButton.Size = new System.Drawing.Size(75, 23);
+            this.RestartButton.Size = new System.Drawing.Size(247, 54);
             this.RestartButton.TabIndex = 5;
-            this.RestartButton.Text = "Restart";
-            this.RestartButton.UseVisualStyleBackColor = true;
+            this.RestartButton.Text = "Restart simulation";
+            this.RestartButton.UseVisualStyleBackColor = false;
             this.RestartButton.Click += new System.EventHandler(this.RestartButton_Click);
             // 
             // AutoSimulateButton
             // 
-            this.AutoSimulateButton.Location = new System.Drawing.Point(97, 390);
+            this.AutoSimulateButton.BackColor = System.Drawing.Color.Transparent;
+            this.AutoSimulateButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.AutoSimulateButton.FlatAppearance.BorderSize = 0;
+            this.AutoSimulateButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.AutoSimulateButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.AutoSimulateButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AutoSimulateButton.Font = new System.Drawing.Font("Monotype Corsiva", 16F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AutoSimulateButton.Location = new System.Drawing.Point(66, 575);
+            this.AutoSimulateButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.AutoSimulateButton.Name = "AutoSimulateButton";
-            this.AutoSimulateButton.Size = new System.Drawing.Size(166, 40);
+            this.AutoSimulateButton.Size = new System.Drawing.Size(294, 53);
             this.AutoSimulateButton.TabIndex = 6;
             this.AutoSimulateButton.Text = "Start Auto Simulation";
-            this.AutoSimulateButton.UseVisualStyleBackColor = true;
+            this.AutoSimulateButton.UseVisualStyleBackColor = false;
             this.AutoSimulateButton.Click += new System.EventHandler(this.AutoSimulateButton_Click);
             // 
             // UndoButton
             // 
-            this.UndoButton.Location = new System.Drawing.Point(97, 290);
+            this.UndoButton.BackColor = System.Drawing.Color.Transparent;
+            this.UndoButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UndoButton.FlatAppearance.BorderSize = 0;
+            this.UndoButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.UndoButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.UndoButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.UndoButton.Font = new System.Drawing.Font("Monotype Corsiva", 16F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UndoButton.Location = new System.Drawing.Point(85, 365);
+            this.UndoButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.UndoButton.Name = "UndoButton";
-            this.UndoButton.Size = new System.Drawing.Size(166, 30);
+            this.UndoButton.Size = new System.Drawing.Size(247, 62);
             this.UndoButton.TabIndex = 11;
             this.UndoButton.Text = "Undo Last Step";
-            this.UndoButton.UseVisualStyleBackColor = true;
+            this.UndoButton.UseVisualStyleBackColor = false;
             this.UndoButton.Click += new System.EventHandler(this.UndoButton_Click);
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.optionsToolStripMenuItem});
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.fileToolStripMenuItem, this.optionsToolStripMenuItem });
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1601, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1801, 33);
             this.menuStrip1.TabIndex = 12;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveToolStripMenuItem});
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.saveToolStripMenuItem });
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(50, 29);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(121, 30);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
-            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showFlightDataToolStripMenuItem,
-            this.checkConflictsToolStripMenuItem});
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.showFlightDataToolStripMenuItem, this.checkConflictsToolStripMenuItem });
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(75, 26);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(88, 29);
             this.optionsToolStripMenuItem.Text = "Options";
             // 
             // showFlightDataToolStripMenuItem
             // 
             this.showFlightDataToolStripMenuItem.Name = "showFlightDataToolStripMenuItem";
-            this.showFlightDataToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.showFlightDataToolStripMenuItem.Size = new System.Drawing.Size(227, 30);
             this.showFlightDataToolStripMenuItem.Text = "Show Flights Data";
             this.showFlightDataToolStripMenuItem.Click += new System.EventHandler(this.showFlightDataToolStripMenuItem_Click);
             // 
             // checkConflictsToolStripMenuItem
             // 
             this.checkConflictsToolStripMenuItem.Name = "checkConflictsToolStripMenuItem";
-            this.checkConflictsToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.checkConflictsToolStripMenuItem.Size = new System.Drawing.Size(227, 30);
             this.checkConflictsToolStripMenuItem.Text = "Check conflicts";
             this.checkConflictsToolStripMenuItem.Click += new System.EventHandler(this.checkConflictsToolStripMenuItem_Click);
             // 
@@ -189,9 +224,11 @@ namespace WindowsPrincipal
             // 
             // SimulationForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1601, 930);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1801, 1162);
             this.Controls.Add(this.UndoButton);
             this.Controls.Add(this.AutoSimulateButton);
             this.Controls.Add(this.RestartButton);
@@ -203,6 +240,7 @@ namespace WindowsPrincipal
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "SimulationForm";
             this.Text = "SimulationForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -211,7 +249,6 @@ namespace WindowsPrincipal
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         private System.Windows.Forms.Timer AutoTimer;
