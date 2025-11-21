@@ -63,7 +63,7 @@ namespace WindowsPrincipal
             // 
             this.SimulationPanel.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.SimulationPanel.Location = new System.Drawing.Point(433, 162);
-            this.SimulationPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.SimulationPanel.Margin = new System.Windows.Forms.Padding(0);
             this.SimulationPanel.Name = "SimulationPanel";
             this.SimulationPanel.Size = new System.Drawing.Size(664, 622);
             this.SimulationPanel.TabIndex = 0;
@@ -91,6 +91,7 @@ namespace WindowsPrincipal
             // 
             // CloseButton
             // 
+            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CloseButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CloseButton.Location = new System.Drawing.Point(1119, 54);
             this.CloseButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -210,10 +211,12 @@ namespace WindowsPrincipal
             this.Controls.Add(this.SimulationPanel);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "SimulationForm";
             this.Text = "SimulationForm";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.SimulationForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
