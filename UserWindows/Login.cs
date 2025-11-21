@@ -16,6 +16,8 @@ namespace UserWindows
     public partial class Login : Form
     {
         Manage user_base = new Manage();
+
+        int num_bad_logins = 0;
         
         // Per arrosegar el formulari
         [DllImport("user32.dll")]
@@ -75,12 +77,17 @@ namespace UserWindows
                     }
                     else
                     {
-                        MessageBox.Show("Usuario o contraseña incorrectos.");
+                        num_bad_logins++;
+                        if (num_bad_logins >= 3)
+                        {
+                            CreateAButton();
+                        }
+                        MessageBox.Show("Usuario o contraseña incorrectos. (Intentos restantes: " + Convert.ToString(3 - num_bad_logins) + " )");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Usuario o contraseña incorrectos.");
+                    MessageBox.Show("Usuario no encontrado");
                 }
             }
             catch (FormatException)
@@ -99,6 +106,27 @@ namespace UserWindows
         {
             ReleaseCapture();
             SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+        }
+
+        private void CreateAButton()
+        {
+            Button recoverBtn = new Button();
+
+            recoverBtn.Text = "Recover password";
+            recoverBtn.Name = "btnDinamico";
+            recoverBtn.Location = new Point(75, 150);
+            recoverBtn.Size = new Size(150, 40);
+
+            recoverBtn.Click += new EventHandler(Recover_Click);
+
+            this.Controls.Add(recoverBtn);
+        }
+
+        private void Recover_Click(object sender, EventArgs e)
+        {
+            Manage.SendRecoverEmail(user_base, userBox.Text);
+            this.Controls.Remove((Button)sender);
+            ((Button)sender).Dispose();
         }
     }
 }

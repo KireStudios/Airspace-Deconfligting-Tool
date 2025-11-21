@@ -27,8 +27,9 @@ namespace UserWindows
             string user = userBox.Text.Trim();
             string pass1 = keyBox1.Text;
             string pass2 = keyBox2.Text;
+            string mail = mailBox.Text.Trim();
 
-            if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass1))
+            if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass1) || string.IsNullOrEmpty(mail))
             {
                 MessageBox.Show("El usuario y la contraseña no pueden estar vacíos.");
                 return;
@@ -41,7 +42,7 @@ namespace UserWindows
             }
             else
             {
-                bool success = user_base.CreateUser(user, pass1);
+                bool success = user_base.CreateUser(user, pass1, mail);
 
                 if (success)
                 {

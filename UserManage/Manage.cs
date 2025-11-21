@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Data;
-using System.Data.SQLite;
 using System.Data.Sql;
+using System.Data.SQLite;
 using System.IO;
+using System.Net;
+using System.Net.Mail;
+using System.Runtime.CompilerServices;
 
 namespace UserManage
 {
@@ -23,7 +26,7 @@ namespace UserManage
 
             CreateTableIfNotExists();
 
-            EnsureAdminUser("admin", "1234");
+            EnsureAdminUser("admin", "1234", "alex.sanz.rautiainen@estudiantat.upc.edu");
         }
 
         private void CreateTableIfNotExists()
@@ -32,7 +35,8 @@ namespace UserManage
                 CREATE TABLE IF NOT EXISTS users (
                     id INTEGER PRIMARY KEY,
                     username TEXT NOT NULL UNIQUE,
-                    password TEXT NOT NULL
+                    password TEXT NOT NULL,
+                    mail TEXT NOT NULL
                 );";
 
             using (SQLiteCommand command = new SQLiteCommand(sql, cnx))
@@ -41,7 +45,7 @@ namespace UserManage
             }
         }
 
-        private void EnsureAdminUser(string username, string password)
+        private void EnsureAdminUser(string username, string password, string mail)
         {
             // Primero, comprueba si el usuario 'admin' ya existe
             string checkSql = "SELECT COUNT(*) FROM users WHERE username = @user";
@@ -52,7 +56,7 @@ namespace UserManage
 
                 if (count == 0)
                 {
-                    CreateUser(username, password);
+                    CreateUser(username, password, mail);
                 }
             }
         }
@@ -84,17 +88,28 @@ namespace UserManage
                 return result?.ToString();
             }
         }
+        public string GetEmail(string username)
+        {
+            string sql = "SELECT mail FROM users WHERE username = @user";
+            using (SQLiteCommand command = new SQLiteCommand(sql, cnx))
+            {
+                command.Parameters.AddWithValue("@user", username);
+                object result = command.ExecuteScalar();
+                return result?.ToString();
+            }
+        }
 
-        public bool CreateUser(string username, string password)
+        public bool CreateUser(string username, string password, string mail)
         {
             try
             {
-                string sql = "INSERT INTO users (username, password) VALUES (@user, @pass)";
+                string sql = "INSERT INTO users (username, password, mail) VALUES (@user, @pass, @mail)";
 
                 using (SQLiteCommand command = new SQLiteCommand(sql, cnx))
                 {
                     command.Parameters.AddWithValue("@user", username);
                     command.Parameters.AddWithValue("@pass", password);
+                    command.Parameters.AddWithValue("@mail", mail);
 
                     int rowsAffected = command.ExecuteNonQuery();
 
@@ -112,6 +127,42 @@ namespace UserManage
             catch (Exception)
             {
                 return false;
+            }
+        }
+
+        public static void SendRecoverEmail(Manage manageInstance, string username)
+        {
+            string smtpServer = "smtp.gmail.com";
+            int port = 587;
+            string fromEmail = "fracs3cuenta@gmail.com";
+            string password = "noymackvcprnuidf";
+
+            try
+            {
+                string toEmail = manageInstance.GetEmail(username);
+                string body = "Password of " + username + " is " + manageInstance.GetHashedPassword(username);
+                using (MailMessage mail = new MailMessage(fromEmail, toEmail, "Recover Password", body))
+                using (SmtpClient client = new SmtpClient(smtpServer, port))
+                {
+                    client.EnableSsl = true;
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = new NetworkCredential(fromEmail, password);
+                    client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    client.Timeout = 10000; // ms
+
+                    client.Send(mail);
+                    Console.WriteLine("Correo enviado exitosamente a: " + toEmail);
+                }
+            }
+            catch (SmtpException ex)
+            {
+                Console.WriteLine($"Error de SMTP al enviar correo: {ex.StatusCode} - {ex.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ocurrió un error al enviar el correo: " + ex.Message);
+                throw;
             }
         }
     }
