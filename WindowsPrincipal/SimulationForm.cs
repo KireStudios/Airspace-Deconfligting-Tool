@@ -24,9 +24,11 @@ namespace WindowsPrincipal
         private double securityDistance;
         
         // Fase 10: Conjunto para rastrear conflictos ya notificados
-        private HashSet<string> conflictosNotificados = new HashSet<string>();
+        private List<string> conflictosNotificados = new List<string>();
         int[,] MatriuConflictes = new int[MAX_CONFLICTS, 2];
         int NumConflictes = 0;
+        private List<int> conflictosActivos = new List<int>();
+
 
         private bool Mode = true;
 
@@ -137,12 +139,27 @@ namespace WindowsPrincipal
                     diameter,
                     diameter
                 );
-                
-                using (Pen securityPen = new Pen(Color.Red, 1))
+                if (conflictosActivos.Contains(i))
                 {
-                    securityPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                    g.DrawEllipse(securityPen, ellipseRect);
+                    using (Brush conflictBrush = new SolidBrush(Color.FromArgb(80, Color.Red)))
+                    {
+                        g.FillEllipse(conflictBrush, ellipseRect);
+                    }
+
+                    using (Pen borderPen = new Pen(Color.Red, 2))
+                    {
+                        g.DrawEllipse(borderPen, ellipseRect);
+                    }
                 }
+                else
+                {
+                    using (Pen securityPen = new Pen(Color.Red, 1))
+                    {
+                        securityPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                        g.DrawEllipse(securityPen, ellipseRect);
+                    }
+                }
+                    
                 
                 // Dibuixar els avions
                 SimulationPanel.Controls[i].Location = new Point(
@@ -167,7 +184,8 @@ namespace WindowsPrincipal
             }
 
             FlightsList = previousFlightPlans.Pop();
-            
+
+            VerificarYNotificarConflictos();
             cicles++;
             SimulationPanel.Invalidate();
         }
@@ -302,6 +320,8 @@ namespace WindowsPrincipal
         /// </summary>
         private void VerificarYNotificarConflictos()
         {
+            conflictosActivos.Clear();
+
             int numAviones = FlightsList.GetNumeroFlightPlans();
             // En aquesta versio no volen que fem servir el Hash set. NO BORRAR els Hash sets!!!, els deixo comentats.
             //HashSet<string> conflictosActuales = new HashSet<string>();
@@ -326,31 +346,41 @@ namespace WindowsPrincipal
                         string id1 = FlightsList.GetFlightPlan(i).GetId();
                         string id2 = FlightsList.GetFlightPlan(j).GetId();
                         string claveConflicto = string.Compare(id1, id2) < 0 ? id1 + "-" + id2 : id2 + "-" + id1;
-                        
-                        //conflictosActuales.Add(claveConflicto);
-                        
-                        // Solo notificar si es un conflicto nuevo
-                        if (true)//!conflictosNotificados.Contains(claveConflicto))
+                        if (!conflictosActivos.Contains(i))
                         {
-                            conflictosNotificados.Add(claveConflicto);
-                            AutoTimer.Stop();
-                            
-                            // Mostrar notificación
-                            MessageBox.Show(
-                                "⚠️ NUEVO CONFLICTO DETECTADO\n\n" +
-                                "Aviones: " + id1 + " y " + id2 + "\n" +
-                                "Distancia actual: " + distancia.ToString("F2") + "\n" +
-                                "Distancia de seguridad: " + distanciaMinima.ToString("F2") + "\n\n" +
-                                "Los círculos de seguridad se están solapando.",
-                                "Alerta de Conflicto",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning
-                            );
+                            conflictosActivos.Add(i);
                         }
+                        if (!conflictosActivos.Contains(j))
+                        {
+                            conflictosActivos.Add(j);
+                        }                        
+
+
+                        //conflictosActuales.Add(claveConflicto);
+
+                        // Solo notificar si es un conflicto nuevo
+                        //if (true)//!conflictosNotificados.Contains(claveConflicto))
+                        //{
+                        //    conflictosNotificados.Add(claveConflicto);
+                        //    AutoTimer.Stop();
+                            
+                        //    // Mostrar notificación
+                        //    MessageBox.Show(
+                        //        "⚠️ NUEVO CONFLICTO DETECTADO\n\n" +
+                        //        "Aviones: " + id1 + " y " + id2 + "\n" +
+                        //        "Distancia actual: " + distancia.ToString("F2") + "\n" +
+                        //        "Distancia de seguridad: " + distanciaMinima.ToString("F2") + "\n\n" +
+                        //        "Los círculos de seguridad se están solapando.",
+                        //        "Alerta de Conflicto",
+                        //        MessageBoxButtons.OK,
+                        //        MessageBoxIcon.Warning
+                        //    );
+                        //}
                     }
                 }
             }
             
+            SimulationPanel.Invalidate();
             // Limpiar conflictos que ya no están activos (los aviones se alejaron)
             // conflictosNotificados.RemoveWhere(c => !conflictosActuales.Contains(c));
         }
