@@ -160,7 +160,7 @@ namespace WindowsPrincipal
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButtons.OK,
+                        MessageBox.Show($"Fishero corruptíssimo, ¿pa' qué toca'?: {ex.Message}", "Error", MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                     }
                 }
