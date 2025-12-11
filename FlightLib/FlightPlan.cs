@@ -91,6 +91,13 @@ namespace FlightLib
             this.currentPosition = new Position(x, y);
         }
 
+
+        //Setter de la posició final quan dos avions van en la mateixa direcció
+        public void CorrectFinalPosition(Position NewPosition)
+        {
+            this.finalPosition = NewPosition;
+        }
+
         // Comprova si l'avió ha arribat al seu destí
         public bool EstaAlFinal()
         {
