@@ -1,6 +1,7 @@
 using FlightLib;
 using System;
 using System.Windows.Forms;
+using UserManage;
 
 namespace WindowsPrincipal
 {
@@ -14,6 +15,8 @@ namespace WindowsPrincipal
         bool Selecting1 = false;
         bool Selecting2 = false;
         private bool actiu = false; // Indica si hi ha vols carregats i es pot seleccionar
+        
+        Manage manage = new Manage();
 
         // Constructor del formulari
         public InfoVolsForm(FlightPlanList llistaVols)
@@ -44,6 +47,8 @@ namespace WindowsPrincipal
             VolsDataGridView.Columns[3].Name = "Initial position";
             VolsDataGridView.Columns[4].Name = "Actual position";
             VolsDataGridView.Columns[5].Name = "Final position";
+            VolsDataGridView.Columns[6].Name = "Company Telephone";
+            VolsDataGridView.Columns[7].Name = "Company Email";
             
             VolsDataGridView.RowHeadersVisible = false;
 
@@ -57,6 +62,10 @@ namespace WindowsPrincipal
                 VolsDataGridView.Rows[i].Cells[3].Value = $"{fp.GetInitialPosition().GetX().ToString()}, {fp.GetInitialPosition().GetY().ToString()}";
                 VolsDataGridView.Rows[i].Cells[4].Value = $"{fp.GetPosition().GetX().ToString()}, {fp.GetPosition().GetY().ToString()}";
                 VolsDataGridView.Rows[i].Cells[5].Value = $"{fp.GetFinalPosition().GetX().ToString()}, {fp.GetFinalPosition().GetY().ToString()}";
+                
+                manage.GetContactInfo(fp.GetCompany(), out string tel, out string mail);
+                VolsDataGridView.Rows[i].Cells[6].Value = tel;
+                VolsDataGridView.Rows[i].Cells[7].Value = mail;
             }
 
             // Configuració visual

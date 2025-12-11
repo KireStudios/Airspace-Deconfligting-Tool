@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UserManage;
 
 namespace WindowsPrincipal
 {
@@ -17,6 +18,8 @@ namespace WindowsPrincipal
         FlightPlan SelectedFlightPlan;
         
         private double velocitatModificada;
+        
+        Manage manage = new Manage();
 
         // Constructor que rep el FlightPlan seleccionat
         public SeePlaneDataOnClickForm(FlightPlan selectedFlightPlan)
@@ -124,12 +127,18 @@ namespace WindowsPrincipal
             PlaneDataGridView.Rows[2].Cells[0].Value = "Speed";
             PlaneDataGridView.Rows[3].Cells[0].Value = "Initial Position";
             PlaneDataGridView.Rows[4].Cells[0].Value = "Final Position";
+            PlaneDataGridView.Rows[5].Cells[0].Value = "Company Telephone";
+            PlaneDataGridView.Rows[6].Cells[0].Value = "Company Email";
             PlaneDataGridView.Rows[0].Cells[1].Value = SelectedFlightPlan.GetId();
             PlaneDataGridView.Rows[1].Cells[1].Value = SelectedFlightPlan.GetCompany();
             PlaneDataGridView.Rows[2].Cells[1].Value = SelectedFlightPlan.GetSpeed().ToString("F2");
             PlaneDataGridView.Rows[3].Cells[1].Value = "(" + SelectedFlightPlan.GetPosition().GetX().ToString("F3") + ", " + SelectedFlightPlan.GetPosition().GetY().ToString("F3") + ")";
             PlaneDataGridView.Rows[4].Cells[1].Value = "(" + SelectedFlightPlan.GetFinalPosition().GetX() + ", " + SelectedFlightPlan.GetFinalPosition().GetY() + ")";
-        
+            
+            manage.GetContactInfo(SelectedFlightPlan.GetCompany(), out string tel, out string mail);
+            PlaneDataGridView.Rows[5].Cells[1].Value = tel;
+            PlaneDataGridView.Rows[6].Cells[1].Value = mail;
+            
             PlaneDataGridView.ReadOnly = false;
         
             string nombreCompania = SelectedFlightPlan.GetCompany();

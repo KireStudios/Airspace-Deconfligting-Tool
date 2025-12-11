@@ -19,7 +19,7 @@ namespace UserManage
             string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             string dbFolder = Path.Combine(appData, "AirspaceDeconflictingTool");
             Directory.CreateDirectory(dbFolder);
-            string dbPath = Path.Combine(dbFolder, "users.db");
+            string dbPath = Path.Combine(dbFolder, "database.db");
             string dataSource = $"Data Source={dbPath}";
             cnx = new SQLiteConnection(dataSource);
             cnx.Open();
@@ -36,6 +36,18 @@ namespace UserManage
                     id INTEGER PRIMARY KEY,
                     username TEXT NOT NULL UNIQUE,
                     password TEXT NOT NULL,
+                    mail TEXT NOT NULL
+                );";
+
+            using (SQLiteCommand command = new SQLiteCommand(sql, cnx))
+            {
+                command.ExecuteNonQuery();
+            }
+            
+            sql = @"
+                CREATE TABLE IF NOT EXISTS companies (
+                    name TEXT NOT NULL UNIQUE PRIMARY KEY,
+                    telephone TEXT NOT NULL,
                     mail TEXT NOT NULL
                 );";
 
@@ -163,6 +175,28 @@ namespace UserManage
             {
                 Console.WriteLine("Ocurrió un error al enviar el correo: " + ex.Message);
                 throw;
+            }
+        }
+        
+        public void GetContactInfo(string companyName, out string telephone, out string email)
+        {
+            string sql = "SELECT telephone, mail FROM companies WHERE name = @name";
+            using (SQLiteCommand command = new SQLiteCommand(sql, cnx))
+            {
+                command.Parameters.AddWithValue("@name", companyName);
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        telephone = reader["telephone"].ToString();
+                        email = reader["mail"].ToString();
+                    }
+                    else
+                    {
+                        telephone = null;
+                        email = null;
+                    }
+                }
             }
         }
     }

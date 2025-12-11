@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
+using UserManage;
 
 namespace WindowsPrincipal
 {
@@ -22,7 +23,7 @@ namespace WindowsPrincipal
         private int OriginalCicles;
         private int cicles;
         private double securityDistance;
-        
+
         // Fase 10: Conjunto para rastrear conflictos ya notificados
         private List<string> conflictosNotificados = new List<string>();
         int[,] MatriuConflictes = new int[MAX_CONFLICTS, 2];
@@ -35,10 +36,12 @@ namespace WindowsPrincipal
         // Variables para guardar el estado anterior
         private Stack<FlightPlanList> previousFlightPlans = new Stack<FlightPlanList>();
 
+        private FlightPlanList originalList;
+
         public SimulationForm()
         {
             InitializeComponent();
-            
+
             // Suscribirse al evento Shown para verificar conflictos después de que la ventana sea visible
             this.Shown += SimulationForm_Shown;
         }
@@ -47,29 +50,30 @@ namespace WindowsPrincipal
         public void GetFlightPlanListSimulation(FlightPlanList list)
         {
             FlightsList = list;
+            originalList = list.copy();
         }
-        
+
         public void GetCiclesSimulation(int c)
         {
             OriginalCicles = c;
             cicles = OriginalCicles;
         }
-        
+
         public void GetSecurityDistanceSimulation(double d)
         {
             securityDistance = d;
         }
 
         private void SimulationForm_Load(object sender, EventArgs e)
-        {   
+        {
             SimulationPanel.Size = new Size(750, 600);
             // Suscribirse al evento Paint para dibujar las trayectorias y elipses
             SimulationPanel.Paint += new PaintEventHandler(SimulationPanel_Paint);
-            
+
             for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
             {
                 PictureBox plane = new PictureBox();
-                
+
                 // Crear un punto (círculo pequeño) para representar el avión
                 Bitmap point = new Bitmap(10, 10);
                 using (Graphics g = Graphics.FromImage(point))
@@ -78,19 +82,21 @@ namespace WindowsPrincipal
                     g.Clear(Color.Transparent);
                     g.FillEllipse(Brushes.Black, 0, 0, 10, 10);
                 }
+
                 plane.Image = point;
                 plane.BackColor = Color.Transparent;
-                
+
                 plane.Tag = FlightsList.GetFlightPlan(i).GetId();
                 plane.SizeMode = PictureBoxSizeMode.StretchImage;
                 plane.Size = new Size(10, 10);
                 plane.Location = new Point(
-                    Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetX()) - 5, 
+                    Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetX()) - 5,
                     Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetY()) - 5
                 );
                 SimulationPanel.Controls.Add(plane);
                 plane.Click += SeePlaneData;
             }
+
             CheckConflict();
         }
 
@@ -110,7 +116,7 @@ namespace WindowsPrincipal
             for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
             {
                 FlightPlan plan = FlightsList.GetFlightPlan(i);
-                
+
                 // Fase 6: Dibujar línea de trayectoria desde posición inicial a final
                 Point initialPoint = new Point(
                     Convert.ToInt32(plan.GetInitialPosition().GetX()),
@@ -120,22 +126,23 @@ namespace WindowsPrincipal
                     Convert.ToInt32(plan.GetFinalPosition().GetX()),
                     Convert.ToInt32(plan.GetFinalPosition().GetY())
                 );
-                
+
                 using (Pen trajectoryPen = new Pen(Color.Blue, 2))
                 {
                     g.DrawLine(trajectoryPen, initialPoint, finalPoint);
                 }
-                
+
                 // Fase 7: Dibujar elipse de distancia de seguridad alrededor de la posición actual
                 Point currentPoint = new Point(
                     Convert.ToInt32(plan.GetPosition().GetX()),
                     Convert.ToInt32(plan.GetPosition().GetY())
                 );
-                
-                int diameter = Convert.ToInt32(securityDistance); // Diámetro = 2 * radio, y el radio es securityDistance / 2
+
+                int diameter =
+                    Convert.ToInt32(securityDistance); // Diámetro = 2 * radio, y el radio es securityDistance / 2
                 Rectangle ellipseRect = new Rectangle(
-                    currentPoint.X - Convert.ToInt32(securityDistance/2),
-                    currentPoint.Y - Convert.ToInt32(securityDistance/2),
+                    currentPoint.X - Convert.ToInt32(securityDistance / 2),
+                    currentPoint.Y - Convert.ToInt32(securityDistance / 2),
                     diameter,
                     diameter
                 );
@@ -177,13 +184,15 @@ namespace WindowsPrincipal
                         g.DrawString(plan.GetId(), font, textBrush, textPos);
                     }
                 }
+
                 // Dibuixar els avions
                 SimulationPanel.Controls[i].Location = new Point(
-                    Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetX()) - 5, 
+                    Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetX()) - 5,
                     Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetY()) - 5
                 );
             }
         }
+
         //para guardar estado actual
         private void SaveCurrentState()
         {
@@ -195,7 +204,8 @@ namespace WindowsPrincipal
         {
             if (previousFlightPlans.Count <= 0)
             {
-                MessageBox.Show("No hay ningún paso anterior para deshacer.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("No hay ningún paso anterior para deshacer.", "", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
                 return;
             }
 
@@ -219,7 +229,7 @@ namespace WindowsPrincipal
                     break;
                 }
             }
-            
+
             if (selectedFlightPlan != null)
             {
                 SeePlaneDataOnClickForm SeePlaneDataForm = new SeePlaneDataOnClickForm(selectedFlightPlan);
@@ -250,13 +260,14 @@ namespace WindowsPrincipal
                 for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
                 {
                     SimulationPanel.Controls[i].Location = new Point(
-                        Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetX()) - 5, 
+                        Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetX()) - 5,
                         Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetY()) - 5
                     );
                 }
+
                 cicles--;
                 SimulationPanel.Invalidate();
-                
+
                 // Verificar conflictos después del movimiento manual
                 VerificarYNotificarConflictos();
             }
@@ -273,19 +284,21 @@ namespace WindowsPrincipal
 
         private void Restart()
         {
+            FlightsList = originalList.copy();
+
             FlightsList.RestartAll();
 
             //Limpiar estado guardado
             previousFlightPlans = new Stack<FlightPlanList>();
-            
+
             cicles = OriginalCicles;
 
             // Limpiar conflictos notificados al reiniciar
             conflictosNotificados.Clear();
-            
+
             AutoTimer.Stop();
             SimulationPanel.Invalidate();
-            
+
             // Verificar conflictos después de reiniciar
             VerificarYNotificarConflictos();
             Mode = true;
@@ -304,10 +317,11 @@ namespace WindowsPrincipal
                 AutoTimer.Stop();
                 AutoSimulateButton.Text = "Start Simulation";
             }
+
             Mode = !Mode;
         }
 
-        
+
         private void AutoTimer_Tick(object sender, EventArgs e)
         {
             if (cicles > 0)
@@ -319,13 +333,14 @@ namespace WindowsPrincipal
                 for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
                 {
                     SimulationPanel.Controls[i].Location = new Point(
-                        Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetX()) - 5, 
+                        Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetX()) - 5,
                         Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetY()) - 5
                     );
                 }
+
                 cicles--;
                 SimulationPanel.Invalidate();
-                
+
                 // Fase 10: Verificar y notificar conflictos durante la simulación automática
                 VerificarYNotificarConflictos();
             }
@@ -346,21 +361,21 @@ namespace WindowsPrincipal
             int numAviones = FlightsList.GetNumeroFlightPlans();
             // En aquesta versio no volen que fem servir el Hash set. NO BORRAR els Hash sets!!!, els deixo comentats.
             //HashSet<string> conflictosActuales = new HashSet<string>();
-            
+
             // Verificar todos los pares de aviones
             for (int i = 0; i < numAviones; i++)
             {
                 if (FlightsList.GetFlightPlan(i).EstaAlFinal())
                     continue;
-                
+
                 for (int j = i + 1; j < numAviones; j++)
                 {
                     if (FlightsList.GetFlightPlan(j).EstaAlFinal())
                         continue;
-                    
+
                     double distancia = FlightsList.GetFlightPlan(i).Distancia(FlightsList.GetFlightPlan(j));
                     double distanciaMinima = securityDistance;
-                    
+
                     if (distancia < distanciaMinima)
                     {
                         // Crear clave única para este par (ordenada alfabéticamente para evitar duplicados)
@@ -371,10 +386,11 @@ namespace WindowsPrincipal
                         {
                             conflictosActivos.Add(i);
                         }
+
                         if (!conflictosActivos.Contains(j))
                         {
                             conflictosActivos.Add(j);
-                        }                        
+                        }
 
 
                         //conflictosActuales.Add(claveConflicto);
@@ -384,7 +400,7 @@ namespace WindowsPrincipal
                         //{
                         //    conflictosNotificados.Add(claveConflicto);
                         //    AutoTimer.Stop();
-                            
+
                         //    // Mostrar notificación
                         //    MessageBox.Show(
                         //        "⚠️ NUEVO CONFLICTO DETECTADO\n\n" +
@@ -400,7 +416,7 @@ namespace WindowsPrincipal
                     }
                 }
             }
-            
+
             SimulationPanel.Invalidate();
             // Limpiar conflictos que ya no están activos (los aviones se alejaron)
             // conflictosNotificados.RemoveWhere(c => !conflictosActuales.Contains(c));
@@ -411,18 +427,18 @@ namespace WindowsPrincipal
         {
             InfoVolsForm infoForm = new InfoVolsForm(FlightsList);
             infoForm.ShowDialog();
-            
+
             /* ERIK: S'ha canviat per fer servir un datagridview en un altre formulari (Fase 9)
             int numAviones = FlightsList.GetNumeroFlightPlans();
-            
+
             if (numAviones == 0)
             {
                 MessageBox.Show("No hay vuelos", "Sin Datos");
                 return;
             }
-            
+
             string info = "DATOS DE LOS VUELOS:\n\n";
-            
+
             for (int i = 0; i < numAviones; i++)
             {
                 FlightPlan plan = FlightsList.GetFlightPlan(i);
@@ -433,7 +449,7 @@ namespace WindowsPrincipal
                 info += "Posición inicial: (" + plan.GetInitialPosition().GetX().ToString("F2") + ", " + plan.GetInitialPosition().GetY().ToString("F2") + ")\n";
                 info += "Posición final: (" + plan.GetFinalPosition().GetX().ToString("F2") + ", " + plan.GetFinalPosition().GetY().ToString("F2") + ")\n\n";
             }
-            
+
             if (numAviones >= 2)
             {
                 info += "DISTANCIAS:\n";
@@ -446,7 +462,7 @@ namespace WindowsPrincipal
                     }
                 }
             }
-            
+
             info += "\nDistancia de seguridad configurada: " + securityDistance;
             MessageBox.Show(info, "Datos de los Vuelos");
             *-/
@@ -458,39 +474,40 @@ namespace WindowsPrincipal
         {
             CheckConflict();
         }*/
-        
+
         private void CheckConflict()
-        { 
+        {
             int numAviones = FlightsList.GetNumeroFlightPlans();
-            
+
             if (numAviones < 2)
             {
                 MessageBox.Show("Se necesitan al menos 2 vuelos para que haya conflictos.", "Información");
                 return;
             }
-            
+
             string resultado = "PREDICCIÓN DE CONFLICTOS A LO LARGO DE LA SIMULACIÓN:\n\n";
             bool hayConflictosFuturos = false;
-            
+
             for (int i = 0; i < numAviones; i++)
             {
                 if (FlightsList.GetFlightPlan(i).EstaAlFinal())
                     continue;
-                
+
                 for (int j = i + 1; j < numAviones; j++)
                 {
                     if (FlightsList.GetFlightPlan(j).EstaAlFinal())
                         continue;
-                    
+
                     //double distanciaActual = FlightsList.GetFlightPlan(i).GetPosition().Distancia(FlightsList.GetFlightPlan(j).GetPosition());
-                    double distanciaMinima = FlightsList.GetFlightPlan(i).CalcularDistanciaMinimaFutura(FlightsList.GetFlightPlan(j));
+                    double distanciaMinima = FlightsList.GetFlightPlan(i)
+                        .CalcularDistanciaMinimaFutura(FlightsList.GetFlightPlan(j));
                     double distanciaSeguridad = securityDistance;
-                    
+
                     /*resultado += "Par: " + FlightsList.GetFlightPlan(i).GetId() + " - " + FlightsList.GetFlightPlan(j).GetId() + "\n";
                     resultado += "  Distancia actual: " + distanciaActual.ToString("F2") + "\n";
                     resultado += "  Distancia mínima prevista: " + distanciaMinima.ToString("F2") + "\n";
                     resultado += "  Distancia de seguridad requerida: " + distanciaSeguridad.ToString("F2") + "\n";*/
-                    
+
                     if (distanciaMinima < distanciaSeguridad)
                     {
                         //resultado += "  ⚠️ SÍ - HABRÁ CONFLICTO durante la simulación\n";
@@ -504,7 +521,7 @@ namespace WindowsPrincipal
                     }*/
                 }
             }
-            
+
             // Al clicar el No, no se resuelven los conflictos, pero al volver a abrir
             // el messageBox y clicar Yes, siguen sin resolverse. Hay que cerrar y abrir la simulación.
             // Lo cual no mola.
@@ -528,49 +545,59 @@ namespace WindowsPrincipal
                 MessageBox.Show(resultado, "Sin Conflictos Futuros", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        
+
         private bool BuscarConflictes()
         {
             int numAvions = FlightsList.GetNumeroFlightPlans();
-            
+
             if (numAvions < 2)
                 return false;
-            
+
             NumConflictes = 0;
             MatriuConflictes = new int[MAX_CONFLICTS, 2];
 
-            
+
             for (int i = 0; i < numAvions; i++)
             {
-                if (FlightsList.GetFlightPlan(i).EstaAlFinal())// || FlightsList.GetFlightPlan(i).GetInitialPosition() == FlightsList.GetFlightPlan(i).GetPosition())
+                if (FlightsList.GetFlightPlan(i)
+                    .EstaAlFinal()) // || FlightsList.GetFlightPlan(i).GetInitialPosition() == FlightsList.GetFlightPlan(i).GetPosition())
                     continue;
-                
+
                 for (int j = i + 1; j < numAvions; j++)
                 {
-                    if (FlightsList.GetFlightPlan(j).EstaAlFinal())// || FlightsList.GetFlightPlan(j).GetInitialPosition() == FlightsList.GetFlightPlan(j).GetPosition())
+                    if (FlightsList.GetFlightPlan(j)
+                        .EstaAlFinal()) // || FlightsList.GetFlightPlan(j).GetInitialPosition() == FlightsList.GetFlightPlan(j).GetPosition())
                         continue;
-                    
-                    double distanciaActual = FlightsList.GetFlightPlan(i).GetPosition().Distancia(FlightsList.GetFlightPlan(j).GetPosition());
-                    double distanciaMinima = FlightsList.GetFlightPlan(i).CalcularDistanciaMinimaFutura(FlightsList.GetFlightPlan(j));
+
+                    double distanciaActual = FlightsList.GetFlightPlan(i).GetPosition()
+                        .Distancia(FlightsList.GetFlightPlan(j).GetPosition());
+                    double distanciaMinima = FlightsList.GetFlightPlan(i)
+                        .CalcularDistanciaMinimaFutura(FlightsList.GetFlightPlan(j));
                     double distanciaSeguretat = securityDistance;
-                    
+
                     if (distanciaMinima < distanciaSeguretat)
                     {
-                        if ((FlightsList.GetFlightPlan(i).GetInitialPosition() == FlightsList.GetFlightPlan(i).GetPosition() || FlightsList.GetFlightPlan(j).GetInitialPosition() == FlightsList.GetFlightPlan(j).GetPosition()) && (distanciaActual < distanciaMinima))
+                        if ((FlightsList.GetFlightPlan(i).GetInitialPosition() ==
+                             FlightsList.GetFlightPlan(i).GetPosition() ||
+                             FlightsList.GetFlightPlan(j).GetInitialPosition() ==
+                             FlightsList.GetFlightPlan(j).GetPosition()) && (distanciaActual < distanciaMinima))
                         {
-                            MessageBox.Show("Els avions es xoquen a l'inici, no es poden resoldre conflictes.", "Atenció", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show("Els avions es xoquen a l'inici, no es poden resoldre conflictes.",
+                                "Atenció", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             continue;
                         }
+
                         MatriuConflictes[NumConflictes, 0] = i;
                         MatriuConflictes[NumConflictes++, 1] = j;
                     }
                 }
             }
-            
+
             if (NumConflictes > 0)
             {
                 return true;
             }
+
             return false;
         }
 
@@ -606,16 +633,18 @@ namespace WindowsPrincipal
                         // El temps t que minimitza la distancia t'=−(Δp⋅Δv)/∥Δv∥**2
                         t = -dP.mult(dP, dV) / (dV.mod() * dV.mod());
                     }
+
                     // Si t'<0, la distancia mínima ja ha passat
                     t = Math.Max(t, 0);
 
                     Position distanciaMin = p1.suma(dP, p1.mult(t, dV));
                     double distanciaMinMod = distanciaMin.mod();
 
-                    double crossProduct = d1.GetX() * d2.GetY() - d1.GetY() * d2.GetX();   //Comprovar si van en la mateixa direcció
+                    double crossProduct =
+                        d1.GetX() * d2.GetY() - d1.GetY() * d2.GetX(); //Comprovar si van en la mateixa direcció
                     bool colineals = Math.Abs(crossProduct) < 1e-6;
 
-                    Position conflictPoint1 = p1.suma(p1, v1.mult(v1, t));       //Posició en el temps t
+                    Position conflictPoint1 = p1.suma(p1, v1.mult(v1, t)); //Posició en el temps t
                     Position conflictPoint2 = p2.suma(p2, v2.mult(v2, t));
                     Position delta = conflictPoint1 - conflictPoint2;
 
@@ -636,7 +665,8 @@ namespace WindowsPrincipal
 
                         // 3. Separación = distancia seguridad * 2 (uno a cada lado)
                         // li poso una mica de marge per evitar les perdues de precisió
-                        double offset = 2.1 * Math.Sqrt(securityDistance * securityDistance - delta.mod() * delta.mod());
+                        double offset =
+                            2.1 * Math.Sqrt(securityDistance * securityDistance - delta.mod() * delta.mod());
                         Position separation = lateral.mult(offset, lateral);
 
                         // 4. Mover avio1
@@ -768,6 +798,123 @@ namespace WindowsPrincipal
         {
             InfoVolsForm infoForm = new InfoVolsForm(FlightsList);
             infoForm.ShowDialog();
+        }
+
+        private void exportChangesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (FlightsList == null || FlightsList.GetNumeroFlightPlans() == 0)
+            {
+                MessageBox.Show(this, "No flight plans available.", "Export", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            // Collect only flights with changes
+            var changedFlights = new List<(FlightPlan current, FlightPlan original)>();
+
+            if (previousFlightPlans.Count == 0)
+            {
+                MessageBox.Show(this, "No changes have been made to export.", "Export", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
+            {
+                FlightPlan current = FlightsList.GetFlightPlan(i);
+                FlightPlan original = originalList.GetFlightPlan(i);
+
+                bool speedChanged = Math.Abs(current.GetSpeed() - original.GetSpeed()) > 0.001;
+                bool finalPosChanged =
+                    Math.Abs(current.GetFinalPosition().GetX() - original.GetFinalPosition().GetX()) > 0.001 ||
+                    Math.Abs(current.GetFinalPosition().GetY() - original.GetFinalPosition().GetY()) > 0.001;
+
+                if (speedChanged || finalPosChanged)
+                {
+                    changedFlights.Add((current, original));
+                }
+            }
+
+            if (changedFlights.Count == 0)
+            {
+                MessageBox.Show(this, "No changes detected to export.", "Export", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            using (SaveFileDialog dlg = new SaveFileDialog())
+            {
+                dlg.Title = "Export flight changes";
+                dlg.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+                dlg.DefaultExt = "csv";
+                dlg.FileName = $"flight_changes_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+
+                if (dlg.ShowDialog(this) != DialogResult.OK) return;
+
+                try
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine("# Flight changes exported at " + DateTime.Now.ToString("u"));
+                    sb.AppendLine(
+                        "FlightId,Company,OriginalSpeed,NewSpeed,OriginalFinalX,OriginalFinalY,NewFinalX,NewFinalY,CompanyTelephone,CompanyEmail");
+
+                    Manage dbManage = new Manage();
+                    try
+                    {
+                        dbManage.Iniciar();
+
+                        foreach (var (current, original) in changedFlights)
+                        {
+                            string id = current.GetId();
+                            string company = current.GetCompany() ?? string.Empty;
+
+                            // Get contact info from DB
+                            dbManage.GetContactInfo(company, out string tel, out string mail);
+
+                            string CsvEscape(string s)
+                            {
+                                if (string.IsNullOrEmpty(s)) return s;
+                                if (s.Contains("\"")) s = s.Replace("\"", "\"\"");
+                                if (s.Contains(",") || s.Contains("\"") || s.Contains("\n"))
+                                    return $"\"{s}\"";
+                                return s;
+                            }
+
+                            sb.AppendLine(string.Join(",",
+                                CsvEscape(id),
+                                CsvEscape(company),
+                                original.GetSpeed().ToString("G"),
+                                current.GetSpeed().ToString("G"),
+                                original.GetFinalPosition().GetX().ToString("G"),
+                                original.GetFinalPosition().GetY().ToString("G"),
+                                current.GetFinalPosition().GetX().ToString("G"),
+                                current.GetFinalPosition().GetY().ToString("G"),
+                                CsvEscape(tel),
+                                CsvEscape(mail)
+                            ));
+                        }
+                    }
+                    finally
+                    {
+                        try
+                        {
+                            dbManage.Cerrar();
+                        }
+                        catch
+                        {
+                        }
+                    }
+
+                    File.WriteAllText(dlg.FileName, sb.ToString(), Encoding.UTF8);
+                    MessageBox.Show(this, $"Exported {changedFlights.Count} change(s) to:\n{dlg.FileName}", "Export",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(this, "Failed to export:\n" + ex.Message, "Export error", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }
