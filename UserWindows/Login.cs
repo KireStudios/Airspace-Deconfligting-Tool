@@ -81,6 +81,7 @@ namespace UserWindows
                         if (num_bad_logins >= 3)
                         {
                             CreateAButton();
+                            num_bad_logins = 0;
                         }
                         MessageBox.Show("Usuario o contraseña incorrectos. (Intentos restantes: " + Convert.ToString(3 - num_bad_logins) + " )");
                     }

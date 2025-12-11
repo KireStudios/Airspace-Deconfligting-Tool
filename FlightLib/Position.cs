@@ -41,7 +41,7 @@ namespace FlightLib
             return new Position(a.x / scalar, a.y / scalar);
         }
         // per a la v3
-        /*public static Position operator +(Position a, Position b)
+        public static Position operator +(Position a, Position b)
         {
             return new Position(a.x + b.x, a.y + b.y);
         }
@@ -68,7 +68,7 @@ namespace FlightLib
         public static bool operator !=(Position a, int b)
         {
             return !(a == b);
-        }*/
+        }
         
         public bool igual(Position a, double b)
         {

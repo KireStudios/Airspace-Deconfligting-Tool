@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using FlightLib;
+using PDFManage;
 
 namespace WindowsPrincipal
 {
@@ -159,7 +160,7 @@ namespace WindowsPrincipal
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButtons.OK,
+                        MessageBox.Show($"Fishero corruptíssimo, ¿pa' qué toca'?: {ex.Message}", "Error", MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                     }
                 }
@@ -194,6 +195,34 @@ namespace WindowsPrincipal
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }          
+        }
+
+        private void exportToPDFToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var save = new SaveFileDialog())
+            {
+                save.Title = "Guardar informe PDF";
+                save.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
+                save.DefaultExt = "pdf";
+                save.FileName = $"Flights_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+                save.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+                if (save.ShowDialog() != DialogResult.OK)
+                {
+                    return; // usuario canceló
+                }
+
+                string filePath = save.FileName;
+                try
+                {
+                    PDFManage.Manage.GenerarDocumento(FlightsList, cicles, securityDistance, filePath);
+                    MessageBox.Show("PDF guardado en:\n" + filePath, "Exportado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al generar PDF:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

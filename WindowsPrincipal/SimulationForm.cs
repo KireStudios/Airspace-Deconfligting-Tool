@@ -24,9 +24,11 @@ namespace WindowsPrincipal
         private double securityDistance;
         
         // Fase 10: Conjunto para rastrear conflictos ya notificados
-        private HashSet<string> conflictosNotificados = new HashSet<string>();
+        private List<string> conflictosNotificados = new List<string>();
         int[,] MatriuConflictes = new int[MAX_CONFLICTS, 2];
         int NumConflictes = 0;
+        private List<int> conflictosActivos = new List<int>();
+
 
         private bool Mode = true;
 
@@ -137,13 +139,44 @@ namespace WindowsPrincipal
                     diameter,
                     diameter
                 );
-                
-                using (Pen securityPen = new Pen(Color.Red, 1))
+                if (conflictosActivos.Contains(i))
                 {
-                    securityPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                    g.DrawEllipse(securityPen, ellipseRect);
+                    using (Brush conflictBrush = new SolidBrush(Color.FromArgb(80, Color.Red)))
+                    {
+                        g.FillEllipse(conflictBrush, ellipseRect);
+                    }
+
+                    using (Pen borderPen = new Pen(Color.Red, 2))
+                    {
+                        g.DrawEllipse(borderPen, ellipseRect);
+                    }
+
+                    using (Font font = new Font("Arial", 10, FontStyle.Bold))
+                    using (Brush textBrush = new SolidBrush(Color.DarkRed))
+                    {
+                        Point textPos = new Point(currentPoint.X + 8, currentPoint.Y - 8);
+                        g.DrawString(plan.GetId(), font, textBrush, textPos);
+                    }
                 }
-                
+                else
+                {
+                    using (Pen securityPen = new Pen(Color.Red, 1))
+                    {
+                        securityPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                        g.DrawEllipse(securityPen, ellipseRect);
+                    }
+                }
+
+                //Dibuixar noms al costat dels avions
+                if (!conflictosActivos.Contains(i))
+                {
+                    using (Font font = new Font("Arial", 10, FontStyle.Bold))
+                    using (Brush textBrush = new SolidBrush(Color.Black))
+                    {
+                        Point textPos = new Point(currentPoint.X + 8, currentPoint.Y - 8);
+                        g.DrawString(plan.GetId(), font, textBrush, textPos);
+                    }
+                }
                 // Dibuixar els avions
                 SimulationPanel.Controls[i].Location = new Point(
                     Convert.ToInt32(FlightsList.GetFlightPlan(i).GetPosition().GetX()) - 5, 
@@ -167,7 +200,8 @@ namespace WindowsPrincipal
             }
 
             FlightsList = previousFlightPlans.Pop();
-            
+
+            VerificarYNotificarConflictos();
             cicles++;
             SimulationPanel.Invalidate();
         }
@@ -233,6 +267,11 @@ namespace WindowsPrincipal
         }
 
         private void RestartButton_Click(object sender, EventArgs e)
+        {
+            Restart();
+        }
+
+        private void Restart()
         {
             FlightsList.RestartAll();
 
@@ -302,6 +341,8 @@ namespace WindowsPrincipal
         /// </summary>
         private void VerificarYNotificarConflictos()
         {
+            conflictosActivos.Clear();
+
             int numAviones = FlightsList.GetNumeroFlightPlans();
             // En aquesta versio no volen que fem servir el Hash set. NO BORRAR els Hash sets!!!, els deixo comentats.
             //HashSet<string> conflictosActuales = new HashSet<string>();
@@ -326,31 +367,41 @@ namespace WindowsPrincipal
                         string id1 = FlightsList.GetFlightPlan(i).GetId();
                         string id2 = FlightsList.GetFlightPlan(j).GetId();
                         string claveConflicto = string.Compare(id1, id2) < 0 ? id1 + "-" + id2 : id2 + "-" + id1;
-                        
-                        //conflictosActuales.Add(claveConflicto);
-                        
-                        // Solo notificar si es un conflicto nuevo
-                        if (true)//!conflictosNotificados.Contains(claveConflicto))
+                        if (!conflictosActivos.Contains(i))
                         {
-                            conflictosNotificados.Add(claveConflicto);
-                            AutoTimer.Stop();
-                            
-                            // Mostrar notificación
-                            MessageBox.Show(
-                                "⚠️ NUEVO CONFLICTO DETECTADO\n\n" +
-                                "Aviones: " + id1 + " y " + id2 + "\n" +
-                                "Distancia actual: " + distancia.ToString("F2") + "\n" +
-                                "Distancia de seguridad: " + distanciaMinima.ToString("F2") + "\n\n" +
-                                "Los círculos de seguridad se están solapando.",
-                                "Alerta de Conflicto",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning
-                            );
+                            conflictosActivos.Add(i);
                         }
+                        if (!conflictosActivos.Contains(j))
+                        {
+                            conflictosActivos.Add(j);
+                        }                        
+
+
+                        //conflictosActuales.Add(claveConflicto);
+
+                        // Solo notificar si es un conflicto nuevo
+                        //if (true)//!conflictosNotificados.Contains(claveConflicto))
+                        //{
+                        //    conflictosNotificados.Add(claveConflicto);
+                        //    AutoTimer.Stop();
+                            
+                        //    // Mostrar notificación
+                        //    MessageBox.Show(
+                        //        "⚠️ NUEVO CONFLICTO DETECTADO\n\n" +
+                        //        "Aviones: " + id1 + " y " + id2 + "\n" +
+                        //        "Distancia actual: " + distancia.ToString("F2") + "\n" +
+                        //        "Distancia de seguridad: " + distanciaMinima.ToString("F2") + "\n\n" +
+                        //        "Los círculos de seguridad se están solapando.",
+                        //        "Alerta de Conflicto",
+                        //        MessageBoxButtons.OK,
+                        //        MessageBoxIcon.Warning
+                        //    );
+                        //}
                     }
                 }
             }
             
+            SimulationPanel.Invalidate();
             // Limpiar conflictos que ya no están activos (los aviones se alejaron)
             // conflictosNotificados.RemoveWhere(c => !conflictosActuales.Contains(c));
         }
@@ -537,16 +588,16 @@ namespace WindowsPrincipal
 
                     Position p1 = avio1.GetPosition();
                     Position p2 = avio2.GetPosition();
-                    
+
                     Position d1 = p1.resta(avio1.GetFinalPosition(), avio1.GetInitialPosition());
                     Position d2 = p1.resta(avio2.GetFinalPosition(), avio2.GetInitialPosition());
                     d1 = d1.div(d1, d1.mod());
                     d2 = d1.div(d2, d2.mod());
-                    
+
                     Position v1 = d1.mult(avio1.GetSpeed(), d1);
                     Position v2 = d1.mult(avio2.GetSpeed(), d2);
-                    
-                    Position dP =p1.resta(p1, p2);
+
+                    Position dP = p1.resta(p1, p2);
                     Position dV = p1.resta(v1, v2);
 
                     double t = 0;
@@ -561,23 +612,103 @@ namespace WindowsPrincipal
                     Position distanciaMin = p1.suma(dP, p1.mult(t, dV));
                     double distanciaMinMod = distanciaMin.mod();
 
-                    if (distanciaMinMod < securityDistance)
+                    double crossProduct = d1.GetX() * d2.GetY() - d1.GetY() * d2.GetX();   //Comprovar si van en la mateixa direcció
+                    bool colineals = Math.Abs(crossProduct) < 1e-6;
+
+                    Position conflictPoint1 = p1.suma(p1, v1.mult(v1, t));       //Posició en el temps t
+                    Position conflictPoint2 = p2.suma(p2, v2.mult(v2, t));
+                    Position delta = conflictPoint1 - conflictPoint2;
+
+                    if (colineals)
+                    {
+                        Restart();
+                        // 1. Vector perpendicular estable
+                        Position lateral = new Position(-d1.GetY(), d1.GetX());
+
+                        // Prevenir vector cero si d1 es (0,0)      AIXO NO POT PASSAR MAI, i si passa estaria al final que s'ignoren igualment.
+                        //if (lateral.mod() < 1e-6)
+                        //{
+                        //    lateral = new Position(1, 0);
+                        //}
+
+                        // 2. Normalizar
+                        lateral = lateral / lateral.mod();
+
+                        // 3. Separación = distancia seguridad * 2 (uno a cada lado)
+                        // li poso una mica de marge per evitar les perdues de precisió
+                        double offset = 2.1 * Math.Sqrt(securityDistance * securityDistance - delta.mod() * delta.mod());
+                        Position separation = lateral.mult(offset, lateral);
+
+                        // 4. Mover avio1
+                        Position newFinal = avio1.GetFinalPosition() + (separation);
+
+                        // Limitar dentro de los bordes
+                        double maxX = 1130, maxY = 900;
+                        double minX = 0, minY = 0;
+
+                        double LimitedX = Math.Max(minX, Math.Min(maxX, newFinal.GetX()));
+                        double LimitedY = Math.Max(minY, Math.Min(maxY, newFinal.GetY()));
+
+                        if (newFinal != new Position(LimitedX, LimitedY))
+                        {
+                            //Alerta
+                            //MessageBox.Show("⚠️ ALERTA: No se puede resolver el conflicto entre los aviones " + avio1.GetId() + " y " + avio2.GetId() + " debido a limitaciones de espacio en el panel de simulación. Por favor, ajuste manualmente las posiciones o velocidades de los aviones involucrados.", "Alerta de Resolución de Conflicto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+
+                        //newFinal = new Position(LimitedX, LimitedY);
+
+                        // Aplicar
+                        avio1.CorrectFinalPosition(newFinal);
+
+                        // continue;  // muy importante → NO seguir con el resto del código
+                    }
+                    //else if (colineals)
+                    //{
+                    //    // 1. Vector perpendicular
+                    //    Position lateral = new Position(-d1.GetY(), d1.GetX());
+
+                    //    // 2. Normalizar
+                    //    lateral = lateral.div(lateral, lateral.mod());
+
+                    //    // 3. Desviación lateral
+                    //    double offset = 2*securityDistance;
+                    //    Position lateralDesviacion = lateral.mult(offset, lateral);
+
+                    //    // 4. Nueva posición final desviada
+                    //    Position newFinal = new Position(0, 0).suma(avio1.GetFinalPosition(), lateralDesviacion);
+
+                    //    // Tamaño del panel
+                    //    double maxX = 1130;
+                    //    double maxY = 900;
+                    //    double minX = 0;
+                    //    double minY = 0;
+
+                    //    // Posar dins dels límits
+                    //    double LimitedX = Math.Max(minX, Math.Min(maxX, newFinal.GetX()));
+                    //    double LimitedY = Math.Max(minY, Math.Min(maxY, newFinal.GetY()));
+
+                    //    // Crear newFinal corregido dentro de límites
+                    //    newFinal = new Position(LimitedX, LimitedY);
+
+                    //    // Aplicar desviación
+                    //    avio1.CorrectFinalPosition(newFinal);
+                    //}
+                    else if (distanciaMinMod < securityDistance)
                     {
                         // Cal resoldre el conflicte
                         double reduccioVelocitat = 0.1 * (securityDistance - distanciaMinMod);
                         reduccioVelocitat = Math.Max(reduccioVelocitat, 1);
-                        
+
                         double novaVelocitat1 = Math.Max(avio1.GetSpeed() - reduccioVelocitat, 0);
                         //double novaVelocitat2 = Math.Max(avio2.GetSpeed() - reduccioVelocitat, 0);
 
                         avio1.SetVelocidad(novaVelocitat1);
                         //avio2.SetVelocidad(novaVelocitat2);
                     }
-
                 }
             }
         }
-        
+
         /*
         private void SaveSimulationButton_Click(object sender, EventArgs e)
         {
