@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManage", "UserManage\Us
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserWindows", "UserWindows\UserWindows.csproj", "{FC501495-F085-407F-95A7-FD7B7DCA7768}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFManage", "PDFManage\PDFManage.csproj", "{A7A953DA-0447-452C-9E0C-30C7AB5EA36C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{FC501495-F085-407F-95A7-FD7B7DCA7768}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC501495-F085-407F-95A7-FD7B7DCA7768}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC501495-F085-407F-95A7-FD7B7DCA7768}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7A953DA-0447-452C-9E0C-30C7AB5EA36C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7A953DA-0447-452C-9E0C-30C7AB5EA36C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7A953DA-0447-452C-9E0C-30C7AB5EA36C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7A953DA-0447-452C-9E0C-30C7AB5EA36C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

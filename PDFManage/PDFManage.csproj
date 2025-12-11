@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>10.0</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="itext" Version="9.4.0" />
+		<PackageReference Include="itext.bouncy-castle-adapter" Version="9.4.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\FlightLib\FlightLib.csproj" />
+	</ItemGroup>
+
+</Project>
