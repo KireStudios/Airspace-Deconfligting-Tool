@@ -812,13 +812,6 @@ namespace WindowsPrincipal
             // Collect only flights with changes
             var changedFlights = new List<(FlightPlan current, FlightPlan original)>();
 
-            if (previousFlightPlans.Count == 0)
-            {
-                MessageBox.Show(this, "No changes have been made to export.", "Export", MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-                return;
-            }
-
             for (int i = 0; i < FlightsList.GetNumeroFlightPlans(); i++)
             {
                 FlightPlan current = FlightsList.GetFlightPlan(i);

@@ -77,7 +77,7 @@ namespace WindowsPrincipal
                 
                 //PlansUpdated?.Invoke(this, FlightsList);
             }
-            catch (FormatException)
+            catch
             {
                 MessageBox.Show("Format error! Check what you wrote.");
             }
