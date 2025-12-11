@@ -113,7 +113,7 @@ namespace WindowsPrincipal
         // Carregar les dades del FlightPlan seleccionat al DataGridView
         private void SeePlaneDataOnClickForm_Load(object sender, EventArgs e)
         {
-            PlaneDataGridView.RowCount = 5;
+            PlaneDataGridView.RowCount = 7;
             PlaneDataGridView.ColumnCount = 2;
             
             // Deshabilitar ordenación de columnas
@@ -135,9 +135,23 @@ namespace WindowsPrincipal
             PlaneDataGridView.Rows[3].Cells[1].Value = "(" + SelectedFlightPlan.GetPosition().GetX().ToString("F3") + ", " + SelectedFlightPlan.GetPosition().GetY().ToString("F3") + ")";
             PlaneDataGridView.Rows[4].Cells[1].Value = "(" + SelectedFlightPlan.GetFinalPosition().GetX() + ", " + SelectedFlightPlan.GetFinalPosition().GetY() + ")";
             
-            manage.GetContactInfo(SelectedFlightPlan.GetCompany(), out string tel, out string mail);
-            PlaneDataGridView.Rows[5].Cells[1].Value = tel;
-            PlaneDataGridView.Rows[6].Cells[1].Value = mail;
+            try
+            {
+                manage.Iniciar();
+                manage.GetContactInfo(SelectedFlightPlan.GetCompany(), out string tel, out string mail);
+                PlaneDataGridView.Rows[5].Cells[1].Value = tel;
+                PlaneDataGridView.Rows[6].Cells[1].Value = mail;
+            }
+            finally
+            {
+                try
+                {
+                    manage.Cerrar();
+                }
+                catch
+                {
+                }
+            }
             
             PlaneDataGridView.ReadOnly = false;
         

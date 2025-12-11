@@ -40,7 +40,7 @@ namespace WindowsPrincipal
             }
 
             // Definició de les columnes
-            VolsDataGridView.ColumnCount = 6;
+            VolsDataGridView.ColumnCount = 8;
             VolsDataGridView.Columns[0].Name = "ID";
             VolsDataGridView.Columns[1].Name = "Company";
             VolsDataGridView.Columns[2].Name = "Velocity";
@@ -50,6 +50,11 @@ namespace WindowsPrincipal
             VolsDataGridView.Columns[6].Name = "Company Telephone";
             VolsDataGridView.Columns[7].Name = "Company Email";
             
+            for (int i = 0; i <= 7; i++)
+            {
+                VolsDataGridView.Columns[i].MinimumWidth = 60;
+            }
+
             VolsDataGridView.RowHeadersVisible = false;
 
             // Omplir el DataGridView amb les dades reals
@@ -62,10 +67,24 @@ namespace WindowsPrincipal
                 VolsDataGridView.Rows[i].Cells[3].Value = $"{fp.GetInitialPosition().GetX().ToString()}, {fp.GetInitialPosition().GetY().ToString()}";
                 VolsDataGridView.Rows[i].Cells[4].Value = $"{fp.GetPosition().GetX().ToString()}, {fp.GetPosition().GetY().ToString()}";
                 VolsDataGridView.Rows[i].Cells[5].Value = $"{fp.GetFinalPosition().GetX().ToString()}, {fp.GetFinalPosition().GetY().ToString()}";
+                try
+                {
+                    manage.Iniciar();
+                    manage.GetContactInfo(fp.GetCompany(), out string tel, out string mail);
+                    VolsDataGridView.Rows[i].Cells[6].Value = tel;
+                    VolsDataGridView.Rows[i].Cells[7].Value = mail;
+                }
+                finally
+                {
+                    try
+                    {
+                        manage.Cerrar();
+                    }
+                    catch
+                    {
+                    }
+                }
                 
-                manage.GetContactInfo(fp.GetCompany(), out string tel, out string mail);
-                VolsDataGridView.Rows[i].Cells[6].Value = tel;
-                VolsDataGridView.Rows[i].Cells[7].Value = mail;
             }
 
             // Configuració visual

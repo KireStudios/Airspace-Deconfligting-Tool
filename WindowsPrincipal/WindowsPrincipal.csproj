@@ -195,6 +195,9 @@
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ManageCompaniesForm.resx">
+      <DependentUpon>ManageCompaniesForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PlaneDataForm.resx">
       <DependentUpon>PlaneDataForm.cs</DependentUpon>
     </EmbeddedResource>

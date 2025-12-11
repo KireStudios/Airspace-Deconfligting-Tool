@@ -183,6 +183,7 @@ namespace UserManage
             string sql = "SELECT telephone, mail FROM companies WHERE name = @name";
             using (SQLiteCommand command = new SQLiteCommand(sql, cnx))
             {
+
                 command.Parameters.AddWithValue("@name", companyName);
                 using (SQLiteDataReader reader = command.ExecuteReader())
                 {
