@@ -199,5 +199,44 @@ namespace UserManage
                 }
             }
         }
+        
+        public DataTable GetCompanies()
+        {
+            DataTable dt = new DataTable();
+            string sql = "SELECT name, telephone, mail FROM companies";
+            SQLiteDataAdapter adp = new SQLiteDataAdapter(sql, cnx);
+            adp.Fill(dt);
+            return dt;
+        }
+
+        public bool CreateCompany(string name, string telephone, string mail)
+        {
+            try
+            {
+                string sql = "INSERT INTO companies (name, telephone, mail) VALUES (@name, @tel, @mail)";
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, cnx))
+                {
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@tel", telephone);
+                    cmd.Parameters.AddWithValue("@mail", mail);
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            catch { return false; }
+        }
+
+        public bool DeleteCompany(string name)
+        {
+            try
+            {
+                string sql = "DELETE FROM companies WHERE name = @name";
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, cnx))
+                {
+                    cmd.Parameters.AddWithValue("@name", name);
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            catch { return false; }
+        }
     }
 }
