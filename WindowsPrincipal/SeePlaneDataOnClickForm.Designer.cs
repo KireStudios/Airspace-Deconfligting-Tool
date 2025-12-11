@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             this.PlaneDataGridView = new System.Windows.Forms.DataGridView();
+            this.LogoCompaniaPictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.PlaneDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LogoCompaniaPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // PlaneDataGridView
@@ -45,6 +47,16 @@
             this.PlaneDataGridView.Size = new System.Drawing.Size(356, 148);
             this.PlaneDataGridView.TabIndex = 0;
             this.PlaneDataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.PlaneDataGridView_CellValueChanged);
+            //
+            // LogoCompaniaPictureBox
+            //
+            this.LogoCompaniaPictureBox.Location = new System.Drawing.Point(360, 0);
+            this.LogoCompaniaPictureBox.Name = "LogoCompaniaPictureBox";
+            this.LogoCompaniaPictureBox.Size = new System.Drawing.Size(60, 60);
+            this.LogoCompaniaPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.LogoCompaniaPictureBox.TabIndex = 1;
+            this.LogoCompaniaPictureBox.TabStop = false;
+            this.LogoCompaniaPictureBox.Visible = false;
             // 
             // SeePlaneDataOnClickForm
             // 
@@ -52,18 +64,21 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(398, 184);
+            this.ClientSize = new System.Drawing.Size(425, 184);
+            this.Controls.Add(this.LogoCompaniaPictureBox);
             this.Controls.Add(this.PlaneDataGridView);
             this.Name = "SeePlaneDataOnClickForm";
             this.Text = "Plane Data";
             this.Load += new System.EventHandler(this.SeePlaneDataOnClickForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PlaneDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LogoCompaniaPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
-
-        #endregion
-
         private System.Windows.Forms.DataGridView PlaneDataGridView;
+        private System.Windows.Forms.PictureBox LogoCompaniaPictureBox;
+        
+        
+        #endregion
     }
 }

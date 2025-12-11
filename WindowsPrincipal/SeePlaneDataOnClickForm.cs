@@ -1,5 +1,6 @@
 ﻿using FlightLib;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,11 +26,99 @@ namespace WindowsPrincipal
             SelectedFlightPlan = selectedFlightPlan;
         }
 
+        private void CargarLogoCompania(string nombreCompania)
+        {
+            if (string.IsNullOrWhiteSpace(nombreCompania))
+                return;
+
+            // Normalizar el nombre: eliminar espacios y convertir a minúsculas
+            string companiaNormalizada = nombreCompania.Replace(" ", "").ToLower();
+
+            // Directorio base de recursos
+            string directorioBase = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Resources");
+            string directorioResources = Path.GetFullPath(directorioBase);
+
+            // Diccionario de compañías válidas con sus nombres de archivo
+            Dictionary<string, string> companiasValidas = new Dictionary<string, string>
+            {
+                { "vueling", "vueling.png" },
+                { "iberia", "iberia.png" },
+                { "airfrance", "airfrance.png" },
+                { "airnostrum", "airnostrum.png" },
+                { "aireuropa", "aireuropa.png" },
+                { "alitalia", "alitalia.png" },
+                { "americanairlines", "americanairlines.png" },
+                { "delta", "delta.png" },
+                { "aerosur", "aerosur.png" },
+                { "spanair", "spanair.png" },
+                { "avianca", "avianca.png" },
+                { "aircanada", "aircanada.png" },
+                { "britishairways", "britishairways.png" },
+                { "lufthansa", "lufthansa.png" },
+                { "canaryfly", "canaryfly.png" },
+                { "airchina", "airchina.png" },
+                { "qatarairways", "qatarairways.png" },
+                { "singaporeairlines", "singaporeairlines.png" },
+                { "emirates", "emirates.png" },
+                { "turkishairlines", "turkishairlines.png" },
+                { "koreanair", "koreanair.png" },
+                { "japanairlines", "japanairlines.png" },
+                { "hainanairlines", "hainanairlines.png" },
+                { "easyjet", "easyjet.png" },
+                { "allegiantair", "allegiantair.png" },
+                { "hawaiianairlines", "hawaiianairlines.png" },
+                { "airarabia", "airarabia.png" },
+                { "finnair", "finnair.png" },
+                { "usairways", "usairways.png" },
+                { "airnewzealand", "airnewzealand.png" },
+                { "etihadairways", "etihadairways.png" },
+                { "southwest", "southwest.png" },
+                { "jetblue", "jetblue.png" },
+                { "evaair", "evaair.png" }
+            };
+
+            // Buscar si existe la compañía
+            if (companiasValidas.TryGetValue(companiaNormalizada, out string nombreArchivo))
+            {
+                string rutaLogo = Path.Combine(directorioResources, nombreArchivo);
+        
+                if (File.Exists(rutaLogo))
+                {
+                    try
+                    {
+                        LogoCompaniaPictureBox.Image = Image.FromFile(rutaLogo);
+                        LogoCompaniaPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+                        LogoCompaniaPictureBox.Visible = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        LogoCompaniaPictureBox.Visible = false;
+                    }
+                }
+                else
+                {
+                    LogoCompaniaPictureBox.Visible = false;
+                }
+            }
+            else
+            {
+                LogoCompaniaPictureBox.Visible = false;
+            }
+        }
+
+
         // Carregar les dades del FlightPlan seleccionat al DataGridView
         private void SeePlaneDataOnClickForm_Load(object sender, EventArgs e)
         {
             PlaneDataGridView.RowCount = 5;
             PlaneDataGridView.ColumnCount = 2;
+            
+            // Deshabilitar ordenación de columnas
+            foreach (DataGridViewColumn column in PlaneDataGridView.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+            
             PlaneDataGridView.Rows[0].Cells[0].Value = "Identification";
             PlaneDataGridView.Rows[1].Cells[0].Value = "Companyia";
             PlaneDataGridView.Rows[2].Cells[0].Value = "Speed";
@@ -37,16 +126,16 @@ namespace WindowsPrincipal
             PlaneDataGridView.Rows[4].Cells[0].Value = "Final Position";
             PlaneDataGridView.Rows[0].Cells[1].Value = SelectedFlightPlan.GetId();
             PlaneDataGridView.Rows[1].Cells[1].Value = SelectedFlightPlan.GetCompany();
-            PlaneDataGridView.Rows[2].Cells[1].Value = SelectedFlightPlan.GetSpeed();
+            PlaneDataGridView.Rows[2].Cells[1].Value = SelectedFlightPlan.GetSpeed().ToString("F2");
             PlaneDataGridView.Rows[3].Cells[1].Value = "(" + SelectedFlightPlan.GetPosition().GetX().ToString("F3") + ", " + SelectedFlightPlan.GetPosition().GetY().ToString("F3") + ")";
             PlaneDataGridView.Rows[4].Cells[1].Value = "(" + SelectedFlightPlan.GetFinalPosition().GetX() + ", " + SelectedFlightPlan.GetFinalPosition().GetY() + ")";
-
-            // Sol es pot modificar la velocitat (no es pot fer aixi)
-            PlaneDataGridView.ReadOnly = false;//true;
-            // PlaneDataGridView.Rows[2].Cells[1].ReadOnly = false;
-            
-            // ja es mira al tancar i sol es canvia la velocitat
+        
+            PlaneDataGridView.ReadOnly = false;
+        
+            string nombreCompania = SelectedFlightPlan.GetCompany();
+            CargarLogoCompania(nombreCompania);
         }
+        
               
         public double GetVelocitatModificada()
         {
