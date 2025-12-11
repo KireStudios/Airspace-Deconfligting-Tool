@@ -224,5 +224,11 @@ namespace WindowsPrincipal
                 }
             }
         }
+        
+        private void manageCompaniesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ManageCompaniesForm form = new ManageCompaniesForm();
+            form.ShowDialog();
+        }
     }
 }
