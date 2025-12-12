@@ -39,9 +39,9 @@
             this.addDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addCiclesAndSecurityDistanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.initializeSimulationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manageCompaniesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BienvenidaLabel = new System.Windows.Forms.Label();
             this.CloseButton = new System.Windows.Forms.Button();
-            this.manageCompaniesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -132,6 +132,13 @@
             this.initializeSimulationToolStripMenuItem.Text = "Initialize simulation";
             this.initializeSimulationToolStripMenuItem.Click += new System.EventHandler(this.initializeSimulationToolStripMenuItem_Click);
             // 
+            // manageCompaniesToolStripMenuItem
+            // 
+            this.manageCompaniesToolStripMenuItem.Name = "manageCompaniesToolStripMenuItem";
+            this.manageCompaniesToolStripMenuItem.Size = new System.Drawing.Size(444, 42);
+            this.manageCompaniesToolStripMenuItem.Text = "Manage companies";
+            this.manageCompaniesToolStripMenuItem.Click += new System.EventHandler(this.manageCompaniesToolStripMenuItem_Click);
+            // 
             // BienvenidaLabel
             // 
             this.BienvenidaLabel.AutoSize = true;
@@ -170,13 +177,6 @@
             this.CloseButton.Text = "Exit";
             this.CloseButton.UseVisualStyleBackColor = false;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
-            // 
-            // manageCompaniesToolStripMenuItem
-            // 
-            this.manageCompaniesToolStripMenuItem.Name = "manageCompaniesToolStripMenuItem";
-            this.manageCompaniesToolStripMenuItem.Size = new System.Drawing.Size(444, 42);
-            this.manageCompaniesToolStripMenuItem.Text = "Manage companies";
-            this.manageCompaniesToolStripMenuItem.Click += new System.EventHandler(this.manageCompaniesToolStripMenuItem_Click);
             // 
             // Main
             // 

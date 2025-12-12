@@ -640,8 +640,7 @@ namespace WindowsPrincipal
                     Position distanciaMin = p1.suma(dP, p1.mult(t, dV));
                     double distanciaMinMod = distanciaMin.mod();
 
-                    double crossProduct =
-                        d1.GetX() * d2.GetY() - d1.GetY() * d2.GetX(); //Comprovar si van en la mateixa direcció
+                    double crossProduct = d1.GetX() * d2.GetY() - d1.GetY() * d2.GetX(); //Comprovar si van en la mateixa direcció
                     bool colineals = Math.Abs(crossProduct) < 1e-6;
 
                     Position conflictPoint1 = p1.suma(p1, v1.mult(v1, t)); //Posició en el temps t
@@ -650,7 +649,7 @@ namespace WindowsPrincipal
 
                     if (colineals)
                     {
-                        Restart();
+                        //Restart();
                         // 1. Vector perpendicular estable
                         Position lateral = new Position(-d1.GetY(), d1.GetX());
 
@@ -666,7 +665,7 @@ namespace WindowsPrincipal
                         // 3. Separación = distancia seguridad * 2 (uno a cada lado)
                         // li poso una mica de marge per evitar les perdues de precisió
                         double offset =
-                            2.1 * Math.Sqrt(securityDistance * securityDistance - delta.mod() * delta.mod());
+                            3 * Math.Sqrt(securityDistance * securityDistance - delta.mod() * delta.mod());
                         Position separation = lateral.mult(offset, lateral);
 
                         // 4. Mover avio1
